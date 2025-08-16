@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiPath: ''
+  apiPath: 'https://crm-demo-spring.onrender.com'
 };

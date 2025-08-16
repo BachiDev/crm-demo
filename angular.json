@@ -62,7 +62,8 @@
                   "inlineCritical": false
                 }
               },
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "baseHref": "/crm-demo/"
             },
             "development": {
               "optimization": false,
@@ -116,7 +117,10 @@
           }
         },
         "deploy": {
-          "builder": "angular-cli-ghpages:deploy"
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "/crm-demo/"
+          }
         }
       }
     }
