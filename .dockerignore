@@ -3,3 +3,6 @@
 build/
 .gradle/
 gradle/
+.idea/
+.vscode/
+.DS_Store
