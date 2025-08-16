@@ -1,0 +1,19 @@
+<div class="flex flex-wrap mb-6">
+    <h1 class="grow text-3xl md:text-4xl font-medium mb-2" i18n="@@opportunity.edit.headline">Edit Opportunity</h1>
+    <div>
+        <a routerLink="/opportunities" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-4 rounded px-5 py-2" i18n="@@opportunity.edit.back">Back to list</a>
+    </div>
+</div>
+<form [formGroup]="editForm" (ngSubmit)="handleSubmit()">
+    <app-input-row [group]="editForm" field="opportunityId" i18n-label="@@opportunity.opportunityId.label" label="Opportunity Id" />
+    <app-input-row [group]="editForm" field="opportunityName" i18n-label="@@opportunity.opportunityName.label" label="Opportunity Name" />
+    <app-input-row [group]="editForm" field="amount" i18n-label="@@opportunity.amount.label" label="Amount" />
+    <app-input-row [group]="editForm" field="stage" i18n-label="@@opportunity.stage.label" label="Stage" />
+    <app-input-row [group]="editForm" field="closeDate" rowType="datepicker" i18n-label="@@opportunity.closeDate.label" label="Close Date" />
+    <app-input-row [group]="editForm" field="createdAt" i18n-label="@@opportunity.createdAt.label" label="Created At" />
+    <app-input-row [group]="editForm" field="updatedAt" i18n-label="@@opportunity.updatedAt.label" label="Updated At" />
+    <app-input-row [group]="editForm" field="account" rowType="select" [options]="accountValues" i18n-label="@@opportunity.account.label" label="Account" />
+    <app-input-row [group]="editForm" field="contact" rowType="select" [options]="contactValues" i18n-label="@@opportunity.contact.label" label="Contact" />
+    <app-input-row [group]="editForm" field="owner" rowType="select" [options]="ownerValues" i18n-label="@@opportunity.owner.label" label="Owner" />
+    <input type="submit" i18n-value="@@opportunity.edit.headline" value="Edit Opportunity" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2 cursor-pointer mt-6" />
+</form>

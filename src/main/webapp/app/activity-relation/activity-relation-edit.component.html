@@ -1,0 +1,14 @@
+<div class="flex flex-wrap mb-6">
+    <h1 class="grow text-3xl md:text-4xl font-medium mb-2" i18n="@@activityRelation.edit.headline">Edit Activity Relation</h1>
+    <div>
+        <a routerLink="/activityRelations" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-4 rounded px-5 py-2" i18n="@@activityRelation.edit.back">Back to list</a>
+    </div>
+</div>
+<form [formGroup]="editForm" (ngSubmit)="handleSubmit()">
+    <app-input-row [group]="editForm" field="id" rowType="number" i18n-label="@@activityRelation.id.label" label="Id" />
+    <app-input-row [group]="editForm" field="activity" rowType="select" [options]="activityValues" i18n-label="@@activityRelation.activity.label" label="Activity" />
+    <app-input-row [group]="editForm" field="account" rowType="select" [options]="accountValues" i18n-label="@@activityRelation.account.label" label="Account" />
+    <app-input-row [group]="editForm" field="contact" rowType="select" [options]="contactValues" i18n-label="@@activityRelation.contact.label" label="Contact" />
+    <app-input-row [group]="editForm" field="opportunity" rowType="select" [options]="opportunityValues" i18n-label="@@activityRelation.opportunity.label" label="Opportunity" />
+    <input type="submit" i18n-value="@@activityRelation.edit.headline" value="Edit Activity Relation" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2 cursor-pointer mt-6" />
+</form>

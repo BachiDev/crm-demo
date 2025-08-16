@@ -1,0 +1,47 @@
+<div class="flex flex-wrap mb-6">
+    <h1 class="grow text-3xl md:text-4xl font-medium mb-2" i18n="@@account.list.headline">Accounts</h1>
+    <div>
+        <a routerLink="/accounts/add" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2" i18n="@@account.list.createNew">Create new Account</a>
+    </div>
+</div>
+@if (!accounts || accounts.length === 0) {
+<div i18n="@@account.list.empty">No Accounts could be found.</div>
+} @else {
+<div class="overflow-x-auto">
+    <table class="w-full">
+        <thead>
+            <tr>
+                <th scope="col" class="text-left p-2" i18n="@@account.accountId.label">Account Id</th>
+                <th scope="col" class="text-left p-2" i18n="@@account.accountName.label">Account Name</th>
+                <th scope="col" class="text-left p-2" i18n="@@account.industry.label">Industry</th>
+                <th scope="col" class="text-left p-2" i18n="@@account.website.label">Website</th>
+                <th scope="col" class="text-left p-2" i18n="@@account.phone.label">Phone</th>
+                <th scope="col" class="text-left p-2" i18n="@@account.addressLine1.label">Address Line1</th>
+                <th scope="col" class="text-left p-2" i18n="@@account.city.label">City</th>
+                <th scope="col" class="text-left p-2" i18n="@@account.state.label">State</th>
+                <th><!-- --></th>
+            </tr>
+        </thead>
+        <tbody class="border-t-2 border-black">
+            @for (account of accounts; track account.accountId) {
+            <tr class="odd:bg-gray-100">
+                <td class="p-2">{{ account.accountId }}</td>
+                <td class="p-2">{{ account.accountName }}</td>
+                <td class="p-2">{{ account.industry }}</td>
+                <td class="p-2">{{ account.website }}</td>
+                <td class="p-2">{{ account.phone }}</td>
+                <td class="p-2">{{ account.addressLine1 }}</td>
+                <td class="p-2">{{ account.city }}</td>
+                <td class="p-2">{{ account.state }}</td>
+                <td class="p-2">
+                    <div class="float-right whitespace-nowrap">
+                        <a [routerLink]="['/accounts/edit', account.accountId]" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm" i18n="@@account.list.edit">Edit</a>
+                        <button type="button" (click)="confirmDelete(account.accountId!)" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm cursor-pointer" i18n="@@account.list.delete">Delete</button>
+                    </div>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+}

@@ -1,0 +1,47 @@
+<div class="flex flex-wrap mb-6">
+    <h1 class="grow text-3xl md:text-4xl font-medium mb-2" i18n="@@campaign.list.headline">Campaigns</h1>
+    <div>
+        <a routerLink="/campaigns/add" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2" i18n="@@campaign.list.createNew">Create new Campaign</a>
+    </div>
+</div>
+@if (!campaigns || campaigns.length === 0) {
+<div i18n="@@campaign.list.empty">No Campaigns could be found.</div>
+} @else {
+<div class="overflow-x-auto">
+    <table class="w-full">
+        <thead>
+            <tr>
+                <th scope="col" class="text-left p-2" i18n="@@campaign.campaignId.label">Campaign Id</th>
+                <th scope="col" class="text-left p-2" i18n="@@campaign.campaignName.label">Campaign Name</th>
+                <th scope="col" class="text-left p-2" i18n="@@campaign.campaignType.label">Campaign Type</th>
+                <th scope="col" class="text-left p-2" i18n="@@campaign.startDate.label">Start Date</th>
+                <th scope="col" class="text-left p-2" i18n="@@campaign.endDate.label">End Date</th>
+                <th scope="col" class="text-left p-2" i18n="@@campaign.status.label">Status</th>
+                <th scope="col" class="text-left p-2" i18n="@@campaign.createdAt.label">Created At</th>
+                <th scope="col" class="text-left p-2" i18n="@@campaign.updatedAt.label">Updated At</th>
+                <th><!-- --></th>
+            </tr>
+        </thead>
+        <tbody class="border-t-2 border-black">
+            @for (campaign of campaigns; track campaign.campaignId) {
+            <tr class="odd:bg-gray-100">
+                <td class="p-2">{{ campaign.campaignId }}</td>
+                <td class="p-2">{{ campaign.campaignName }}</td>
+                <td class="p-2">{{ campaign.campaignType }}</td>
+                <td class="p-2">{{ campaign.startDate }}</td>
+                <td class="p-2">{{ campaign.endDate }}</td>
+                <td class="p-2">{{ campaign.status }}</td>
+                <td class="p-2">{{ campaign.createdAt }}</td>
+                <td class="p-2">{{ campaign.updatedAt }}</td>
+                <td class="p-2">
+                    <div class="float-right whitespace-nowrap">
+                        <a [routerLink]="['/campaigns/edit', campaign.campaignId]" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm" i18n="@@campaign.list.edit">Edit</a>
+                        <button type="button" (click)="confirmDelete(campaign.campaignId!)" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm cursor-pointer" i18n="@@campaign.list.delete">Delete</button>
+                    </div>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+}

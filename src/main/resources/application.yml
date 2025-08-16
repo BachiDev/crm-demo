@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/crm-demo}
+    username: ${JDBC_DATABASE_USERNAME:postgres}
+    password: ${JDBC_DATABASE_PASSWORD:<<YOUR_PASSWORD>>}
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+  docker:
+    compose:
+      lifecycle-management: start-only
+error:
+  handling:
+    http-status-in-json-response: true
+    exception-logging: NO_LOGGING
+    full-stacktrace-http-statuses: 5xx
+    log-levels:
+      5xx: ERROR
+    codes:
+      CampaignLeadStatusValid: CAMPAIGN_LEAD_STATUS_VALID
+springdoc:
+  pathsToMatch: /api/**

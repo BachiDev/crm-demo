@@ -1,0 +1,18 @@
+<div class="flex flex-wrap mb-6">
+    <h1 class="grow text-3xl md:text-4xl font-medium mb-2" i18n="@@campaign.edit.headline">Edit Campaign</h1>
+    <div>
+        <a routerLink="/campaigns" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-4 rounded px-5 py-2" i18n="@@campaign.edit.back">Back to list</a>
+    </div>
+</div>
+<form [formGroup]="editForm" (ngSubmit)="handleSubmit()">
+    <app-input-row [group]="editForm" field="campaignId" i18n-label="@@campaign.campaignId.label" label="Campaign Id" />
+    <app-input-row [group]="editForm" field="campaignName" i18n-label="@@campaign.campaignName.label" label="Campaign Name" />
+    <app-input-row [group]="editForm" field="campaignType" i18n-label="@@campaign.campaignType.label" label="Campaign Type" />
+    <app-input-row [group]="editForm" field="startDate" i18n-label="@@campaign.startDate.label" label="Start Date" />
+    <app-input-row [group]="editForm" field="endDate" i18n-label="@@campaign.endDate.label" label="End Date" />
+    <app-input-row [group]="editForm" field="status" i18n-label="@@campaign.status.label" label="Status" />
+    <app-input-row [group]="editForm" field="createdAt" i18n-label="@@campaign.createdAt.label" label="Created At" />
+    <app-input-row [group]="editForm" field="updatedAt" i18n-label="@@campaign.updatedAt.label" label="Updated At" />
+    <app-input-row [group]="editForm" field="owner" rowType="select" [options]="ownerValues" i18n-label="@@campaign.owner.label" label="Owner" />
+    <input type="submit" i18n-value="@@campaign.edit.headline" value="Edit Campaign" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2 cursor-pointer mt-6" />
+</form>

@@ -1,0 +1,20 @@
+<div class="flex flex-wrap mb-6">
+    <h1 class="grow text-3xl md:text-4xl font-medium mb-2" i18n="@@contact.add.headline">Add Contact</h1>
+    <div>
+        <a routerLink="/contacts" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-4 rounded px-5 py-2" i18n="@@contact.add.back">Back to list</a>
+    </div>
+</div>
+<form [formGroup]="addForm" (ngSubmit)="handleSubmit()">
+    <app-input-row [group]="addForm" field="firstName" i18n-label="@@contact.firstName.label" label="First Name" />
+    <app-input-row [group]="addForm" field="lastName" i18n-label="@@contact.lastName.label" label="Last Name" />
+    <app-input-row [group]="addForm" field="email" i18n-label="@@contact.email.label" label="Email" />
+    <app-input-row [group]="addForm" field="phone" i18n-label="@@contact.phone.label" label="Phone" />
+    <app-input-row [group]="addForm" field="jobTitle" i18n-label="@@contact.jobTitle.label" label="Job Title" />
+    <app-input-row [group]="addForm" field="isLead" rowType="checkbox" i18n-label="@@contact.isLead.label" label="Is Lead" />
+    <app-input-row [group]="addForm" field="createdAt" i18n-label="@@contact.createdAt.label" label="Created At" />
+    <app-input-row [group]="addForm" field="updatedAt" i18n-label="@@contact.updatedAt.label" label="Updated At" />
+    <app-input-row [group]="addForm" field="metadata" rowType="textarea" i18n-label="@@contact.metadata.label" label="Metadata" />
+    <app-input-row [group]="addForm" field="account" rowType="select" [options]="accountValues" i18n-label="@@contact.account.label" label="Account" />
+    <app-input-row [group]="addForm" field="owner" rowType="select" [options]="ownerValues" i18n-label="@@contact.owner.label" label="Owner" />
+    <input type="submit" i18n-value="@@contact.add.headline" value="Add Contact" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2 cursor-pointer mt-6" />
+</form>

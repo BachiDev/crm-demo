@@ -1,0 +1,24 @@
+<div class="flex flex-wrap mb-6">
+    <h1 class="grow text-3xl md:text-4xl font-medium mb-2" i18n="@@account.edit.headline">Edit Account</h1>
+    <div>
+        <a routerLink="/accounts" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-4 rounded px-5 py-2" i18n="@@account.edit.back">Back to list</a>
+    </div>
+</div>
+<form [formGroup]="editForm" (ngSubmit)="handleSubmit()">
+    <input type="submit" i18n-value="@@account.edit.headline" value="Edit Account" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2 cursor-pointer mt-6 mb-5" />
+    <app-input-row [group]="editForm" field="accountId" i18n-label="@@account.accountId.label" label="Account Id" />
+    <app-input-row [group]="editForm" field="accountName" i18n-label="@@account.accountName.label" label="Account Name" />
+    <app-input-row [group]="editForm" field="industry" i18n-label="@@account.industry.label" label="Industry" />
+    <app-input-row [group]="editForm" field="website" i18n-label="@@account.website.label" label="Website" />
+    <app-input-row [group]="editForm" field="phone" i18n-label="@@account.phone.label" label="Phone" />
+    <app-input-row [group]="editForm" field="addressLine1" i18n-label="@@account.addressLine1.label" label="Address Line1" />
+    <app-input-row [group]="editForm" field="city" i18n-label="@@account.city.label" label="City" />
+    <app-input-row [group]="editForm" field="state" i18n-label="@@account.state.label" label="State" />
+    <app-input-row [group]="editForm" field="postalCode" i18n-label="@@account.postalCode.label" label="Postal Code" />
+    <app-input-row [group]="editForm" field="country" i18n-label="@@account.country.label" label="Country" />
+    <app-input-row [group]="editForm" field="createdAt" i18n-label="@@account.createdAt.label" label="Created At" />
+    <app-input-row [group]="editForm" field="updatedAt" i18n-label="@@account.updatedAt.label" label="Updated At" />
+    <app-input-row [group]="editForm" field="metadata" rowType="textarea" i18n-label="@@account.metadata.label" label="Metadata" />
+    <app-input-row [group]="editForm" field="owner" rowType="select" [options]="ownerValues" i18n-label="@@account.owner.label" label="Owner" />
+    <input type="submit" i18n-value="@@account.edit.headline" value="Edit Account" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2 cursor-pointer mt-6" />
+</form>
