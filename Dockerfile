@@ -29,7 +29,7 @@ WORKDIR /app
 # Copy the JAR from the 'build' stage using a wildcard.
 # This is a critical change. It prevents the Dockerfile from breaking if the project
 # version number or name changes.
-COPY --from=build /app/build/libs/crm-demo-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/build/libs/app.jar .
 
 # Expose the port
 EXPOSE 8080

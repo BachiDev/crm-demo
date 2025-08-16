@@ -23,7 +23,7 @@ bootBuildImage {
 }
 
 bootJar {
-    archiveFileName = "${project.name}.jar"
+    archiveFileName = "app.jar"
 }
 
 repositories {
