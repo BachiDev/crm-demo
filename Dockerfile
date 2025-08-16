@@ -5,8 +5,8 @@ COPY gradlew .
 COPY gradle gradle
 COPY build.gradle .
 COPY settings.gradle .
-COPY frontend frontend
-COPY src src
+COPY src/main/java src/main/java
+COPY src/main/webapp src/main/webapp
 RUN chmod +x ./gradlew
 RUN ./gradlew bootJar
 
