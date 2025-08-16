@@ -1,7 +1,7 @@
 # Stage 1: Build the application
 # Use a base image with both Gradle and the correct JDK version.
 # The 'gradle' image includes all the tools needed to build your project.
-FROM gradle:latest-jdk21 AS build
+FROM gradle:8.5-jdk21 AS build
 
 # Set the working directory
 WORKDIR /app
