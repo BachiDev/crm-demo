@@ -2,7 +2,7 @@
 
 A full-stack CRM application featuring a Spring Boot backend and an Angular frontend, designed to showcase modern web development practices with a focus on clean architecture and robust deployment.
 
-[Check Out Live](https://bachidev.github.io/crm-demo/).
+[Check Out Live](https://bachidev.github.io/crm-demo/)
 
 ## Technologies
 
