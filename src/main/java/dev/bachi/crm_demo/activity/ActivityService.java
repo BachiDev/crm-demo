@@ -65,8 +65,6 @@ public class ActivityService {
         activityDTO.setSubject(activity.getSubject());
         activityDTO.setDueDate(activity.getDueDate());
         activityDTO.setStatus(activity.getStatus());
-        activityDTO.setCreatedAt(activity.getCreatedAt());
-        activityDTO.setUpdatedAt(activity.getUpdatedAt());
         activityDTO.setOwner(activity.getOwner() == null ? null : activity.getOwner().getUserId());
         return activityDTO;
     }
@@ -76,8 +74,6 @@ public class ActivityService {
         activity.setSubject(activityDTO.getSubject());
         activity.setDueDate(activityDTO.getDueDate());
         activity.setStatus(activityDTO.getStatus());
-        activity.setCreatedAt(activityDTO.getCreatedAt());
-        activity.setUpdatedAt(activityDTO.getUpdatedAt());
         final User owner = activityDTO.getOwner() == null ? null : userRepository.findById(activityDTO.getOwner())
                 .orElseThrow(() -> new NotFoundException("owner not found"));
         activity.setOwner(owner);

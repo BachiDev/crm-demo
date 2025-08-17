@@ -53,12 +53,6 @@ public class User {
     @Column(length = 50)
     private String lastName;
 
-    @Column
-    private OffsetDateTime createdAt;
-
-    @Column
-    private OffsetDateTime updatedAt;
-
     @OneToMany(mappedBy = "owner")
     private Set<Account> ownerAccounts = new HashSet<>();
 

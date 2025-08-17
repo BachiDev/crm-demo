@@ -17,8 +17,7 @@
                 <th scope="col" class="text-left p-2" i18n="@@campaign.startDate.label">Start Date</th>
                 <th scope="col" class="text-left p-2" i18n="@@campaign.endDate.label">End Date</th>
                 <th scope="col" class="text-left p-2" i18n="@@campaign.status.label">Status</th>
-                <th scope="col" class="text-left p-2" i18n="@@campaign.createdAt.label">Created At</th>
-                <th scope="col" class="text-left p-2" i18n="@@campaign.updatedAt.label">Updated At</th>
+                <th scope="col" class="text-left p-2" i18n="@@campaign.owner.label">Owner</th>
                 <th><!-- --></th>
             </tr>
         </thead>
@@ -31,8 +30,7 @@
                 <td class="p-2">{{ campaign.startDate }}</td>
                 <td class="p-2">{{ campaign.endDate }}</td>
                 <td class="p-2">{{ campaign.status }}</td>
-                <td class="p-2">{{ campaign.createdAt }}</td>
-                <td class="p-2">{{ campaign.updatedAt }}</td>
+                <td class="p-2">{{ campaign.owner }}</td>
                 <td class="p-2">
                     <div class="float-right whitespace-nowrap">
                         <a [routerLink]="['/campaigns/edit', campaign.campaignId]" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm" i18n="@@campaign.list.edit">Edit</a>

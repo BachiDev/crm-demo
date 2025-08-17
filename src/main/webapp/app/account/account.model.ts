@@ -14,8 +14,6 @@ export class AccountDTO {
   state?: string|null;
   postalCode?: string|null;
   country?: string|null;
-  createdAt?: string|null;
-  updatedAt?: string|null;
   metadata?: string|null;
   owner?: string|null;
 

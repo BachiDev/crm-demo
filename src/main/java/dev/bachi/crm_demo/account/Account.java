@@ -66,12 +66,6 @@ public class Account {
     @Column(length = 100)
     private String country;
 
-    @Column
-    private OffsetDateTime createdAt;
-
-    @Column
-    private OffsetDateTime updatedAt;
-
     @Column(columnDefinition = "text")
     private String metadata;
 

@@ -79,8 +79,6 @@ public class AccountService {
         accountDTO.setState(account.getState());
         accountDTO.setPostalCode(account.getPostalCode());
         accountDTO.setCountry(account.getCountry());
-        accountDTO.setCreatedAt(account.getCreatedAt());
-        accountDTO.setUpdatedAt(account.getUpdatedAt());
         accountDTO.setMetadata(account.getMetadata());
         accountDTO.setOwner(account.getOwner() == null ? null : account.getOwner().getUserId());
         return accountDTO;
@@ -96,8 +94,6 @@ public class AccountService {
         account.setState(accountDTO.getState());
         account.setPostalCode(accountDTO.getPostalCode());
         account.setCountry(accountDTO.getCountry());
-        account.setCreatedAt(accountDTO.getCreatedAt());
-        account.setUpdatedAt(accountDTO.getUpdatedAt());
         account.setMetadata(accountDTO.getMetadata());
         final User owner = accountDTO.getOwner() == null ? null : userRepository.findById(accountDTO.getOwner())
                 .orElseThrow(() -> new NotFoundException("owner not found"));

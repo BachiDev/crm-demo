@@ -42,9 +42,6 @@ public class Memo {
     @Column(nullable = false, columnDefinition = "text")
     private String memoText;
 
-    @Column
-    private OffsetDateTime createdAt;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

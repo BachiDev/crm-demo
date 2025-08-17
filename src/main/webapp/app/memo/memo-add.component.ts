@@ -6,7 +6,7 @@ import { InputRowComponent } from 'app/common/input-row/input-row.component';
 import { MemoService } from 'app/memo/memo.service';
 import { MemoDTO } from 'app/memo/memo.model';
 import { ErrorHandler } from 'app/common/error-handler.injectable';
-import { validUuid, validOffsetDateTime } from 'app/common/utils';
+import { validUuid } from 'app/common/utils';
 
 
 @Component({
@@ -26,7 +26,6 @@ export class MemoAddComponent implements OnInit {
     relatedToType: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
     relatedToId: new FormControl(null, [Validators.required, validUuid]),
     memoText: new FormControl(null, [Validators.required]),
-    createdAt: new FormControl(null, [validOffsetDateTime]),
     user: new FormControl(null)
   }, { updateOn: 'submit' });
 

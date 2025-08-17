@@ -5,7 +5,6 @@
     </div>
 </div>
 <form [formGroup]="editForm" (ngSubmit)="handleSubmit()">
-    <input type="submit" i18n-value="@@contact.edit.headline" value="Edit Contact" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2 cursor-pointer mt-6 mb-5" />
     <app-input-row [group]="editForm" field="contactId" i18n-label="@@contact.contactId.label" label="Contact Id" />
     <app-input-row [group]="editForm" field="firstName" i18n-label="@@contact.firstName.label" label="First Name" />
     <app-input-row [group]="editForm" field="lastName" i18n-label="@@contact.lastName.label" label="Last Name" />
@@ -13,8 +12,6 @@
     <app-input-row [group]="editForm" field="phone" i18n-label="@@contact.phone.label" label="Phone" />
     <app-input-row [group]="editForm" field="jobTitle" i18n-label="@@contact.jobTitle.label" label="Job Title" />
     <app-input-row [group]="editForm" field="isLead" rowType="checkbox" i18n-label="@@contact.isLead.label" label="Is Lead" />
-    <app-input-row [group]="editForm" field="createdAt" i18n-label="@@contact.createdAt.label" label="Created At" />
-    <app-input-row [group]="editForm" field="updatedAt" i18n-label="@@contact.updatedAt.label" label="Updated At" />
     <app-input-row [group]="editForm" field="metadata" rowType="textarea" i18n-label="@@contact.metadata.label" label="Metadata" />
     <app-input-row [group]="editForm" field="account" rowType="select" [options]="accountValues" i18n-label="@@contact.account.label" label="Account" />
     <app-input-row [group]="editForm" field="owner" rowType="select" [options]="ownerValues" i18n-label="@@contact.owner.label" label="Owner" />

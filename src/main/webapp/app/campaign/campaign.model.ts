@@ -10,8 +10,6 @@ export class CampaignDTO {
   startDate?: string|null;
   endDate?: string|null;
   status?: string|null;
-  createdAt?: string|null;
-  updatedAt?: string|null;
   owner?: string|null;
 
 }

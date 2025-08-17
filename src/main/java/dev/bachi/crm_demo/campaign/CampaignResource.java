@@ -1,8 +1,6 @@
 package dev.bachi.crm_demo.campaign;
 
 import dev.bachi.crm_demo.user.UserService;
-import dev.bachi.crm_demo.util.ReferencedException;
-import dev.bachi.crm_demo.util.ReferencedWarning;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -63,10 +61,6 @@ public class CampaignResource {
     @ApiResponse(responseCode = "204")
     public ResponseEntity<Void> deleteCampaign(
             @PathVariable(name = "campaignId") final UUID campaignId) {
-        final ReferencedWarning referencedWarning = campaignService.getReferencedWarning(campaignId);
-        if (referencedWarning != null) {
-            throw new ReferencedException(referencedWarning);
-        }
         campaignService.delete(campaignId);
         return ResponseEntity.noContent().build();
     }

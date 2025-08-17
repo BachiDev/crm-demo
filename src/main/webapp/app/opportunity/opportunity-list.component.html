@@ -16,9 +16,9 @@
                 <th scope="col" class="text-left p-2" i18n="@@opportunity.amount.label">Amount</th>
                 <th scope="col" class="text-left p-2" i18n="@@opportunity.stage.label">Stage</th>
                 <th scope="col" class="text-left p-2" i18n="@@opportunity.closeDate.label">Close Date</th>
-                <th scope="col" class="text-left p-2" i18n="@@opportunity.createdAt.label">Created At</th>
-                <th scope="col" class="text-left p-2" i18n="@@opportunity.updatedAt.label">Updated At</th>
                 <th scope="col" class="text-left p-2" i18n="@@opportunity.account.label">Account</th>
+                <th scope="col" class="text-left p-2" i18n="@@opportunity.contact.label">Contact</th>
+                <th scope="col" class="text-left p-2" i18n="@@opportunity.owner.label">Owner</th>
                 <th><!-- --></th>
             </tr>
         </thead>
@@ -30,9 +30,9 @@
                 <td class="p-2">{{ opportunity.amount }}</td>
                 <td class="p-2">{{ opportunity.stage }}</td>
                 <td class="p-2">{{ opportunity.closeDate }}</td>
-                <td class="p-2">{{ opportunity.createdAt }}</td>
-                <td class="p-2">{{ opportunity.updatedAt }}</td>
                 <td class="p-2">{{ opportunity.account }}</td>
+                <td class="p-2">{{ opportunity.contact }}</td>
+                <td class="p-2">{{ opportunity.owner }}</td>
                 <td class="p-2">
                     <div class="float-right whitespace-nowrap">
                         <a [routerLink]="['/opportunities/edit', opportunity.opportunityId]" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm" i18n="@@opportunity.list.edit">Edit</a>

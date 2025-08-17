@@ -28,8 +28,6 @@ export class CampaignAddComponent implements OnInit {
     startDate: new FormControl(null, [validOffsetDateTime]),
     endDate: new FormControl(null, [validOffsetDateTime]),
     status: new FormControl(null, [Validators.maxLength(20)]),
-    createdAt: new FormControl(null, [validOffsetDateTime]),
-    updatedAt: new FormControl(null, [validOffsetDateTime]),
     owner: new FormControl(null)
   }, { updateOn: 'submit' });
 

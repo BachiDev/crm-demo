@@ -6,7 +6,7 @@ import { InputRowComponent } from 'app/common/input-row/input-row.component';
 import { ContactService } from 'app/contact/contact.service';
 import { ContactDTO } from 'app/contact/contact.model';
 import { ErrorHandler } from 'app/common/error-handler.injectable';
-import { updateForm, validOffsetDateTime } from 'app/common/utils';
+import { updateForm } from 'app/common/utils';
 
 
 @Component({
@@ -33,8 +33,6 @@ export class ContactEditComponent implements OnInit {
     phone: new FormControl(null, [Validators.maxLength(20)]),
     jobTitle: new FormControl(null, [Validators.maxLength(100)]),
     isLead: new FormControl(false),
-    createdAt: new FormControl(null, [validOffsetDateTime]),
-    updatedAt: new FormControl(null, [validOffsetDateTime]),
     metadata: new FormControl(null),
     account: new FormControl(null),
     owner: new FormControl(null)

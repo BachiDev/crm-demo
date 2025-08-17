@@ -24,8 +24,7 @@ export class ContactListComponent implements OnInit, OnDestroy {
       confirm: $localize`:@@delete.confirm:Do you really want to delete this element? This cannot be undone.`,
       deleted: $localize`:@@contact.delete.success:Contact was removed successfully.`,
       'contact.opportunity.contact.referenced': $localize`:@@contact.opportunity.contact.referenced:This entity is still referenced by Opportunity ${details?.id} via field Contact.`,
-      'contact.activityRelation.contact.referenced': $localize`:@@contact.activityRelation.contact.referenced:This entity is still referenced by Activity Relation ${details?.id} via field Contact.`,
-      'contact.campaignLead.contact.referenced': $localize`:@@contact.campaignLead.contact.referenced:This entity is still referenced by Campaign Lead ${details?.id} via field Contact.`
+      'contact.activityRelation.contact.referenced': $localize`:@@contact.activityRelation.contact.referenced:This entity is still referenced by Activity Relation ${details?.id} via field Contact.`
     };
     return messages[key];
   }

@@ -28,10 +28,6 @@ public class ActivityDTO {
     @Size(max = 50)
     private String status;
 
-    private OffsetDateTime createdAt;
-
-    private OffsetDateTime updatedAt;
-
     private UUID owner;
 
 }

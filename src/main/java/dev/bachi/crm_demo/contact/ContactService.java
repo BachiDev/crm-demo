@@ -4,8 +4,6 @@ import dev.bachi.crm_demo.account.Account;
 import dev.bachi.crm_demo.account.AccountRepository;
 import dev.bachi.crm_demo.activity_relation.ActivityRelation;
 import dev.bachi.crm_demo.activity_relation.ActivityRelationRepository;
-import dev.bachi.crm_demo.campaign_lead.CampaignLead;
-import dev.bachi.crm_demo.campaign_lead.CampaignLeadRepository;
 import dev.bachi.crm_demo.opportunity.Opportunity;
 import dev.bachi.crm_demo.opportunity.OpportunityRepository;
 import dev.bachi.crm_demo.user.User;
@@ -28,19 +26,16 @@ public class ContactService {
     private final UserRepository userRepository;
     private final OpportunityRepository opportunityRepository;
     private final ActivityRelationRepository activityRelationRepository;
-    private final CampaignLeadRepository campaignLeadRepository;
 
     public ContactService(final ContactRepository contactRepository,
             final AccountRepository accountRepository, final UserRepository userRepository,
             final OpportunityRepository opportunityRepository,
-            final ActivityRelationRepository activityRelationRepository,
-            final CampaignLeadRepository campaignLeadRepository) {
+            final ActivityRelationRepository activityRelationRepository) {
         this.contactRepository = contactRepository;
         this.accountRepository = accountRepository;
         this.userRepository = userRepository;
         this.opportunityRepository = opportunityRepository;
         this.activityRelationRepository = activityRelationRepository;
-        this.campaignLeadRepository = campaignLeadRepository;
     }
 
     public List<ContactDTO> findAll() {
@@ -81,8 +76,6 @@ public class ContactService {
         contactDTO.setPhone(contact.getPhone());
         contactDTO.setJobTitle(contact.getJobTitle());
         contactDTO.setIsLead(contact.getIsLead());
-        contactDTO.setCreatedAt(contact.getCreatedAt());
-        contactDTO.setUpdatedAt(contact.getUpdatedAt());
         contactDTO.setMetadata(contact.getMetadata());
         contactDTO.setAccount(contact.getAccount() == null ? null : contact.getAccount().getAccountId());
         contactDTO.setOwner(contact.getOwner() == null ? null : contact.getOwner().getUserId());
@@ -96,8 +89,6 @@ public class ContactService {
         contact.setPhone(contactDTO.getPhone());
         contact.setJobTitle(contactDTO.getJobTitle());
         contact.setIsLead(contactDTO.getIsLead());
-        contact.setCreatedAt(contactDTO.getCreatedAt());
-        contact.setUpdatedAt(contactDTO.getUpdatedAt());
         contact.setMetadata(contactDTO.getMetadata());
         final Account account = contactDTO.getAccount() == null ? null : accountRepository.findById(contactDTO.getAccount())
                 .orElseThrow(() -> new NotFoundException("account not found"));
@@ -122,12 +113,6 @@ public class ContactService {
         if (contactActivityRelation != null) {
             referencedWarning.setKey("contact.activityRelation.contact.referenced");
             referencedWarning.addParam(contactActivityRelation.getId());
-            return referencedWarning;
-        }
-        final CampaignLead contactCampaignLead = campaignLeadRepository.findFirstByContact(contact);
-        if (contactCampaignLead != null) {
-            referencedWarning.setKey("contact.campaignLead.contact.referenced");
-            referencedWarning.addParam(contactCampaignLead.getStatus());
             return referencedWarning;
         }
         return null;

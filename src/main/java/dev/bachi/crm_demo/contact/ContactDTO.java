@@ -3,7 +3,6 @@ package dev.bachi.crm_demo.contact;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.time.OffsetDateTime;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,10 +33,6 @@ public class ContactDTO {
 
     @JsonProperty("isLead")
     private Boolean isLead;
-
-    private OffsetDateTime createdAt;
-
-    private OffsetDateTime updatedAt;
 
     private String metadata;
 

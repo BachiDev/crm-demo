@@ -9,7 +9,5 @@ export class ProductDTO {
   sku?: string|null;
   price?: string|null;
   description?: string|null;
-  createdAt?: string|null;
-  updatedAt?: string|null;
 
 }

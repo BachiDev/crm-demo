@@ -22,9 +22,7 @@ export class CampaignListComponent implements OnInit, OnDestroy {
   getMessage(key: string, details?: any) {
     const messages: Record<string, string> = {
       confirm: $localize`:@@delete.confirm:Do you really want to delete this element? This cannot be undone.`,
-      deleted: $localize`:@@campaign.delete.success:Campaign was removed successfully.`,
-      'campaign.campaignLead.campaign.referenced': $localize`:@@campaign.campaignLead.campaign.referenced:This entity is still referenced by Campaign Lead ${details?.id} via field Campaign.`
-    };
+      deleted: $localize`:@@campaign.delete.success:Campaign was removed successfully.`    };
     return messages[key];
   }
 
@@ -60,18 +58,7 @@ export class CampaignListComponent implements OnInit, OnDestroy {
               msgInfo: this.getMessage('deleted')
             }
           }),
-          error: (error) => {
-            if (error.error?.code === 'REFERENCED') {
-              const messageParts = error.error.message.split(',');
-              this.router.navigate(['/campaigns'], {
-                state: {
-                  msgError: this.getMessage(messageParts[0], { id: messageParts[1] })
-                }
-              });
-              return;
-            }
-            this.errorHandler.handleServerError(error.error)
-          }
+          error: (error) => this.errorHandler.handleServerError(error.error)
         });
   }
 

@@ -6,8 +6,6 @@ import dev.bachi.crm_demo.activity_relation.ActivityRelation;
 import dev.bachi.crm_demo.activity_relation.ActivityRelationRepository;
 import dev.bachi.crm_demo.contact.Contact;
 import dev.bachi.crm_demo.contact.ContactRepository;
-import dev.bachi.crm_demo.opportunity_product.OpportunityProduct;
-import dev.bachi.crm_demo.opportunity_product.OpportunityProductRepository;
 import dev.bachi.crm_demo.user.User;
 import dev.bachi.crm_demo.user.UserRepository;
 import dev.bachi.crm_demo.util.CustomCollectors;
@@ -28,19 +26,16 @@ public class OpportunityService {
     private final ContactRepository contactRepository;
     private final UserRepository userRepository;
     private final ActivityRelationRepository activityRelationRepository;
-    private final OpportunityProductRepository opportunityProductRepository;
 
     public OpportunityService(final OpportunityRepository opportunityRepository,
             final AccountRepository accountRepository, final ContactRepository contactRepository,
             final UserRepository userRepository,
-            final ActivityRelationRepository activityRelationRepository,
-            final OpportunityProductRepository opportunityProductRepository) {
+            final ActivityRelationRepository activityRelationRepository) {
         this.opportunityRepository = opportunityRepository;
         this.accountRepository = accountRepository;
         this.contactRepository = contactRepository;
         this.userRepository = userRepository;
         this.activityRelationRepository = activityRelationRepository;
-        this.opportunityProductRepository = opportunityProductRepository;
     }
 
     public List<OpportunityDTO> findAll() {
@@ -80,8 +75,6 @@ public class OpportunityService {
         opportunityDTO.setAmount(opportunity.getAmount());
         opportunityDTO.setStage(opportunity.getStage());
         opportunityDTO.setCloseDate(opportunity.getCloseDate());
-        opportunityDTO.setCreatedAt(opportunity.getCreatedAt());
-        opportunityDTO.setUpdatedAt(opportunity.getUpdatedAt());
         opportunityDTO.setAccount(opportunity.getAccount() == null ? null : opportunity.getAccount().getAccountId());
         opportunityDTO.setContact(opportunity.getContact() == null ? null : opportunity.getContact().getContactId());
         opportunityDTO.setOwner(opportunity.getOwner() == null ? null : opportunity.getOwner().getUserId());
@@ -94,8 +87,6 @@ public class OpportunityService {
         opportunity.setAmount(opportunityDTO.getAmount());
         opportunity.setStage(opportunityDTO.getStage());
         opportunity.setCloseDate(opportunityDTO.getCloseDate());
-        opportunity.setCreatedAt(opportunityDTO.getCreatedAt());
-        opportunity.setUpdatedAt(opportunityDTO.getUpdatedAt());
         final Account account = opportunityDTO.getAccount() == null ? null : accountRepository.findById(opportunityDTO.getAccount())
                 .orElseThrow(() -> new NotFoundException("account not found"));
         opportunity.setAccount(account);
@@ -116,12 +107,6 @@ public class OpportunityService {
         if (opportunityActivityRelation != null) {
             referencedWarning.setKey("opportunity.activityRelation.opportunity.referenced");
             referencedWarning.addParam(opportunityActivityRelation.getId());
-            return referencedWarning;
-        }
-        final OpportunityProduct opportunityOpportunityProduct = opportunityProductRepository.findFirstByOpportunity(opportunity);
-        if (opportunityOpportunityProduct != null) {
-            referencedWarning.setKey("opportunity.opportunityProduct.opportunity.referenced");
-            referencedWarning.addParam(opportunityOpportunityProduct.getQuantity());
             return referencedWarning;
         }
         return null;

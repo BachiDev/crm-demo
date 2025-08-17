@@ -24,15 +24,9 @@ import { MemoEditComponent } from './memo/memo-edit.component';
 import { CampaignListComponent } from './campaign/campaign-list.component';
 import { CampaignAddComponent } from './campaign/campaign-add.component';
 import { CampaignEditComponent } from './campaign/campaign-edit.component';
-import { CampaignLeadListComponent } from './campaign-lead/campaign-lead-list.component';
-import { CampaignLeadAddComponent } from './campaign-lead/campaign-lead-add.component';
-import { CampaignLeadEditComponent } from './campaign-lead/campaign-lead-edit.component';
 import { ProductListComponent } from './product/product-list.component';
 import { ProductAddComponent } from './product/product-add.component';
 import { ProductEditComponent } from './product/product-edit.component';
-import { OpportunityProductListComponent } from './opportunity-product/opportunity-product-list.component';
-import { OpportunityProductAddComponent } from './opportunity-product/opportunity-product-add.component';
-import { OpportunityProductEditComponent } from './opportunity-product/opportunity-product-edit.component';
 import { ErrorComponent } from './error/error.component';
 
 
@@ -163,21 +157,6 @@ export const routes: Routes = [
     title: $localize`:@@campaign.edit.headline:Edit Campaign`
   },
   {
-    path: 'campaignLeads',
-    component: CampaignLeadListComponent,
-    title: $localize`:@@campaignLead.list.headline:Campaign Leads`
-  },
-  {
-    path: 'campaignLeads/add',
-    component: CampaignLeadAddComponent,
-    title: $localize`:@@campaignLead.add.headline:Add Campaign Lead`
-  },
-  {
-    path: 'campaignLeads/edit/:status',
-    component: CampaignLeadEditComponent,
-    title: $localize`:@@campaignLead.edit.headline:Edit Campaign Lead`
-  },
-  {
     path: 'products',
     component: ProductListComponent,
     title: $localize`:@@product.list.headline:Products`
@@ -191,21 +170,6 @@ export const routes: Routes = [
     path: 'products/edit/:productId',
     component: ProductEditComponent,
     title: $localize`:@@product.edit.headline:Edit Product`
-  },
-  {
-    path: 'opportunityProducts',
-    component: OpportunityProductListComponent,
-    title: $localize`:@@opportunityProduct.list.headline:Opportunity Products`
-  },
-  {
-    path: 'opportunityProducts/add',
-    component: OpportunityProductAddComponent,
-    title: $localize`:@@opportunityProduct.add.headline:Add Opportunity Product`
-  },
-  {
-    path: 'opportunityProducts/edit/:quantity',
-    component: OpportunityProductEditComponent,
-    title: $localize`:@@opportunityProduct.edit.headline:Edit Opportunity Product`
   },
   {
     path: 'error',

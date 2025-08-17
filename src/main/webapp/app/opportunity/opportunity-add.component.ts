@@ -6,7 +6,7 @@ import { InputRowComponent } from 'app/common/input-row/input-row.component';
 import { OpportunityService } from 'app/opportunity/opportunity.service';
 import { OpportunityDTO } from 'app/opportunity/opportunity.model';
 import { ErrorHandler } from 'app/common/error-handler.injectable';
-import { validNumeric, validOffsetDateTime } from 'app/common/utils';
+import { validNumeric } from 'app/common/utils';
 
 
 @Component({
@@ -29,8 +29,6 @@ export class OpportunityAddComponent implements OnInit {
     amount: new FormControl(null, [validNumeric(15, 2)]),
     stage: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
     closeDate: new FormControl(null),
-    createdAt: new FormControl(null, [validOffsetDateTime]),
-    updatedAt: new FormControl(null, [validOffsetDateTime]),
     account: new FormControl(null),
     contact: new FormControl(null),
     owner: new FormControl(null)

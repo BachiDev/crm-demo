@@ -6,7 +6,7 @@ import { InputRowComponent } from 'app/common/input-row/input-row.component';
 import { UserService } from 'app/user/user.service';
 import { UserDTO } from 'app/user/user.model';
 import { ErrorHandler } from 'app/common/error-handler.injectable';
-import { updateForm, validOffsetDateTime } from 'app/common/utils';
+import { updateForm } from 'app/common/utils';
 
 
 @Component({
@@ -29,9 +29,7 @@ export class UserEditComponent implements OnInit {
     email: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
     passwordHash: new FormControl(null, [Validators.required, Validators.maxLength(255)]),
     firstName: new FormControl(null, [Validators.maxLength(50)]),
-    lastName: new FormControl(null, [Validators.maxLength(50)]),
-    createdAt: new FormControl(null, [validOffsetDateTime]),
-    updatedAt: new FormControl(null, [validOffsetDateTime])
+    lastName: new FormControl(null, [Validators.maxLength(50)])
   }, { updateOn: 'submit' });
 
   getMessage(key: string, details?: any) {

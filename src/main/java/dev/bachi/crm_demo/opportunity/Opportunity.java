@@ -3,7 +3,6 @@ package dev.bachi.crm_demo.opportunity;
 import dev.bachi.crm_demo.account.Account;
 import dev.bachi.crm_demo.activity_relation.ActivityRelation;
 import dev.bachi.crm_demo.contact.Contact;
-import dev.bachi.crm_demo.opportunity_product.OpportunityProduct;
 import dev.bachi.crm_demo.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -54,12 +53,6 @@ public class Opportunity {
     @Column
     private LocalDate closeDate;
 
-    @Column
-    private OffsetDateTime createdAt;
-
-    @Column
-    private OffsetDateTime updatedAt;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Account account;
@@ -74,9 +67,6 @@ public class Opportunity {
 
     @OneToMany(mappedBy = "opportunity")
     private Set<ActivityRelation> opportunityActivityRelations = new HashSet<>();
-
-    @OneToMany(mappedBy = "opportunity")
-    private Set<OpportunityProduct> opportunityOpportunityProducts = new HashSet<>();
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

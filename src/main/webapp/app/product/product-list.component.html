@@ -15,8 +15,6 @@
                 <th scope="col" class="text-left p-2" i18n="@@product.productName.label">Product Name</th>
                 <th scope="col" class="text-left p-2" i18n="@@product.sku.label">Sku</th>
                 <th scope="col" class="text-left p-2" i18n="@@product.price.label">Price</th>
-                <th scope="col" class="text-left p-2" i18n="@@product.createdAt.label">Created At</th>
-                <th scope="col" class="text-left p-2" i18n="@@product.updatedAt.label">Updated At</th>
                 <th><!-- --></th>
             </tr>
         </thead>
@@ -27,8 +25,6 @@
                 <td class="p-2">{{ product.productName }}</td>
                 <td class="p-2">{{ product.sku }}</td>
                 <td class="p-2">{{ product.price }}</td>
-                <td class="p-2">{{ product.createdAt }}</td>
-                <td class="p-2">{{ product.updatedAt }}</td>
                 <td class="p-2">
                     <div class="float-right whitespace-nowrap">
                         <a [routerLink]="['/products/edit', product.productId]" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm" i18n="@@product.list.edit">Edit</a>

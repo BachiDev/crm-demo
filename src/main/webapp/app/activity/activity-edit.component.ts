@@ -30,8 +30,6 @@ export class ActivityEditComponent implements OnInit {
     subject: new FormControl(null, [Validators.required, Validators.maxLength(255)]),
     dueDate: new FormControl(null, [validOffsetDateTime]),
     status: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
-    createdAt: new FormControl(null, [validOffsetDateTime]),
-    updatedAt: new FormControl(null, [validOffsetDateTime]),
     owner: new FormControl(null)
   }, { updateOn: 'submit' });
 

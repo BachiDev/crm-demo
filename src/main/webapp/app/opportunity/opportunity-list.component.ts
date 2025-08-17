@@ -23,8 +23,7 @@ export class OpportunityListComponent implements OnInit, OnDestroy {
     const messages: Record<string, string> = {
       confirm: $localize`:@@delete.confirm:Do you really want to delete this element? This cannot be undone.`,
       deleted: $localize`:@@opportunity.delete.success:Opportunity was removed successfully.`,
-      'opportunity.activityRelation.opportunity.referenced': $localize`:@@opportunity.activityRelation.opportunity.referenced:This entity is still referenced by Activity Relation ${details?.id} via field Opportunity.`,
-      'opportunity.opportunityProduct.opportunity.referenced': $localize`:@@opportunity.opportunityProduct.opportunity.referenced:This entity is still referenced by Opportunity Product ${details?.id} via field Opportunity.`
+      'opportunity.activityRelation.opportunity.referenced': $localize`:@@opportunity.activityRelation.opportunity.referenced:This entity is still referenced by Activity Relation ${details?.id} via field Opportunity.`
     };
     return messages[key];
   }

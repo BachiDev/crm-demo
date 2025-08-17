@@ -2,7 +2,6 @@ package dev.bachi.crm_demo.contact;
 
 import dev.bachi.crm_demo.account.Account;
 import dev.bachi.crm_demo.activity_relation.ActivityRelation;
-import dev.bachi.crm_demo.campaign_lead.CampaignLead;
 import dev.bachi.crm_demo.opportunity.Opportunity;
 import dev.bachi.crm_demo.user.User;
 import jakarta.persistence.Column;
@@ -58,12 +57,6 @@ public class Contact {
     @Column
     private Boolean isLead;
 
-    @Column
-    private OffsetDateTime createdAt;
-
-    @Column
-    private OffsetDateTime updatedAt;
-
     @Column(columnDefinition = "text")
     private String metadata;
 
@@ -80,9 +73,6 @@ public class Contact {
 
     @OneToMany(mappedBy = "contact")
     private Set<ActivityRelation> contactActivityRelations = new HashSet<>();
-
-    @OneToMany(mappedBy = "contact")
-    private Set<CampaignLead> contactCampaignLeads = new HashSet<>();
 
     @CreatedDate
     @Column(nullable = false, updatable = false)

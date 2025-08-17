@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,9 +31,5 @@ public class ProductDTO {
     private BigDecimal price;
 
     private String description;
-
-    private OffsetDateTime createdAt;
-
-    private OffsetDateTime updatedAt;
 
 }

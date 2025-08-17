@@ -49,12 +49,6 @@ public class Activity {
     @Column(nullable = false, length = 50)
     private String status;
 
-    @Column
-    private OffsetDateTime createdAt;
-
-    @Column
-    private OffsetDateTime updatedAt;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private User owner;

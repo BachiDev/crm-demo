@@ -55,7 +55,6 @@ public class MemoService {
         memoDTO.setRelatedToType(memo.getRelatedToType());
         memoDTO.setRelatedToId(memo.getRelatedToId());
         memoDTO.setMemoText(memo.getMemoText());
-        memoDTO.setCreatedAt(memo.getCreatedAt());
         memoDTO.setUser(memo.getUser() == null ? null : memo.getUser().getUserId());
         return memoDTO;
     }
@@ -64,7 +63,6 @@ public class MemoService {
         memo.setRelatedToType(memoDTO.getRelatedToType());
         memo.setRelatedToId(memoDTO.getRelatedToId());
         memo.setMemoText(memoDTO.getMemoText());
-        memo.setCreatedAt(memoDTO.getCreatedAt());
         final User user = memoDTO.getUser() == null ? null : userRepository.findById(memoDTO.getUser())
                 .orElseThrow(() -> new NotFoundException("user not found"));
         memo.setUser(user);

@@ -1,7 +1,5 @@
 package dev.bachi.crm_demo.product;
 
-import dev.bachi.crm_demo.util.ReferencedException;
-import dev.bachi.crm_demo.util.ReferencedWarning;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -59,10 +57,6 @@ public class ProductResource {
     @ApiResponse(responseCode = "204")
     public ResponseEntity<Void> deleteProduct(
             @PathVariable(name = "productId") final UUID productId) {
-        final ReferencedWarning referencedWarning = productService.getReferencedWarning(productId);
-        if (referencedWarning != null) {
-            throw new ReferencedException(referencedWarning);
-        }
         productService.delete(productId);
         return ResponseEntity.noContent().build();
     }

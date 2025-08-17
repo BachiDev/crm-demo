@@ -1,14 +1,9 @@
 package dev.bachi.crm_demo.campaign;
 
-import dev.bachi.crm_demo.campaign_lead.CampaignLead;
-import dev.bachi.crm_demo.campaign_lead.CampaignLeadRepository;
 import dev.bachi.crm_demo.user.User;
 import dev.bachi.crm_demo.user.UserRepository;
-import dev.bachi.crm_demo.util.CustomCollectors;
 import dev.bachi.crm_demo.util.NotFoundException;
-import dev.bachi.crm_demo.util.ReferencedWarning;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -19,14 +14,11 @@ public class CampaignService {
 
     private final CampaignRepository campaignRepository;
     private final UserRepository userRepository;
-    private final CampaignLeadRepository campaignLeadRepository;
 
     public CampaignService(final CampaignRepository campaignRepository,
-            final UserRepository userRepository,
-            final CampaignLeadRepository campaignLeadRepository) {
+            final UserRepository userRepository) {
         this.campaignRepository = campaignRepository;
         this.userRepository = userRepository;
-        this.campaignLeadRepository = campaignLeadRepository;
     }
 
     public List<CampaignDTO> findAll() {
@@ -66,8 +58,6 @@ public class CampaignService {
         campaignDTO.setStartDate(campaign.getStartDate());
         campaignDTO.setEndDate(campaign.getEndDate());
         campaignDTO.setStatus(campaign.getStatus());
-        campaignDTO.setCreatedAt(campaign.getCreatedAt());
-        campaignDTO.setUpdatedAt(campaign.getUpdatedAt());
         campaignDTO.setOwner(campaign.getOwner() == null ? null : campaign.getOwner().getUserId());
         return campaignDTO;
     }
@@ -78,31 +68,10 @@ public class CampaignService {
         campaign.setStartDate(campaignDTO.getStartDate());
         campaign.setEndDate(campaignDTO.getEndDate());
         campaign.setStatus(campaignDTO.getStatus());
-        campaign.setCreatedAt(campaignDTO.getCreatedAt());
-        campaign.setUpdatedAt(campaignDTO.getUpdatedAt());
         final User owner = campaignDTO.getOwner() == null ? null : userRepository.findById(campaignDTO.getOwner())
                 .orElseThrow(() -> new NotFoundException("owner not found"));
         campaign.setOwner(owner);
         return campaign;
-    }
-
-    public ReferencedWarning getReferencedWarning(final UUID campaignId) {
-        final ReferencedWarning referencedWarning = new ReferencedWarning();
-        final Campaign campaign = campaignRepository.findById(campaignId)
-                .orElseThrow(NotFoundException::new);
-        final CampaignLead campaignCampaignLead = campaignLeadRepository.findFirstByCampaign(campaign);
-        if (campaignCampaignLead != null) {
-            referencedWarning.setKey("campaign.campaignLead.campaign.referenced");
-            referencedWarning.addParam(campaignCampaignLead.getStatus());
-            return referencedWarning;
-        }
-        return null;
-    }
-
-    public Map<UUID, String> getCampaignValues() {
-        return campaignRepository.findAll(Sort.by("campaignId"))
-                .stream()
-                .collect(CustomCollectors.toSortedMap(Campaign::getCampaignId, Campaign::getCampaignName));
     }
 
 }

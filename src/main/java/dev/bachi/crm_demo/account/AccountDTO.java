@@ -2,7 +2,6 @@ package dev.bachi.crm_demo.account;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.time.OffsetDateTime;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,10 +40,6 @@ public class AccountDTO {
 
     @Size(max = 100)
     private String country;
-
-    private OffsetDateTime createdAt;
-
-    private OffsetDateTime updatedAt;
 
     private String metadata;
 

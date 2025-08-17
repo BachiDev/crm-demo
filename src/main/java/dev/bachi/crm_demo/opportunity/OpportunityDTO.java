@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,10 +32,6 @@ public class OpportunityDTO {
     private String stage;
 
     private LocalDate closeDate;
-
-    private OffsetDateTime createdAt;
-
-    private OffsetDateTime updatedAt;
 
     private UUID account;
 

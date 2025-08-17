@@ -2,7 +2,6 @@ package dev.bachi.crm_demo.user;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.time.OffsetDateTime;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,9 +30,5 @@ public class UserDTO {
 
     @Size(max = 50)
     private String lastName;
-
-    private OffsetDateTime createdAt;
-
-    private OffsetDateTime updatedAt;
 
 }

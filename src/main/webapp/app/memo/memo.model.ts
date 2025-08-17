@@ -8,7 +8,6 @@ export class MemoDTO {
   relatedToType?: string|null;
   relatedToId?: string|null;
   memoText?: string|null;
-  createdAt?: string|null;
   user?: string|null;
 
 }

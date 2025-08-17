@@ -6,7 +6,7 @@ import { InputRowComponent } from 'app/common/input-row/input-row.component';
 import { ProductService } from 'app/product/product.service';
 import { ProductDTO } from 'app/product/product.model';
 import { ErrorHandler } from 'app/common/error-handler.injectable';
-import { validNumeric, validOffsetDateTime } from 'app/common/utils';
+import { validNumeric } from 'app/common/utils';
 
 
 @Component({
@@ -24,9 +24,7 @@ export class ProductAddComponent {
     productName: new FormControl(null, [Validators.required, Validators.maxLength(255)]),
     sku: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
     price: new FormControl(null, [validNumeric(10, 2)]),
-    description: new FormControl(null),
-    createdAt: new FormControl(null, [validOffsetDateTime]),
-    updatedAt: new FormControl(null, [validOffsetDateTime])
+    description: new FormControl(null)
   }, { updateOn: 'submit' });
 
   getMessage(key: string, details?: any) {

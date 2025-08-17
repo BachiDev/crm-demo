@@ -28,10 +28,6 @@ public class CampaignDTO {
     @Size(max = 20)
     private String status;
 
-    private OffsetDateTime createdAt;
-
-    private OffsetDateTime updatedAt;
-
     private UUID owner;
 
 }

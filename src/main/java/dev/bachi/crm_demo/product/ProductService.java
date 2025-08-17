@@ -1,12 +1,7 @@
 package dev.bachi.crm_demo.product;
 
-import dev.bachi.crm_demo.opportunity_product.OpportunityProduct;
-import dev.bachi.crm_demo.opportunity_product.OpportunityProductRepository;
-import dev.bachi.crm_demo.util.CustomCollectors;
 import dev.bachi.crm_demo.util.NotFoundException;
-import dev.bachi.crm_demo.util.ReferencedWarning;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -16,12 +11,9 @@ import org.springframework.stereotype.Service;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final OpportunityProductRepository opportunityProductRepository;
 
-    public ProductService(final ProductRepository productRepository,
-            final OpportunityProductRepository opportunityProductRepository) {
+    public ProductService(final ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.opportunityProductRepository = opportunityProductRepository;
     }
 
     public List<ProductDTO> findAll() {
@@ -60,8 +52,6 @@ public class ProductService {
         productDTO.setSku(product.getSku());
         productDTO.setPrice(product.getPrice());
         productDTO.setDescription(product.getDescription());
-        productDTO.setCreatedAt(product.getCreatedAt());
-        productDTO.setUpdatedAt(product.getUpdatedAt());
         return productDTO;
     }
 
@@ -70,28 +60,7 @@ public class ProductService {
         product.setSku(productDTO.getSku());
         product.setPrice(productDTO.getPrice());
         product.setDescription(productDTO.getDescription());
-        product.setCreatedAt(productDTO.getCreatedAt());
-        product.setUpdatedAt(productDTO.getUpdatedAt());
         return product;
-    }
-
-    public ReferencedWarning getReferencedWarning(final UUID productId) {
-        final ReferencedWarning referencedWarning = new ReferencedWarning();
-        final Product product = productRepository.findById(productId)
-                .orElseThrow(NotFoundException::new);
-        final OpportunityProduct productOpportunityProduct = opportunityProductRepository.findFirstByProduct(product);
-        if (productOpportunityProduct != null) {
-            referencedWarning.setKey("product.opportunityProduct.product.referenced");
-            referencedWarning.addParam(productOpportunityProduct.getQuantity());
-            return referencedWarning;
-        }
-        return null;
-    }
-
-    public Map<UUID, String> getProductValues() {
-        return productRepository.findAll(Sort.by("productId"))
-                .stream()
-                .collect(CustomCollectors.toSortedMap(Product::getProductId, Product::getProductName));
     }
 
 }

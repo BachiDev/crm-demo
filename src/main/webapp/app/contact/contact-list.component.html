@@ -18,7 +18,7 @@
                 <th scope="col" class="text-left p-2" i18n="@@contact.phone.label">Phone</th>
                 <th scope="col" class="text-left p-2" i18n="@@contact.jobTitle.label">Job Title</th>
                 <th scope="col" class="text-left p-2" i18n="@@contact.isLead.label">Is Lead</th>
-                <th scope="col" class="text-left p-2" i18n="@@contact.createdAt.label">Created At</th>
+                <th scope="col" class="text-left p-2" i18n="@@contact.account.label">Account</th>
                 <th><!-- --></th>
             </tr>
         </thead>
@@ -32,7 +32,7 @@
                 <td class="p-2">{{ contact.phone }}</td>
                 <td class="p-2">{{ contact.jobTitle }}</td>
                 <td class="p-2">{{ contact.isLead }}</td>
-                <td class="p-2">{{ contact.createdAt }}</td>
+                <td class="p-2">{{ contact.account }}</td>
                 <td class="p-2">
                     <div class="float-right whitespace-nowrap">
                         <a [routerLink]="['/contacts/edit', contact.contactId]" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm" i18n="@@contact.list.edit">Edit</a>

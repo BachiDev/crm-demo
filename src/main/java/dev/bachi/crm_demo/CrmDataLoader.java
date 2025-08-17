@@ -13,16 +13,12 @@ import dev.bachi.crm_demo.activity_relation.ActivityRelation;
 import dev.bachi.crm_demo.activity_relation.ActivityRelationRepository;
 import dev.bachi.crm_demo.campaign.Campaign;
 import dev.bachi.crm_demo.campaign.CampaignRepository;
-import dev.bachi.crm_demo.campaign_lead.CampaignLead;
-import dev.bachi.crm_demo.campaign_lead.CampaignLeadRepository;
 import dev.bachi.crm_demo.contact.Contact;
 import dev.bachi.crm_demo.contact.ContactRepository;
 import dev.bachi.crm_demo.memo.Memo;
 import dev.bachi.crm_demo.memo.MemoRepository;
 import dev.bachi.crm_demo.opportunity.Opportunity;
 import dev.bachi.crm_demo.opportunity.OpportunityRepository;
-import dev.bachi.crm_demo.opportunity_product.OpportunityProduct;
-import dev.bachi.crm_demo.opportunity_product.OpportunityProductRepository;
 import dev.bachi.crm_demo.product.Product;
 import dev.bachi.crm_demo.product.ProductRepository;
 import dev.bachi.crm_demo.user.User;
@@ -40,15 +36,12 @@ public class CrmDataLoader implements CommandLineRunner {
     private final ActivityRepository activityRepository;
     private final MemoRepository memoRepository;
     private final ActivityRelationRepository activityRelationRepository;
-    private final CampaignLeadRepository campaignLeadRepository;
-    private final OpportunityProductRepository opportunityProductRepository;
 
     public CrmDataLoader(UserRepository userRepository, AccountRepository accountRepository,
             ContactRepository contactRepository, CampaignRepository campaignRepository,
             ProductRepository productRepository, OpportunityRepository opportunityRepository,
             ActivityRepository activityRepository, MemoRepository memoRepository,
-            ActivityRelationRepository activityRelationRepository, CampaignLeadRepository campaignLeadRepository,
-            OpportunityProductRepository opportunityProductRepository) {
+            ActivityRelationRepository activityRelationRepository) {
         this.userRepository = userRepository;
         this.accountRepository = accountRepository;
         this.contactRepository = contactRepository;
@@ -58,8 +51,6 @@ public class CrmDataLoader implements CommandLineRunner {
         this.activityRepository = activityRepository;
         this.memoRepository = memoRepository;
         this.activityRelationRepository = activityRelationRepository;
-        this.campaignLeadRepository = campaignLeadRepository;
-        this.opportunityProductRepository = opportunityProductRepository;
     }
 
     @Override
@@ -68,7 +59,6 @@ public class CrmDataLoader implements CommandLineRunner {
         if (userRepository.count() == 0) {
             System.out.println("Loading all sample data...");
 
-            // 1. Create and save Users
             User jdoe = new User();
             jdoe.setUsername("jdoe");
             jdoe.setEmail("jdoe@example.com");
@@ -93,7 +83,6 @@ public class CrmDataLoader implements CommandLineRunner {
             bmiller.setPasswordHash("hashed_password_789");
             userRepository.save(bmiller);
 
-            // 2. Create Products
             Product crmPro = new Product();
             crmPro.setProductName("CRM-Pro Software");
             crmPro.setSku("CRM-PRO-SKU");
@@ -108,7 +97,6 @@ public class CrmDataLoader implements CommandLineRunner {
             dataModule.setDescription("Module for advanced data reporting and analysis.");
             productRepository.save(dataModule);
 
-            // 3. Create Accounts
             Account techCorp = new Account();
             techCorp.setAccountName("TechCorp Solutions");
             techCorp.setIndustry("Technology");
@@ -125,7 +113,6 @@ public class CrmDataLoader implements CommandLineRunner {
             globalInnovate.setOwner(asmith);
             accountRepository.save(globalInnovate);
 
-            // 4. Create Campaigns
             Campaign q3LeadGen = new Campaign();
             q3LeadGen.setCampaignName("Q3 Lead Generation");
             q3LeadGen.setCampaignType("Email Marketing");
@@ -133,7 +120,6 @@ public class CrmDataLoader implements CommandLineRunner {
             q3LeadGen.setOwner(asmith);
             campaignRepository.save(q3LeadGen);
 
-            // 5. Create Contacts
             Contact sarah = new Contact();
             sarah.setFirstName("Sarah");
             sarah.setLastName("Johnson");
@@ -162,7 +148,6 @@ public class CrmDataLoader implements CommandLineRunner {
             emily.setIsLead(true);
             contactRepository.save(emily);
 
-            // 6. Create Opportunities
             Opportunity techCorpOpportunity = new Opportunity();
             techCorpOpportunity.setOpportunityName("TechCorp IT Infrastructure Upgrade");
             techCorpOpportunity.setOwner(jdoe);
@@ -172,7 +157,6 @@ public class CrmDataLoader implements CommandLineRunner {
             techCorpOpportunity.setStage("negotiation");
             opportunityRepository.save(techCorpOpportunity);
 
-            // 7. Create Activities
             Activity callActivity = new Activity();
             callActivity.setActivityType("call");
             callActivity.setSubject("Follow-up call with Sarah Johnson");
@@ -187,7 +171,6 @@ public class CrmDataLoader implements CommandLineRunner {
             emailActivity.setStatus("in_progress");
             activityRepository.save(emailActivity);
 
-            // 8. Create Memos
             Memo accountMemo = new Memo();
             accountMemo.setRelatedToType("account");
             accountMemo.setRelatedToId(techCorp.getAccountId());
@@ -202,29 +185,6 @@ public class CrmDataLoader implements CommandLineRunner {
             contactMemo.setMemoText("Initial contact made. Emily is a key decision-maker for IT procurement.");
             memoRepository.save(contactMemo);
 
-            // 9. Create Campaign_Leads
-            CampaignLead campaignLead = new CampaignLead();
-            campaignLead.setCampaign(q3LeadGen);
-            campaignLead.setContact(emily);
-            campaignLead.setStatus("sent");
-            campaignLeadRepository.save(campaignLead);
-
-            // 10. Create Opportunity_Products
-            OpportunityProduct opportunityProduct1 = new OpportunityProduct();
-            opportunityProduct1.setOpportunity(techCorpOpportunity);
-            opportunityProduct1.setProduct(crmPro);
-            opportunityProduct1.setQuantity(1);
-            opportunityProduct1.setPrice(crmPro.getPrice());
-            opportunityProductRepository.save(opportunityProduct1);
-
-            OpportunityProduct opportunityProduct2 = new OpportunityProduct();
-            opportunityProduct2.setOpportunity(techCorpOpportunity);
-            opportunityProduct2.setProduct(dataModule);
-            opportunityProduct2.setQuantity(1);
-            opportunityProduct2.setPrice(dataModule.getPrice());
-            opportunityProductRepository.save(opportunityProduct2);
-
-            // 11. Create Activity_Relations
             ActivityRelation relation1 = new ActivityRelation();
             relation1.setActivity(callActivity);
             relation1.setAccount(techCorp);

@@ -84,8 +84,6 @@ public class UserService {
         userDTO.setPasswordHash(user.getPasswordHash());
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
-        userDTO.setCreatedAt(user.getCreatedAt());
-        userDTO.setUpdatedAt(user.getUpdatedAt());
         return userDTO;
     }
 
@@ -95,8 +93,6 @@ public class UserService {
         user.setPasswordHash(userDTO.getPasswordHash());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
-        user.setCreatedAt(userDTO.getCreatedAt());
-        user.setUpdatedAt(userDTO.getUpdatedAt());
         return user;
     }
 

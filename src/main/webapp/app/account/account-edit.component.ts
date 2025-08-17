@@ -6,7 +6,7 @@ import { InputRowComponent } from 'app/common/input-row/input-row.component';
 import { AccountService } from 'app/account/account.service';
 import { AccountDTO } from 'app/account/account.model';
 import { ErrorHandler } from 'app/common/error-handler.injectable';
-import { updateForm, validOffsetDateTime } from 'app/common/utils';
+import { updateForm } from 'app/common/utils';
 
 
 @Component({
@@ -35,8 +35,6 @@ export class AccountEditComponent implements OnInit {
     state: new FormControl(null, [Validators.maxLength(50)]),
     postalCode: new FormControl(null, [Validators.maxLength(20)]),
     country: new FormControl(null, [Validators.maxLength(100)]),
-    createdAt: new FormControl(null, [validOffsetDateTime]),
-    updatedAt: new FormControl(null, [validOffsetDateTime]),
     metadata: new FormControl(null),
     owner: new FormControl(null)
   }, { updateOn: 'submit' });

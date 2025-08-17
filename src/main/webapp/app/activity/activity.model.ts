@@ -9,8 +9,6 @@ export class ActivityDTO {
   subject?: string|null;
   dueDate?: string|null;
   status?: string|null;
-  createdAt?: string|null;
-  updatedAt?: string|null;
   owner?: string|null;
 
 }

@@ -2,7 +2,6 @@ package dev.bachi.crm_demo.memo;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.time.OffsetDateTime;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,8 +22,6 @@ public class MemoDTO {
 
     @NotNull
     private String memoText;
-
-    private OffsetDateTime createdAt;
 
     private UUID user;
 
