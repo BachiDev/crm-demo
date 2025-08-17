@@ -1,65 +1,35 @@
-# Crm Demo
+# CRM Demo
 
-This app was created with Bootify.io - tips on working with the code [can be found here](https://bootify.io/next-steps/).
+A full-stack CRM application featuring a Spring Boot backend and an Angular frontend, designed to showcase modern web development practices with a focus on clean architecture and robust deployment.
 
-## Development
+[Check Out Live](https://bachidev.github.io/crm-demo/).
 
-When starting the application `docker compose up` is called and the app will connect to the contained services.
-[Docker](https://www.docker.com/get-started/) must be available on the current system.
+## Technologies
 
-During development it is recommended to use the profile `local`. In IntelliJ `-Dspring.profiles.active=local` can be
-added in the VM options of the Run Configuration after enabling this property in "Modify options". Create your own
-`application-local.yml` file to override settings for development.
+The project is built with the following technologies:
 
-Lombok must be supported by your IDE. For IntelliJ install the Lombok plugin and enable annotation processing -
-[learn more](https://bootify.io/next-steps/spring-boot-with-lombok.html).
+**Backend:**
 
-In addition to the Spring Boot application, the development server must also be started - for this
-[Node.js](https://nodejs.org/) version 22 is required. Angular CLI and required dependencies must be installed once:
+*   Spring Boot 3.5.4
+*   Java 21
+*   Gradle
+*   Spring Data JPA
+*   Hibernate
+*   PostgreSQL
+*   Swagger API Documentation
+*   Docker
 
-```
-npm install -g @angular/cli
-npm install
-```
+**Frontend:**
 
-The development server can be started as follows:
+*   Angular 20
+*   TypeScript
+*   Tailwind CSS
+*   npm
 
-```
-ng serve
-```
+## Hosting
 
-Your application is now accessible under `localhost:4200`.
+The application is hosted on the following platforms:
 
-Add code using Angular schematics with `ng generate ...`.
-Frontend unit tests can be executed with `ng test`.
-Generate a messages.json for translation with `ng extract-i18n --format=json`.
-
-## Build
-
-The application can be built using the following command:
-
-```
-gradlew clean build
-```
-
-Start your application with the following command - here with the profile `production`:
-
-```
-java -Dspring.profiles.active=production -jar ./build/libs/crm-demo-0.0.1-SNAPSHOT.jar
-```
-
-If required, a Docker image can be created with the Spring Boot plugin. Add `SPRING_PROFILES_ACTIVE=production` as
-environment variable when running the container.
-
-```
-gradlew bootBuildImage --imageName=dev.bachi/crm-demo
-```
-
-## Further readings
-
-* [Gradle user manual](https://docs.gradle.org/)  
-* [Spring Boot reference](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)  
-* [Spring Data JPA reference](https://docs.spring.io/spring-data/jpa/reference/jpa.html)
-* [Learn Angular](https://angular.dev/tutorials/learn-angular)  
-* [Angular CLI](https://angular.dev/tools/cli)
-* [Tailwind CSS](https://tailwindcss.com/)  
+*   **Frontend:** The Angular application is deployed on [GitHub Pages](https://pages.github.com/).
+*   **Backend:** The Spring Boot application is packaged as a Docker image and hosted on [Render](https://render.com/).
+*   **Database:** A PostgreSQL database is hosted on [Render](https://render.com/).

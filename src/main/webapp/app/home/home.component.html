@@ -1,5 +1,18 @@
 <h1 class="grow text-3xl md:text-4xl font-medium mb-8" i18n="@@home.index.headline">CRM Demo</h1>
 <p class="mb-12">
+    <span i18n="@@home.index.swagger.text">Server status:</span>
+    <a [href]="environment.apiPath" target="_blank" [ngClass]="{
+        'text-yellow': serverState === 'wakingUp',
+        'text-green': serverState === 'running',
+        'text-gray': serverState === 'checking'
+    }">
+        <ng-container *ngIf="serverState === 'checking'">Checking...</ng-container>
+        <ng-container *ngIf="serverState === 'wakingUp'">Server is waking up</ng-container>
+        <ng-container *ngIf="serverState === 'running'">Running</ng-container>
+    </a>
+</p>
+
+<p class="mb-12">
     <span i18n="@@home.index.swagger.text">Swagger documentation is</span>
     <a [href]="environment.apiPath + '/swagger-ui.html'" target="_blank" class="underline" i18n="@@home.index.swagger.link">available here</a>.
 </p>
@@ -17,3 +30,5 @@
         <a routerLink="/products" class="w-full border-gray-300 hover:bg-gray-100 border-b px-4 py-2" i18n="@@product.list.headline">Products</a>
     </div>
 </div>
+
+<app-floating-action-button href="https://github.com/BachiDev/crm-demo"></app-floating-action-button>

@@ -31,7 +31,7 @@
             "inlineStyleLanguage": "css",
             "assets": [
               "src/main/webapp/favicon.ico",
-              {"glob": "**/*", "input": "src/main/webapp/public"}
+              {"glob": "**/*", "input": "src/main/webapp/public", "output": "/assets/"}
             ],
             "styles": [
               "src/main/webapp/styles.css"
