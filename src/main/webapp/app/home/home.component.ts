@@ -5,17 +5,29 @@ import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { interval, Subject, Subscription, of } from 'rxjs';
 import { takeUntil, switchMap, catchError, tap } from 'rxjs/operators';
-import { FloatingActionButtonComponent } from '../floating-action-button/floating-action-button.component'; // Import the new component
+import { FloatingActionButtonComponent } from '../floating-action-button/floating-action-button.component';
+import { NavCardComponent } from '../nav-card/nav-card.component'; // Import the new component
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink,  FloatingActionButtonComponent],
+  imports: [CommonModule, RouterLink,  FloatingActionButtonComponent, NavCardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  navLinks = [
+    { link: '/users', icon: 'assets/users.svg', title: 'Users' },
+    { link: '/accounts', icon: 'assets/accounts.svg', title: 'Accounts' },
+    { link: '/contacts', icon: 'assets/contacts.svg', title: 'Contacts' },
+    { link: '/opportunities', icon: 'assets/opportunities.svg', title: 'Opportunities' },
+    { link: '/activities', icon: 'assets/activities.svg', title: 'Activities' },
+    { link: '/activityRelations', icon: 'assets/activity_relations.svg', title: 'Activity Relations' },
+    { link: '/memos', icon: 'assets/memos.svg', title: 'Memos' },
+    { link: '/campaigns', icon: 'assets/campaigns.svg', title: 'Campaigns' },
+    { link: '/products', icon: 'assets/products.svg', title: 'Products' }
+  ];
   environment = environment;
   serverState: 'checking' | 'wakingUp' | 'running' = 'checking';
   private destroy$ = new Subject<void>();

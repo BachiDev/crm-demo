@@ -16,18 +16,10 @@
     <span i18n="@@home.index.swagger.text">Swagger documentation is</span>
     <a [href]="environment.apiPath + '/swagger-ui.html'" target="_blank" class="underline" i18n="@@home.index.swagger.link">available here</a>.
 </p>
-<div class="md:w-2/5 mb-12">
+<div class="mb-12">
     <h4 class="text-2xl font-medium mb-4" i18n="@@home.index.exploreEntities">Perform simple CRUD operations on the tables.</h4>
-    <div class="flex flex-col border border-gray-300 rounded">
-        <a routerLink="/users" class="w-full border-gray-300 hover:bg-gray-100 border-b rounded-t px-4 py-2" i18n="@@user.list.headline">Users</a>
-        <a routerLink="/accounts" class="w-full border-gray-300 hover:bg-gray-100 border-b px-4 py-2" i18n="@@account.list.headline">Accounts</a>
-        <a routerLink="/contacts" class="w-full border-gray-300 hover:bg-gray-100 border-b px-4 py-2" i18n="@@contact.list.headline">Contacts</a>
-        <a routerLink="/opportunities" class="w-full border-gray-300 hover:bg-gray-100 border-b px-4 py-2" i18n="@@opportunity.list.headline">Opportunities</a>
-        <a routerLink="/activities" class="w-full border-gray-300 hover:bg-gray-100 border-b px-4 py-2" i18n="@@activity.list.headline">Activities</a>
-        <a routerLink="/activityRelations" class="w-full border-gray-300 hover:bg-gray-100 border-b px-4 py-2" i18n="@@activityRelation.list.headline">Activity Relations</a>
-        <a routerLink="/memos" class="w-full border-gray-300 hover:bg-gray-100 border-b px-4 py-2" i18n="@@memo.list.headline">Memoes</a>
-        <a routerLink="/campaigns" class="w-full border-gray-300 hover:bg-gray-100 border-b px-4 py-2" i18n="@@campaign.list.headline">Campaigns</a>
-        <a routerLink="/products" class="w-full border-gray-300 hover:bg-gray-100 border-b px-4 py-2" i18n="@@product.list.headline">Products</a>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <app-nav-card *ngFor="let navLink of navLinks" [link]="navLink.link" [icon]="navLink.icon" [title]="navLink.title"></app-nav-card>
     </div>
 </div>
 
