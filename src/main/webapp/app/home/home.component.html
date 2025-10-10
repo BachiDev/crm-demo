@@ -1,23 +1,28 @@
-<h1 class="grow text-3xl md:text-4xl font-medium mb-8" i18n="@@home.index.headline">CRM Demo</h1>
-<p class="mb-12">
-    <span i18n="@@home.index.swagger.text">Server status:</span>
-    <a [href]="environment.apiPath" target="_blank" [ngClass]="{
-        'text-yellow': serverState === 'wakingUp',
-        'text-green': serverState === 'running',
-        'text-gray': serverState === 'checking'
-    }">
-        <ng-container *ngIf="serverState === 'checking'">Checking...</ng-container>
-        <ng-container *ngIf="serverState === 'wakingUp'">Server is waking up</ng-container>
-        <ng-container *ngIf="serverState === 'running'">Running</ng-container>
+<h1 class="grow text-3xl md:text-2xl font-medium mb-8" i18n="@@home.index.headline">Services:</h1>
+<div class="flex flex-col border border-gray-300 rounded mb-12">
+    <a [href]="environment.apiPath" target="_blank" class="flex justify-between w-full border-gray-300 hover:bg-gray-100 border-b rounded-t px-4 py-2">
+        <span i18n="@@home.index.swagger.text">Backend API (Spring Boot)</span>
+        <span [ngClass]="{
+            'text-yellow': serverState === 'wakingUp',
+            'text-green': serverState === 'running'
+        }">
+            <ng-container *ngIf="serverState === 'wakingUp'">Server is waking up</ng-container>
+            <ng-container *ngIf="serverState === 'running'">Running</ng-container>
+        </span>
     </a>
-</p>
-
-<p class="mb-12">
-    <span i18n="@@home.index.swagger.text">Swagger documentation is</span>
-    <a [href]="environment.apiPath + '/swagger-ui.html'" target="_blank" class="underline" i18n="@@home.index.swagger.link">available here</a>.
-</p>
+    <a [href]="environment.apiPath + '/swagger-ui.html'" target="_blank" class="flex justify-between w-full border-gray-300 hover:bg-gray-100 border-b px-4 py-2">
+        <span i18n="@@home.index.swagger.text">Swagger Documentation</span>
+        <span [ngClass]="{
+            'text-yellow': serverState === 'wakingUp',
+            'text-green': serverState === 'running'
+        }">
+            <ng-container *ngIf="serverState === 'wakingUp'">Server is waking up</ng-container>
+            <ng-container *ngIf="serverState === 'running'">Ready to view</ng-container>
+        </span>
+    </a>
+</div>
 <div class="mb-12">
-    <h4 class="text-2xl font-medium mb-4" i18n="@@home.index.exploreEntities">Perform simple CRUD operations on the tables.</h4>
+    <h4 class="text-2xl font-medium mb-4" i18n="@@home.index.exploreEntities">Test operations on the entities.</h4>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <app-nav-card *ngFor="let navLink of navLinks" [link]="navLink.link" [icon]="navLink.icon" [title]="navLink.title"></app-nav-card>
     </div>

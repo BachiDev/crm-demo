@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { environment } from 'environments/environment';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { interval, Subject, Subscription, of } from 'rxjs';
+import { interval, Subject, Subscription, of} from 'rxjs';
 import { takeUntil, switchMap, catchError, tap } from 'rxjs/operators';
-import { FloatingActionButtonComponent } from '../floating-action-button/floating-action-button.component';
+import { FloatingActionButtonComponent } from '../floating-action-button/floating-action-button.component'; // Import the new component
 import { NavCardComponent } from '../nav-card/nav-card.component'; // Import the new component
 
 
@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     { link: '/products', icon: 'assets/products.svg', title: 'Products' }
   ];
   environment = environment;
-  serverState: 'checking' | 'wakingUp' | 'running' = 'checking';
+  serverState: 'wakingUp' | 'running' = 'wakingUp';
   private destroy$ = new Subject<void>();
   private statusSubscription: Subscription | null = null;
   private fastInterval = 5000;
@@ -49,6 +49,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private checkAndStartPolling(): void {
+    this.serverState = 'wakingUp';
     this.http
       .get(this.environment.apiPath + '/', { responseType: 'text' })
       .subscribe({
@@ -70,7 +71,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         switchMap(() => {
-          this.serverState = 'wakingUp'; // Set to wakingUp just before the request
           return this.http.get(this.environment.apiPath + '/', {
             responseType: 'text',
           }).pipe(
