@@ -1,4 +1,11 @@
-<h1 class="grow text-3xl md:text-2xl font-medium mb-8" i18n="@@home.index.headline">Services:</h1>
+<div class="flex items-center gap-2 mb-8">
+    <h1 class="grow text-3xl md:text-2xl font-medium" i18n="@@home.index.headline">Services:</h1>
+    <span title="Services may be sleeping to save resources and need a moment to wake up.">
+        <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+        </svg>
+    </span>
+</div>
 <div class="flex flex-col border border-gray-300 rounded mb-12">
     <a [href]="environment.apiPath" target="_blank" class="flex justify-between w-full border-gray-300 hover:bg-gray-100 border-b rounded-t px-4 py-2">
         <span i18n="@@home.index.swagger.text">Backend API (Spring Boot)</span>
@@ -22,7 +29,7 @@
     </a>
 </div>
 <div class="mb-12">
-    <h4 class="text-2xl font-medium mb-4" i18n="@@home.index.exploreEntities">Test operations on the entities.</h4>
+    <h4 class="text-2xl font-medium mb-4" i18n="@@home.index.exploreEntities">Test operations on the entities:</h4>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <app-nav-card *ngFor="let navLink of navLinks" [link]="navLink.link" [icon]="navLink.icon" [title]="navLink.title"></app-nav-card>
     </div>
