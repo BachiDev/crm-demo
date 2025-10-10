@@ -34,7 +34,7 @@ export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    title: $localize`:@@home.index.headline:Welcome to your new app!`
+    title: $localize`:@@home.index.headline:CRM Demo`
   },
   {
     path: 'users',
