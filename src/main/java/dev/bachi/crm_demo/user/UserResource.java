@@ -5,6 +5,7 @@ import dev.bachi.crm_demo.util.ReferencedWarning;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.groups.Default;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,7 +62,8 @@ public class UserResource {
 
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<UUID> createUser(@RequestBody @Valid final UserDTO userDTO) {
+    public ResponseEntity<UUID> createUser(
+            @RequestBody @Validated({ Default.class, UserDTO.Create.class }) final UserDTO userDTO) {
         final UUID createdUserId = userService.create(userDTO);
         return new ResponseEntity<>(createdUserId, HttpStatus.CREATED);
     }

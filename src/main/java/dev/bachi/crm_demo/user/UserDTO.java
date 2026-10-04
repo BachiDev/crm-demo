@@ -12,6 +12,10 @@ import lombok.Setter;
 @Setter
 public class UserDTO {
 
+    /** Validation group for creation: the password must be provided once, never again. */
+    public interface Create {
+    }
+
     private UUID userId;
 
     @NotNull
@@ -22,7 +26,9 @@ public class UserDTO {
     @Size(max = 100)
     private String email;
 
-    @NotNull
+    // Write-only (never serialized) + only required on creation: updates may
+    // omit it to keep the existing hash (see UserService.mapToEntity).
+    @NotNull(groups = Create.class)
     @Size(max = 255)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String passwordHash;

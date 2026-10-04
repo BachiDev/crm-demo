@@ -59,3 +59,23 @@ jacocoTestReport {
         html.required = true
     }
 }
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.50
+            }
+        }
+    }
+}
+
+tasks.named('jacocoTestCoverageVerification') {
+    dependsOn('test')
+}
+
+tasks.named('check') {
+    dependsOn('jacocoTestCoverageVerification')
+}

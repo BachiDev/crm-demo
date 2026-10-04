@@ -40,8 +40,7 @@ jobs:
       # Phase 3 adds: lint, test:ci (Karma headless + coverage), Playwright smoke.
 
   deploy-frontend:
-    name: Frontend (deploy to Pages)
-    if: github.ref == 'refs/heads/master'
+    name: Frontend (deploy to Pages)    if: github.ref == 'refs/heads/master'
     needs: [backend, frontend]
     runs-on: ubuntu-latest
     permissions:
@@ -66,3 +65,26 @@ jobs:
           # angular-cli-ghpages clones fresh without credentials; inject the token.
           git config --global url."https://x-access-token:${GH_TOKEN}@github.com/".insteadOf "https://github.com/"
           npx ng deploy
+
+  e2e:
+    name: E2E (Playwright smoke)
+    needs: [backend, frontend]
+    runs-on: ubuntu-latest
+    env:
+      # Consumed by docker-compose (started automatically by Spring Boot);
+      # never points at production (profile=local, see playwright.config.ts).
+      POSTGRES_PASSWORD: playwright-ci
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test

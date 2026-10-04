@@ -44,3 +44,5 @@ bin/
 .neon
 
 coverage/
+test-results/
+playwright-report/

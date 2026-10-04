@@ -30,6 +30,8 @@ import { environment } from 'environments/environment';
 export class BackendStatusComponent {
 
   compact = input(false);
+  /** Set when rendered on a dark surface (e.g. the home hero band). */
+  onDark = input(false);
 
   private http = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
@@ -62,7 +64,13 @@ export class BackendStatusComponent {
   }
 
   get textClass(): string {
-    return this.running() === true ? 'text-emerald-700' : 'text-zinc-500';
+    if (this.running() === true) {
+      return this.onDark() ? 'text-emerald-300' : 'text-emerald-700';
+    }
+    if (this.running() === false) {
+      return this.onDark() ? 'text-amber-200' : 'text-zinc-500';
+    }
+    return this.onDark() ? 'text-zinc-300' : 'text-zinc-500';
   }
 
   private poll(delayMs: number): void {
