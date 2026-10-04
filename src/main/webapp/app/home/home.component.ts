@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { forkJoin, of } from 'rxjs';
@@ -6,7 +6,7 @@ import { catchError } from 'rxjs/operators';
 import { environment } from 'environments/environment';
 import { BackendStatusComponent } from 'app/common/backend-status/backend-status.component';
 import { FloatingActionButtonComponent } from '../floating-action-button/floating-action-button.component';
-import { NavCardComponent } from '../nav-card/nav-card.component';
+import { ErDiagramComponent } from 'app/common/er-diagram/er-diagram.component';
 import { AccountService } from 'app/account/account.service';
 import { ActivityService } from 'app/activity/activity.service';
 import { ActivityRelationService } from 'app/activity-relation/activity-relation.service';
@@ -18,8 +18,9 @@ import { ProductService } from 'app/product/product.service';
 import { UserService } from 'app/user/user.service';
 
 
-interface EntityStat {
+interface EntityCard {
   link: string;
+  icon: string;
   title: string;
   count: number | null;
 }
@@ -27,26 +28,36 @@ interface EntityStat {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, BackendStatusComponent, FloatingActionButtonComponent, NavCardComponent],
+  imports: [CommonModule, RouterLink, BackendStatusComponent, FloatingActionButtonComponent, ErDiagramComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
 
-  navLinks = [
-    { link: '/users', icon: 'assets/users.svg', title: 'Users' },
-    { link: '/accounts', icon: 'assets/accounts.svg', title: 'Accounts' },
-    { link: '/contacts', icon: 'assets/contacts.svg', title: 'Contacts' },
-    { link: '/opportunities', icon: 'assets/opportunities.svg', title: 'Opportunities' },
-    { link: '/activities', icon: 'assets/activities.svg', title: 'Activities' },
-    { link: '/activityRelations', icon: 'assets/activity_relations.svg', title: 'Activity Relations' },
-    { link: '/memos', icon: 'assets/memos.svg', title: 'Memos' },
-    { link: '/campaigns', icon: 'assets/campaigns.svg', title: 'Campaigns' },
-    { link: '/products', icon: 'assets/products.svg', title: 'Products' }
-  ];
+  private readonly entities = [
+    { key: 'users', link: '/users', icon: 'assets/users.svg', title: $localize`:@@user.list.headline:Users` },
+    { link: '/accounts', icon: 'assets/accounts.svg', title: $localize`:@@account.list.headline:Accounts`, key: 'accounts' },
+    { link: '/contacts', icon: 'assets/contacts.svg', title: $localize`:@@contact.list.headline:Contacts`, key: 'contacts' },
+    { link: '/opportunities', icon: 'assets/opportunities.svg', title: $localize`:@@opportunity.list.headline:Opportunities`, key: 'opportunities' },
+    { link: '/activities', icon: 'assets/activities.svg', title: $localize`:@@activity.list.headline:Activities`, key: 'activities' },
+    { link: '/activityRelations', icon: 'assets/activity_relations.svg', title: $localize`:@@activityRelation.list.headline:Activity Relations`, key: 'activityRelations' },
+    { link: '/memos', icon: 'assets/memos.svg', title: $localize`:@@memo.list.headline:Memoes`, key: 'memos' },
+    { link: '/campaigns', icon: 'assets/campaigns.svg', title: $localize`:@@campaign.list.headline:Campaigns`, key: 'campaigns' },
+    { link: '/products', icon: 'assets/products.svg', title: $localize`:@@product.list.headline:Products`, key: 'products' }
+  ] as const;
 
   environment = environment;
-  stats = signal<EntityStat[] | null>(null);
+  private counts = signal<Record<string, number | null> | null>(null);
+
+  /** Entity cards with live row counts (null while the backend is asleep). */
+  cards = computed<EntityCard[]>(() =>
+    this.entities.map(entity => ({
+      link: entity.link,
+      icon: entity.icon,
+      title: entity.title,
+      count: this.counts()?.[entity.key] ?? null
+    }))
+  );
 
   private userService = inject(UserService);
   private accountService = inject(AccountService);
@@ -70,21 +81,11 @@ export class HomeComponent implements OnInit {
       campaigns: this.campaignService.countCampaigns().pipe(catchError(() => of(null))),
       products: this.productService.countProducts().pipe(catchError(() => of(null)))
     }).subscribe(counts => {
-      // All null (backend asleep) -> hide the stats row entirely.
+      // All null (backend asleep) -> cards render without counts.
       if (Object.values(counts).every(count => count === null)) {
         return;
       }
-      this.stats.set([
-        { link: '/users', title: $localize`:@@user.list.headline:Users`, count: counts.users },
-        { link: '/accounts', title: $localize`:@@account.list.headline:Accounts`, count: counts.accounts },
-        { link: '/contacts', title: $localize`:@@contact.list.headline:Contacts`, count: counts.contacts },
-        { link: '/opportunities', title: $localize`:@@opportunity.list.headline:Opportunities`, count: counts.opportunities },
-        { link: '/activities', title: $localize`:@@activity.list.headline:Activities`, count: counts.activities },
-        { link: '/activityRelations', title: $localize`:@@activityRelation.list.headline:Activity Relations`, count: counts.activityRelations },
-        { link: '/memos', title: $localize`:@@memo.list.headline:Memoes`, count: counts.memos },
-        { link: '/campaigns', title: $localize`:@@campaign.list.headline:Campaigns`, count: counts.campaigns },
-        { link: '/products', title: $localize`:@@product.list.headline:Products`, count: counts.products }
-      ]);
+      this.counts.set(counts);
     });
   }
 

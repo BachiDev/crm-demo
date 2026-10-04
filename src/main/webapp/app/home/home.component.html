@@ -12,48 +12,29 @@
     <p class="mt-4 text-sm text-zinc-400" i18n="@@home.hero.sleepNote">The free-tier backend sleeps after ~15 min idle — the first request can take up to a minute to wake it.</p>
 </section>
 
-@if (stats(); as entityStats) {
-<section class="mb-12" aria-label="Record counts">
-    <div class="grid grid-cols-3 gap-3 sm:grid-cols-3 lg:grid-cols-9">
-        @for (stat of entityStats; track stat.link) {
-            <a [routerLink]="stat.link" class="rounded-xl border border-zinc-200 bg-white px-3 py-3 text-center hover:border-brand-500 hover:shadow-sm">
-                <span class="block font-mono text-xl font-medium text-zinc-900">{{ stat.count ?? '–' }}</span>
-                <span class="block truncate text-xs text-zinc-500">{{ stat.title }}</span>
+<section id="entities" class="mb-12 scroll-mt-24">
+    <h2 class="text-2xl font-semibold tracking-tight mb-2" i18n="@@home.index.exploreEntities">Test operations on the entities</h2>
+    <p class="text-zinc-600 mb-5" i18n="@@home.entities.lede">Live row counts with full create, read, update and delete on all nine tables.</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        @for (card of cards(); track card.link) {
+            <a [routerLink]="card.link" class="group flex items-center gap-4 rounded-2xl border border-zinc-200 bg-white p-4 hover:border-brand-500 hover:shadow-sm">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-zinc-100">
+                    <img [src]="card.icon" alt="" class="h-6 w-6" loading="lazy" />
+                </span>
+                <span class="grow">
+                    <span class="block font-medium">{{ card.title }}</span>
+                    <span class="block font-mono text-sm text-zinc-500">{{ card.count === null ? '…' : card.count + ' rows' }}</span>
+                </span>
+                <span class="text-zinc-300 group-hover:text-brand-500" aria-hidden="true">→</span>
             </a>
         }
     </div>
 </section>
-}
 
 <section class="mb-12 rounded-2xl border border-zinc-200 bg-white p-6 md:p-8">
-    <h2 class="text-2xl font-semibold tracking-tight mb-2" i18n="@@home.demo.title">Try it in 60 seconds</h2>
-    <p class="text-zinc-600 mb-5" i18n="@@home.demo.lede">A guided path through the demo with realistic sample data.</p>
-    <ol class="grid gap-4 md:grid-cols-4">
-        <li class="rounded-xl bg-zinc-50 p-4">
-            <span class="font-mono text-sm text-brand-600">01</span>
-            <p class="mt-1 font-medium" i18n="@@home.demo.step1">Open Accounts and pick TechCorp Solutions.</p>
-        </li>
-        <li class="rounded-xl bg-zinc-50 p-4">
-            <span class="font-mono text-sm text-brand-600">02</span>
-            <p class="mt-1 font-medium" i18n="@@home.demo.step2">Check its contacts, like CTO Sarah Johnson.</p>
-        </li>
-        <li class="rounded-xl bg-zinc-50 p-4">
-            <span class="font-mono text-sm text-brand-600">03</span>
-            <p class="mt-1 font-medium" i18n="@@home.demo.step3">Follow the open opportunity in negotiation stage.</p>
-        </li>
-        <li class="rounded-xl bg-zinc-50 p-4">
-            <span class="font-mono text-sm text-brand-600">04</span>
-            <p class="mt-1 font-medium" i18n="@@home.demo.step4">Create a memo — deletes of referenced rows are blocked with a clear reason.</p>
-        </li>
-    </ol>
-</section>
-
-<section id="entities" class="mb-12 scroll-mt-24">
-    <h2 class="text-2xl font-semibold tracking-tight mb-2" i18n="@@home.index.exploreEntities">Test operations on the entities:</h2>
-    <p class="text-zinc-600 mb-5" i18n="@@home.entities.lede">Full create, read, update and delete on all nine domain objects.</p>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        <app-nav-card *ngFor="let navLink of navLinks" [link]="navLink.link" [icon]="navLink.icon" [title]="navLink.title"></app-nav-card>
-    </div>
+    <h2 class="text-2xl font-semibold tracking-tight mb-2" i18n="@@home.er.title">How the data fits together</h2>
+    <p class="text-zinc-600 mb-5" i18n="@@home.er.lede">Nine tables in one Postgres database — every arrow is a real foreign key, created by Flyway migration V1.</p>
+    <app-er-diagram />
 </section>
 
 <section class="mb-12 rounded-2xl border border-zinc-200 bg-white p-6 md:p-8">

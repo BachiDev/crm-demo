@@ -22,8 +22,8 @@ test('home shows hero, stats and a running backend', async ({ page }) => {
   // Generous timeout: CI always boots a cold frontend.
   await expect(hero).toBeVisible({ timeout: 120000 });
   await expect(hero.getByText('Running', { exact: true })).toBeVisible({ timeout: 120000 });
-  // The demo script lives in its own section below the hero.
-  await expect(page.getByText('Try it in 60 seconds')).toBeVisible();
+  await expect(page.getByText('How it runs')).toBeVisible();
+  await expect(page.getByText('How the data fits together')).toBeVisible();
   // Stat tiles load once the counts arrive.
   await expect(page.getByText('Users', { exact: true }).first()).toBeVisible();
 });

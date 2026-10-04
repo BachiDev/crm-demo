@@ -39,12 +39,12 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('renders the hero and entity stats', () => {
+  it('renders the hero and entity cards', () => {
     const text = fixture.nativeElement.textContent as string;
     expect(text).toContain('CRM Demo');
-    expect(text).toContain('Try it in 60 seconds');
+    expect(text).toContain('How it runs');
     const component = fixture.componentInstance;
-    expect(component.stats()?.length).toBe(9);
+    expect(component.cards()?.length).toBe(9);
   });
 
 });
