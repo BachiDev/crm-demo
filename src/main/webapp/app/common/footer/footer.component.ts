@@ -17,7 +17,7 @@ import { environment } from 'environments/environment';
             <p class="mt-1 text-sm text-zinc-500" i18n="@@footer.blurb">A full-stack demo by Fabian Bachmayer — Spring Boot, Angular and Postgres on free-tier cloud.</p>
           </div>
           <nav aria-label="Footer" class="text-sm">
-            <p class="mb-2 font-mono text-xs uppercase tracking-widest text-zinc-400" i18n="@@footer.explore">Explore</p>
+            <p class="mb-2 font-mono text-xs uppercase tracking-widest text-zinc-500" i18n="@@footer.explore">Explore</p>
             <ul class="space-y-1.5">
               <li><a routerLink="/" class="text-zinc-600 hover:text-brand-700" i18n="@@navigation.home">Home</a></li>
               <li><a routerLink="/users" class="text-zinc-600 hover:text-brand-700" i18n="@@user.list.headline">Users</a></li>
@@ -26,7 +26,7 @@ import { environment } from 'environments/environment';
             </ul>
           </nav>
           <nav aria-label="Resources" class="text-sm">
-            <p class="mb-2 font-mono text-xs uppercase tracking-widest text-zinc-400" i18n="@@footer.resources">Resources</p>
+            <p class="mb-2 font-mono text-xs uppercase tracking-widest text-zinc-500" i18n="@@footer.resources">Resources</p>
             <ul class="space-y-1.5">
               <li><a [href]="apiPath + '/swagger-ui.html'" target="_blank" rel="noreferrer" class="text-zinc-600 hover:text-brand-700" i18n="@@navigation.api">API Docs</a></li>
               <li><a href="https://github.com/BachiDev/crm-demo" target="_blank" rel="noreferrer" class="text-zinc-600 hover:text-brand-700" i18n="@@footer.source">Source on GitHub</a></li>
