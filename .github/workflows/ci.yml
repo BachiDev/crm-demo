@@ -26,7 +26,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          # Must match local dev (Node 24 / npm 11): the lockfile is npm-11
+          # generated and older npm versions reject it in `npm ci`.
+          node-version: '24'
           cache: npm
       - run: npm ci
       - name: Build production
