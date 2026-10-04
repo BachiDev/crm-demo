@@ -1,6 +1,10 @@
 <app-page-header i18n-title="@@account.list.headline" title="Accounts" [count]="totalElements" i18n-countLabel="@@account.list.count" countLabel="accounts total"
                 createLink="/accounts/add" i18n-createLabel="@@account.list.createNew" createLabel="Create new Account" />
 
+<div class="mb-4 flex justify-end">
+    <app-search-input class="w-full max-w-xs" i18n-placeholder="@@account.search" placeholder="Search name, industry, city…" (search)="onSearch($event)" />
+</div>
+
 @if (loading) {
 <div class="overflow-x-auto rounded-2xl border border-zinc-200 bg-white" aria-busy="true" aria-label="Loading accounts">
     <div class="space-y-2 p-4">
@@ -10,7 +14,7 @@
     </div>
 </div>
 } @else if (accounts.length === 0) {
-<app-empty-state i18n-title="@@account.list.empty" title="No accounts found"
+<app-empty-state i18n-title="@@account.list.empty" [title]="q ? 'No accounts match your search' : 'No accounts found'"
                  i18n-hint="@@account.list.emptyHint" hint="Create the first account to get started."
                  actionLink="/accounts/add" i18n-actionLabel="@@account.list.createNew" actionLabel="Create new Account" />
 } @else {

@@ -16,8 +16,8 @@ export class UserService {
     return this.api.get<UserDTO[]>(this.resourcePath);
   }
 
-  getUsersPaged(page: number, size: number) {
-    return this.api.get<Page<UserDTO>>(this.resourcePath + '/paged', { page, size });
+  getUsersPaged(page: number, size: number, q?: string) {
+    return this.api.get<Page<UserDTO>>(this.resourcePath + '/paged', q ? { page, size, q } : { page, size });
   }
 
   countUsers() {

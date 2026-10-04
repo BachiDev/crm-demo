@@ -29,9 +29,12 @@ public class MemoService {
                 .toList();
     }
 
-    public Page<MemoDTO> findAllPaged(final Pageable pageable) {
-        return memoRepository.findAll(pageable)
-                .map(memo -> mapToDTO(memo, new MemoDTO()));
+    public Page<MemoDTO> findAllPaged(final Pageable pageable, final String query) {
+        final String q = query == null ? null : query.strip();
+        final Page<Memo> page = (q == null || q.isEmpty())
+                ? memoRepository.findAll(pageable)
+                : memoRepository.findByMemoTextContainingIgnoreCaseOrRelatedToTypeContainingIgnoreCase(q, q, pageable);
+        return page.map(memo -> mapToDTO(memo, new MemoDTO()));
     }
 
     public long count() {

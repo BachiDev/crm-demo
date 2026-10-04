@@ -43,9 +43,12 @@ public class ActivityRelationService {
                 .toList();
     }
 
-    public Page<ActivityRelationDTO> findAllPaged(final Pageable pageable) {
-        return activityRelationRepository.findAll(pageable)
-                .map(activityRelation -> mapToDTO(activityRelation, new ActivityRelationDTO()));
+    public Page<ActivityRelationDTO> findAllPaged(final Pageable pageable, final String query) {
+        final String q = query == null ? null : query.strip();
+        final Page<ActivityRelation> page = (q == null || q.isEmpty())
+                ? activityRelationRepository.findAll(pageable)
+                : activityRelationRepository.search(q, pageable);
+        return page.map(activityRelation -> mapToDTO(activityRelation, new ActivityRelationDTO()));
     }
 
     public long count() {

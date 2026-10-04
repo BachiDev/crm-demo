@@ -2,11 +2,16 @@ package dev.bachi.crm_demo.memo;
 
 import dev.bachi.crm_demo.user.User;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface MemoRepository extends JpaRepository<Memo, UUID> {
 
     Memo findFirstByUser(User user);
+
+    Page<Memo> findByMemoTextContainingIgnoreCaseOrRelatedToTypeContainingIgnoreCase(
+            String memoText, String relatedToType, Pageable pageable);
 
 }

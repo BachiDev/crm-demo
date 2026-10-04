@@ -3,6 +3,7 @@ package dev.bachi.crm_demo.user;
 import dev.bachi.crm_demo.util.ReferencedException;
 import dev.bachi.crm_demo.util.ReferencedWarning;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
+@Tag(name = "Users", description = "Demo users that own CRM records")
 @RequestMapping(value = "/api/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserResource {
 
@@ -40,8 +43,9 @@ public class UserResource {
 
     @GetMapping("/paged")
     public ResponseEntity<Page<UserDTO>> getAllUsersPaged(
-            @ParameterObject @PageableDefault(size = 50) final Pageable pageable) {
-        return ResponseEntity.ok(userService.findAllPaged(pageable));
+            @ParameterObject @PageableDefault(size = 50) final Pageable pageable,
+            @RequestParam(required = false) final String q) {
+        return ResponseEntity.ok(userService.findAllPaged(pageable, q));
     }
 
     @GetMapping("/count")

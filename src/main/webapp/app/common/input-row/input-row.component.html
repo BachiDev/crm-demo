@@ -1,4 +1,4 @@
-<div [formGroup]="group!" class="md:grid grid-cols-12 gap-4 mb-4">
+<div [formGroup]="group!" class="md:grid grid-cols-12 gap-4 mb-5">
     @if (rowType === 'checkbox') {
     <div class="col-span-10 col-start-3">
         <div>
@@ -11,22 +11,22 @@
         <app-input-errors [control]="control" />
     </div>
     } @else {
-    <label [for]="rowType === 'radio' ? '' : field" class="col-span-2 py-2">
+    <label [for]="rowType === 'radio' ? '' : field" class="col-span-2 py-2 text-sm font-medium text-zinc-700">
         {{ label + (isRequired() ? '*' : '') }}
     </label>
     <div class="col-span-10">
         @if (rowType === 'text' || rowType === 'password' || rowType === 'email' || rowType === 'tel') {
         <input [id]="field" [type]="rowType" [formControlName]="field"
-                class="w-full xl:w-3/4 border-gray-300 rounded {{ getInputClasses() }}" />
+                class="w-full xl:w-3/4 rounded-lg border-zinc-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 {{ getInputClasses() }}" />
         } @else if (rowType === 'number') {
         <input [id]="field" type="number" [formControlName]="field"
-                class="w-full xl:w-3/4 border-gray-300 rounded {{ getInputClasses() }}" />
+                class="w-full xl:w-3/4 rounded-lg border-zinc-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 {{ getInputClasses() }}" />
         } @else if (rowType === 'textarea') {
         <textarea [id]="field" [formControlName]="field"
-                class="w-full xl:w-3/4 border-gray-300 rounded {{ getInputClasses() }}"></textarea>
+                class="w-full xl:w-3/4 rounded-lg border-zinc-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 {{ getInputClasses() }}"></textarea>
         } @else if (rowType === 'select') {
         <select [id]="field" [formControlName]="field"
-                class="w-full xl:w-3/4 border-gray-300 rounded {{ getInputClasses() }}">
+                class="w-full xl:w-3/4 rounded-lg border-zinc-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 {{ getInputClasses() }}">
             <option [ngValue]="null" i18n="@@select.empty.label">Please select</option>
             @for (option of optionsMap | keyvalue; track option.key) {
             <option [ngValue]="option.key">{{ option.value }}</option>
@@ -34,7 +34,7 @@
         </select>
         } @else if (rowType === 'multiselect') {
         <select [id]="field" [formControlName]="field" multiple="true"
-                class="w-full xl:w-3/4 border-gray-300 rounded {{ getInputClasses() }}">
+                class="w-full xl:w-3/4 rounded-lg border-zinc-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 {{ getInputClasses() }}">
             @for (option of optionsMap | keyvalue; track option.key) {
             <option [ngValue]="option.key">{{ option.value }}</option>
             }

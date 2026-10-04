@@ -16,8 +16,8 @@ export class AccountService {
     return this.api.get<AccountDTO[]>(this.resourcePath);
   }
 
-  getAccountsPaged(page: number, size: number) {
-    return this.api.get<Page<AccountDTO>>(this.resourcePath + '/paged', { page, size });
+  getAccountsPaged(page: number, size: number, q?: string) {
+    return this.api.get<Page<AccountDTO>>(this.resourcePath + '/paged', q ? { page, size, q } : { page, size });
   }
 
   countAccounts() {

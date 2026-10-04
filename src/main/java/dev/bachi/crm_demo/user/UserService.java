@@ -56,9 +56,12 @@ public class UserService {
                 .toList();
     }
 
-    public Page<UserDTO> findAllPaged(final Pageable pageable) {
-        return userRepository.findAll(pageable)
-                .map(user -> mapToDTO(user, new UserDTO()));
+    public Page<UserDTO> findAllPaged(final Pageable pageable, final String query) {
+        final String q = query == null ? null : query.strip();
+        final Page<User> page = (q == null || q.isEmpty())
+                ? userRepository.findAll(pageable)
+                : userRepository.findByUsernameContainingIgnoreCaseOrEmailContainingIgnoreCaseOrFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(q, q, q, q, pageable);
+        return page.map(user -> mapToDTO(user, new UserDTO()));
     }
 
     public long count() {

@@ -16,8 +16,8 @@ export class ProductService {
     return this.api.get<ProductDTO[]>(this.resourcePath);
   }
 
-  getProductsPaged(page: number, size: number) {
-    return this.api.get<Page<ProductDTO>>(this.resourcePath + '/paged', { page, size });
+  getProductsPaged(page: number, size: number, q?: string) {
+    return this.api.get<Page<ProductDTO>>(this.resourcePath + '/paged', q ? { page, size, q } : { page, size });
   }
 
   countProducts() {

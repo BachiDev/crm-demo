@@ -47,9 +47,12 @@ public class OpportunityService {
                 .toList();
     }
 
-    public Page<OpportunityDTO> findAllPaged(final Pageable pageable) {
-        return opportunityRepository.findAll(pageable)
-                .map(opportunity -> mapToDTO(opportunity, new OpportunityDTO()));
+    public Page<OpportunityDTO> findAllPaged(final Pageable pageable, final String query) {
+        final String q = query == null ? null : query.strip();
+        final Page<Opportunity> page = (q == null || q.isEmpty())
+                ? opportunityRepository.findAll(pageable)
+                : opportunityRepository.findByOpportunityNameContainingIgnoreCaseOrStageContainingIgnoreCase(q, q, pageable);
+        return page.map(opportunity -> mapToDTO(opportunity, new OpportunityDTO()));
     }
 
     public long count() {

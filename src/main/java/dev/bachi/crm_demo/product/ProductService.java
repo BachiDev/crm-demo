@@ -25,9 +25,12 @@ public class ProductService {
                 .toList();
     }
 
-    public Page<ProductDTO> findAllPaged(final Pageable pageable) {
-        return productRepository.findAll(pageable)
-                .map(product -> mapToDTO(product, new ProductDTO()));
+    public Page<ProductDTO> findAllPaged(final Pageable pageable, final String query) {
+        final String q = query == null ? null : query.strip();
+        final Page<Product> page = (q == null || q.isEmpty())
+                ? productRepository.findAll(pageable)
+                : productRepository.findByProductNameContainingIgnoreCaseOrSkuContainingIgnoreCaseOrDescriptionContainingIgnoreCase(q, q, q, pageable);
+        return page.map(product -> mapToDTO(product, new ProductDTO()));
     }
 
     public long count() {

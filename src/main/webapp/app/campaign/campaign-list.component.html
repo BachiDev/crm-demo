@@ -1,40 +1,50 @@
-<div class="flex flex-wrap mb-6">
-    <h1 class="grow text-3xl md:text-4xl font-medium mb-2" i18n="@@campaign.list.headline">Campaigns</h1>
-    <div>
-        <a routerLink="/campaigns/add" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2" i18n="@@campaign.list.createNew">Create new Campaign</a>
+<app-page-header i18n-title="@@campaign.list.headline" title="Campaigns" [count]="totalElements" i18n-countLabel="@@campaign.list.count" countLabel="campaigns total"
+                createLink="/campaigns/add" i18n-createLabel="@@campaign.list.createNew" createLabel="Create new Campaign" />
+
+<div class="mb-4 flex justify-end">
+    <app-search-input class="w-full max-w-xs" i18n-placeholder="@@campaign.search" placeholder="Search name, type, status…" (search)="onSearch($event)" />
+</div>
+
+@if (loading) {
+<div class="overflow-x-auto rounded-2xl border border-zinc-200 bg-white" aria-busy="true" aria-label="Loading campaigns">
+    <div class="space-y-2 p-4">
+        <div class="h-10 animate-pulse rounded-lg bg-zinc-100"></div>
+        <div class="h-10 animate-pulse rounded-lg bg-zinc-100"></div>
+        <div class="h-10 animate-pulse rounded-lg bg-zinc-100"></div>
     </div>
 </div>
-@if (!campaigns || campaigns.length === 0) {
-<div i18n="@@campaign.list.empty">No Campaigns could be found.</div>
+} @else if (campaigns.length === 0) {
+<app-empty-state i18n-title="@@campaign.list.empty" [title]="q ? 'No campaigns match your search' : 'No campaigns found'"
+                 i18n-hint="@@campaign.list.emptyHint" hint="Launch the first campaign to get started."
+                 actionLink="/campaigns/add" i18n-actionLabel="@@campaign.list.createNew" actionLabel="Create new Campaign" />
 } @else {
-<div class="overflow-x-auto">
-    <table class="w-full">
+<div class="overflow-x-auto rounded-2xl border border-zinc-200 bg-white">
+    <table class="w-full text-sm">
+        <caption class="sr-only" i18n="@@campaign.list.caption">Campaigns with type and status</caption>
         <thead>
-            <tr>
-                <th scope="col" class="text-left p-2" i18n="@@campaign.campaignId.label">Campaign Id</th>
-                <th scope="col" class="text-left p-2" i18n="@@campaign.campaignName.label">Campaign Name</th>
-                <th scope="col" class="text-left p-2" i18n="@@campaign.campaignType.label">Campaign Type</th>
-                <th scope="col" class="text-left p-2" i18n="@@campaign.startDate.label">Start Date</th>
-                <th scope="col" class="text-left p-2" i18n="@@campaign.endDate.label">End Date</th>
-                <th scope="col" class="text-left p-2" i18n="@@campaign.status.label">Status</th>
-                <th scope="col" class="text-left p-2" i18n="@@campaign.owner.label">Owner</th>
-                <th><!-- --></th>
+            <tr class="text-left text-xs uppercase tracking-wide text-zinc-500">
+                <th scope="col" class="p-3 font-medium" i18n="@@campaign.campaignName.label">Campaign Name</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@campaign.campaignType.label">Campaign Type</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@campaign.status.label">Status</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@campaign.startDate.label">Start Date</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@campaign.endDate.label">End Date</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@campaign.campaignId.label">Id</th>
+                <th><span class="sr-only" i18n="@@list.actions">Actions</span></th>
             </tr>
         </thead>
-        <tbody class="border-t-2 border-black">
+        <tbody>
             @for (campaign of campaigns; track campaign.campaignId) {
-            <tr class="odd:bg-gray-100">
-                <td class="p-2">{{ campaign.campaignId }}</td>
-                <td class="p-2">{{ campaign.campaignName }}</td>
-                <td class="p-2">{{ campaign.campaignType }}</td>
-                <td class="p-2">{{ campaign.startDate }}</td>
-                <td class="p-2">{{ campaign.endDate }}</td>
-                <td class="p-2">{{ campaign.status }}</td>
-                <td class="p-2">{{ campaign.owner }}</td>
-                <td class="p-2">
-                    <div class="float-right whitespace-nowrap">
-                        <a [routerLink]="['/campaigns/edit', campaign.campaignId]" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm" i18n="@@campaign.list.edit">Edit</a>
-                        <button type="button" (click)="confirmDelete(campaign.campaignId!)" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm cursor-pointer" i18n="@@campaign.list.delete">Delete</button>
+            <tr class="border-t border-zinc-100 hover:bg-brand-50/50">
+                <td class="p-3 font-medium">{{ campaign.campaignName }}</td>
+                <td class="p-3"><app-status-pill [value]="campaign.campaignType || '–'" tone="zinc" /></td>
+                <td class="p-3"><app-status-pill [value]="campaign.status || '–'" [tone]="statusTone(campaign.status)" /></td>
+                <td class="p-3 text-zinc-600">{{ campaign.startDate }}</td>
+                <td class="p-3 text-zinc-600">{{ campaign.endDate }}</td>
+                <td class="p-3 font-mono text-xs text-zinc-500" [title]="campaign.campaignId">{{ shortId(campaign.campaignId) }}</td>
+                <td class="p-3">
+                    <div class="float-right flex gap-1.5 whitespace-nowrap">
+                        <a [routerLink]="['/campaigns/edit', campaign.campaignId]" class="inline-block rounded-full border border-zinc-300 px-3 py-1.5 text-xs font-medium hover:bg-zinc-100" i18n="@@campaign.list.edit">Edit</a>
+                        <button type="button" (click)="requestDelete(campaign.campaignId!)" class="inline-block cursor-pointer rounded-full bg-rose-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-rose-500" i18n="@@campaign.list.delete">Delete</button>
                     </div>
                 </td>
             </tr>
@@ -42,4 +52,10 @@
         </tbody>
     </table>
 </div>
+<app-pagination [page]="page" [totalPages]="totalPages" [totalElements]="totalElements ?? 0" [pageSize]="pageSize"
+                (pageChange)="onPage($event)" (pageSizeChange)="onPageSize($event)">campaigns</app-pagination>
 }
+
+<app-confirm-dialog i18n-title="@@delete.title" title="Delete this record?"
+                    i18n-message="@@delete.confirm" message="Do you really want to delete this element? This cannot be undone."
+                    (confirmed)="deleteConfirmed()" />

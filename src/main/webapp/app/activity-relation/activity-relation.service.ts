@@ -16,8 +16,8 @@ export class ActivityRelationService {
     return this.api.get<ActivityRelationDTO[]>(this.resourcePath);
   }
 
-  getActivityRelationsPaged(page: number, size: number) {
-    return this.api.get<Page<ActivityRelationDTO>>(this.resourcePath + '/paged', { page, size });
+  getActivityRelationsPaged(page: number, size: number, q?: string) {
+    return this.api.get<Page<ActivityRelationDTO>>(this.resourcePath + '/paged', q ? { page, size, q } : { page, size });
   }
 
   countActivityRelations() {

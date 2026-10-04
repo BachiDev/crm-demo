@@ -16,8 +16,8 @@ export class MemoService {
     return this.api.get<MemoDTO[]>(this.resourcePath);
   }
 
-  getMemoesPaged(page: number, size: number) {
-    return this.api.get<Page<MemoDTO>>(this.resourcePath + '/paged', { page, size });
+  getMemoesPaged(page: number, size: number, q?: string) {
+    return this.api.get<Page<MemoDTO>>(this.resourcePath + '/paged', q ? { page, size, q } : { page, size });
   }
 
   countMemoes() {

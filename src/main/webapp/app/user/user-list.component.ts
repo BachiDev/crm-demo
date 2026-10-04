@@ -9,11 +9,12 @@ import { PageHeaderComponent } from 'app/common/page-header/page-header.componen
 import { PaginationComponent } from 'app/common/pagination/pagination.component';
 import { ConfirmDialogComponent } from 'app/common/confirm-dialog/confirm-dialog.component';
 import { EmptyStateComponent } from 'app/common/empty-state/empty-state.component';
+import { SearchInputComponent } from 'app/common/search-input/search-input.component';
 
 
 @Component({
   selector: 'app-user-list',
-  imports: [CommonModule, RouterLink, PageHeaderComponent, PaginationComponent, ConfirmDialogComponent, EmptyStateComponent],
+  imports: [CommonModule, RouterLink, PageHeaderComponent, PaginationComponent, ConfirmDialogComponent, EmptyStateComponent, SearchInputComponent],
   templateUrl: './user-list.component.html'})
 export class UserListComponent implements OnInit, OnDestroy {
 
@@ -26,6 +27,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   totalPages = 0;
   totalElements: number | null = null;
   loading = true;
+  q = '';
   pendingDelete?: string;
   navigationSubscription?: Subscription;
 
@@ -60,7 +62,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   loadData() {
     this.loading = true;
-    this.userService.getUsersPaged(this.page, this.pageSize)
+    this.userService.getUsersPaged(this.page, this.pageSize, this.q || undefined)
         .subscribe({
           next: (data) => {
             this.users = data.content;
@@ -73,6 +75,12 @@ export class UserListComponent implements OnInit, OnDestroy {
             this.errorHandler.handleServerError(error.error);
           }
         });
+  }
+
+  onSearch(query: string) {
+    this.q = query;
+    this.page = 0;
+    this.loadData();
   }
 
   onPage(next: number) {

@@ -1,6 +1,10 @@
 <app-page-header i18n-title="@@user.list.headline" title="Users" [count]="totalElements" i18n-countLabel="@@user.list.count" countLabel="users total"
                 createLink="/users/add" i18n-createLabel="@@user.list.createNew" createLabel="Create new User" />
 
+<div class="mb-4 flex justify-end">
+    <app-search-input class="w-full max-w-xs" i18n-placeholder="@@user.search" placeholder="Search username, email, name…" (search)="onSearch($event)" />
+</div>
+
 @if (loading) {
 <div class="overflow-x-auto rounded-2xl border border-zinc-200 bg-white" aria-busy="true" aria-label="Loading users">
     <div class="space-y-2 p-4">
@@ -10,7 +14,7 @@
     </div>
 </div>
 } @else if (users.length === 0) {
-<app-empty-state i18n-title="@@user.list.empty" title="No users found"
+<app-empty-state i18n-title="@@user.list.empty" [title]="q ? 'No users match your search' : 'No users found'"
                  i18n-hint="@@user.list.emptyHint" hint="Create the first user to get started."
                  actionLink="/users/add" i18n-actionLabel="@@user.list.createNew" actionLabel="Create new User" />
 } @else {

@@ -1,42 +1,52 @@
-<div class="flex flex-wrap mb-6">
-    <h1 class="grow text-3xl md:text-4xl font-medium mb-2" i18n="@@contact.list.headline">Contacts</h1>
-    <div>
-        <a routerLink="/contacts/add" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2" i18n="@@contact.list.createNew">Create new Contact</a>
+<app-page-header i18n-title="@@contact.list.headline" title="Contacts" [count]="totalElements" i18n-countLabel="@@contact.list.count" countLabel="contacts total"
+                createLink="/contacts/add" i18n-createLabel="@@contact.list.createNew" createLabel="Create new Contact" />
+
+<div class="mb-4 flex justify-end">
+    <app-search-input class="w-full max-w-xs" i18n-placeholder="@@contact.search" placeholder="Search name, email, title…" (search)="onSearch($event)" />
+</div>
+
+@if (loading) {
+<div class="overflow-x-auto rounded-2xl border border-zinc-200 bg-white" aria-busy="true" aria-label="Loading contacts">
+    <div class="space-y-2 p-4">
+        <div class="h-10 animate-pulse rounded-lg bg-zinc-100"></div>
+        <div class="h-10 animate-pulse rounded-lg bg-zinc-100"></div>
+        <div class="h-10 animate-pulse rounded-lg bg-zinc-100"></div>
     </div>
 </div>
-@if (!contacts || contacts.length === 0) {
-<div i18n="@@contact.list.empty">No Contacts could be found.</div>
+} @else if (contacts.length === 0) {
+<app-empty-state i18n-title="@@contact.list.empty" [title]="q ? 'No contacts match your search' : 'No contacts found'"
+                 i18n-hint="@@contact.list.emptyHint" hint="Create the first contact to get started."
+                 actionLink="/contacts/add" i18n-actionLabel="@@contact.list.createNew" actionLabel="Create new Contact" />
 } @else {
-<div class="overflow-x-auto">
-    <table class="w-full">
+<div class="overflow-x-auto rounded-2xl border border-zinc-200 bg-white">
+    <table class="w-full text-sm">
+        <caption class="sr-only" i18n="@@contact.list.caption">Contacts with name, email and job title</caption>
         <thead>
-            <tr>
-                <th scope="col" class="text-left p-2" i18n="@@contact.contactId.label">Contact Id</th>
-                <th scope="col" class="text-left p-2" i18n="@@contact.firstName.label">First Name</th>
-                <th scope="col" class="text-left p-2" i18n="@@contact.lastName.label">Last Name</th>
-                <th scope="col" class="text-left p-2" i18n="@@contact.email.label">Email</th>
-                <th scope="col" class="text-left p-2" i18n="@@contact.phone.label">Phone</th>
-                <th scope="col" class="text-left p-2" i18n="@@contact.jobTitle.label">Job Title</th>
-                <th scope="col" class="text-left p-2" i18n="@@contact.isLead.label">Is Lead</th>
-                <th scope="col" class="text-left p-2" i18n="@@contact.account.label">Account</th>
-                <th><!-- --></th>
+            <tr class="text-left text-xs uppercase tracking-wide text-zinc-500">
+                <th scope="col" class="p-3 font-medium" i18n="@@contact.firstName.label">First Name</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@contact.lastName.label">Last Name</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@contact.email.label">Email</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@contact.jobTitle.label">Job Title</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@contact.isLead.label">Lead</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@contact.account.label">Account</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@contact.contactId.label">Id</th>
+                <th><span class="sr-only" i18n="@@list.actions">Actions</span></th>
             </tr>
         </thead>
-        <tbody class="border-t-2 border-black">
+        <tbody>
             @for (contact of contacts; track contact.contactId) {
-            <tr class="odd:bg-gray-100">
-                <td class="p-2">{{ contact.contactId }}</td>
-                <td class="p-2">{{ contact.firstName }}</td>
-                <td class="p-2">{{ contact.lastName }}</td>
-                <td class="p-2">{{ contact.email }}</td>
-                <td class="p-2">{{ contact.phone }}</td>
-                <td class="p-2">{{ contact.jobTitle }}</td>
-                <td class="p-2">{{ contact.isLead }}</td>
-                <td class="p-2">{{ contact.account }}</td>
-                <td class="p-2">
-                    <div class="float-right whitespace-nowrap">
-                        <a [routerLink]="['/contacts/edit', contact.contactId]" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm" i18n="@@contact.list.edit">Edit</a>
-                        <button type="button" (click)="confirmDelete(contact.contactId!)" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm cursor-pointer" i18n="@@contact.list.delete">Delete</button>
+            <tr class="border-t border-zinc-100 hover:bg-brand-50/50">
+                <td class="p-3 font-medium">{{ contact.firstName }}</td>
+                <td class="p-3 font-medium">{{ contact.lastName }}</td>
+                <td class="p-3 text-zinc-600">{{ contact.email }}</td>
+                <td class="p-3">{{ contact.jobTitle }}</td>
+                <td class="p-3">@if (contact.isLead) { <app-status-pill value="Lead" tone="amber" /> } @else { <span class="text-zinc-300">–</span> }</td>
+                <td class="p-3 font-mono text-xs text-zinc-500" [title]="contact.account">{{ shortId(contact.account) }}</td>
+                <td class="p-3 font-mono text-xs text-zinc-500" [title]="contact.contactId">{{ shortId(contact.contactId) }}</td>
+                <td class="p-3">
+                    <div class="float-right flex gap-1.5 whitespace-nowrap">
+                        <a [routerLink]="['/contacts/edit', contact.contactId]" class="inline-block rounded-full border border-zinc-300 px-3 py-1.5 text-xs font-medium hover:bg-zinc-100" i18n="@@contact.list.edit">Edit</a>
+                        <button type="button" (click)="requestDelete(contact.contactId!)" class="inline-block cursor-pointer rounded-full bg-rose-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-rose-500" i18n="@@contact.list.delete">Delete</button>
                     </div>
                 </td>
             </tr>
@@ -44,4 +54,10 @@
         </tbody>
     </table>
 </div>
+<app-pagination [page]="page" [totalPages]="totalPages" [totalElements]="totalElements ?? 0" [pageSize]="pageSize"
+                (pageChange)="onPage($event)" (pageSizeChange)="onPageSize($event)">contacts</app-pagination>
 }
+
+<app-confirm-dialog i18n-title="@@delete.title" title="Delete this record?"
+                    i18n-message="@@delete.confirm" message="Do you really want to delete this element? This cannot be undone."
+                    (confirmed)="deleteConfirmed()" />

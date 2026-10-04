@@ -47,9 +47,12 @@ public class AccountService {
                 .toList();
     }
 
-    public Page<AccountDTO> findAllPaged(final Pageable pageable) {
-        return accountRepository.findAll(pageable)
-                .map(account -> mapToDTO(account, new AccountDTO()));
+    public Page<AccountDTO> findAllPaged(final Pageable pageable, final String query) {
+        final String q = query == null ? null : query.strip();
+        final Page<Account> page = (q == null || q.isEmpty())
+                ? accountRepository.findAll(pageable)
+                : accountRepository.findByAccountNameContainingIgnoreCaseOrIndustryContainingIgnoreCaseOrWebsiteContainingIgnoreCaseOrCityContainingIgnoreCase(q, q, q, q, pageable);
+        return page.map(account -> mapToDTO(account, new AccountDTO()));
     }
 
     public long count() {

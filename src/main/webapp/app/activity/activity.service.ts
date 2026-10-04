@@ -16,8 +16,8 @@ export class ActivityService {
     return this.api.get<ActivityDTO[]>(this.resourcePath);
   }
 
-  getActivitiesPaged(page: number, size: number) {
-    return this.api.get<Page<ActivityDTO>>(this.resourcePath + '/paged', { page, size });
+  getActivitiesPaged(page: number, size: number, q?: string) {
+    return this.api.get<Page<ActivityDTO>>(this.resourcePath + '/paged', q ? { page, size, q } : { page, size });
   }
 
   countActivities() {

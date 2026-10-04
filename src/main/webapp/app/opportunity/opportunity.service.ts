@@ -16,8 +16,8 @@ export class OpportunityService {
     return this.api.get<OpportunityDTO[]>(this.resourcePath);
   }
 
-  getOpportunitiesPaged(page: number, size: number) {
-    return this.api.get<Page<OpportunityDTO>>(this.resourcePath + '/paged', { page, size });
+  getOpportunitiesPaged(page: number, size: number, q?: string) {
+    return this.api.get<Page<OpportunityDTO>>(this.resourcePath + '/paged', q ? { page, size, q } : { page, size });
   }
 
   countOpportunities() {

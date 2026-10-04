@@ -30,9 +30,12 @@ public class CampaignService {
                 .toList();
     }
 
-    public Page<CampaignDTO> findAllPaged(final Pageable pageable) {
-        return campaignRepository.findAll(pageable)
-                .map(campaign -> mapToDTO(campaign, new CampaignDTO()));
+    public Page<CampaignDTO> findAllPaged(final Pageable pageable, final String query) {
+        final String q = query == null ? null : query.strip();
+        final Page<Campaign> page = (q == null || q.isEmpty())
+                ? campaignRepository.findAll(pageable)
+                : campaignRepository.findByCampaignNameContainingIgnoreCaseOrCampaignTypeContainingIgnoreCaseOrStatusContainingIgnoreCase(q, q, q, pageable);
+        return page.map(campaign -> mapToDTO(campaign, new CampaignDTO()));
     }
 
     public long count() {

@@ -1,38 +1,48 @@
-<div class="flex flex-wrap mb-6">
-    <h1 class="grow text-3xl md:text-4xl font-medium mb-2" i18n="@@activity.list.headline">Activities</h1>
-    <div>
-        <a routerLink="/activities/add" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2" i18n="@@activity.list.createNew">Create new Activity</a>
+<app-page-header i18n-title="@@activity.list.headline" title="Activities" [count]="totalElements" i18n-countLabel="@@activity.list.count" countLabel="activities total"
+                createLink="/activities/add" i18n-createLabel="@@activity.list.createNew" createLabel="Create new Activity" />
+
+<div class="mb-4 flex justify-end">
+    <app-search-input class="w-full max-w-xs" i18n-placeholder="@@activity.search" placeholder="Search subject, type, status…" (search)="onSearch($event)" />
+</div>
+
+@if (loading) {
+<div class="overflow-x-auto rounded-2xl border border-zinc-200 bg-white" aria-busy="true" aria-label="Loading activities">
+    <div class="space-y-2 p-4">
+        <div class="h-10 animate-pulse rounded-lg bg-zinc-100"></div>
+        <div class="h-10 animate-pulse rounded-lg bg-zinc-100"></div>
+        <div class="h-10 animate-pulse rounded-lg bg-zinc-100"></div>
     </div>
 </div>
-@if (!activities || activities.length === 0) {
-<div i18n="@@activity.list.empty">No Activities could be found.</div>
+} @else if (activities.length === 0) {
+<app-empty-state i18n-title="@@activity.list.empty" [title]="q ? 'No activities match your search' : 'No activities found'"
+                 i18n-hint="@@activity.list.emptyHint" hint="Log the first call or email to get started."
+                 actionLink="/activities/add" i18n-actionLabel="@@activity.list.createNew" actionLabel="Create new Activity" />
 } @else {
-<div class="overflow-x-auto">
-    <table class="w-full">
+<div class="overflow-x-auto rounded-2xl border border-zinc-200 bg-white">
+    <table class="w-full text-sm">
+        <caption class="sr-only" i18n="@@activity.list.caption">Activities with subject, type and status</caption>
         <thead>
-            <tr>
-                <th scope="col" class="text-left p-2" i18n="@@activity.activityId.label">Activity Id</th>
-                <th scope="col" class="text-left p-2" i18n="@@activity.activityType.label">Activity Type</th>
-                <th scope="col" class="text-left p-2" i18n="@@activity.subject.label">Subject</th>
-                <th scope="col" class="text-left p-2" i18n="@@activity.dueDate.label">Due Date</th>
-                <th scope="col" class="text-left p-2" i18n="@@activity.status.label">Status</th>
-                <th scope="col" class="text-left p-2" i18n="@@activity.owner.label">Owner</th>
-                <th><!-- --></th>
+            <tr class="text-left text-xs uppercase tracking-wide text-zinc-500">
+                <th scope="col" class="p-3 font-medium" i18n="@@activity.subject.label">Subject</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@activity.activityType.label">Activity Type</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@activity.status.label">Status</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@activity.dueDate.label">Due Date</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@activity.activityId.label">Id</th>
+                <th><span class="sr-only" i18n="@@list.actions">Actions</span></th>
             </tr>
         </thead>
-        <tbody class="border-t-2 border-black">
+        <tbody>
             @for (activity of activities; track activity.activityId) {
-            <tr class="odd:bg-gray-100">
-                <td class="p-2">{{ activity.activityId }}</td>
-                <td class="p-2">{{ activity.activityType }}</td>
-                <td class="p-2">{{ activity.subject }}</td>
-                <td class="p-2">{{ activity.dueDate }}</td>
-                <td class="p-2">{{ activity.status }}</td>
-                <td class="p-2">{{ activity.owner }}</td>
-                <td class="p-2">
-                    <div class="float-right whitespace-nowrap">
-                        <a [routerLink]="['/activities/edit', activity.activityId]" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm" i18n="@@activity.list.edit">Edit</a>
-                        <button type="button" (click)="confirmDelete(activity.activityId!)" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm cursor-pointer" i18n="@@activity.list.delete">Delete</button>
+            <tr class="border-t border-zinc-100 hover:bg-brand-50/50">
+                <td class="p-3 font-medium">{{ activity.subject }}</td>
+                <td class="p-3"><app-status-pill [value]="activity.activityType || '–'" tone="zinc" /></td>
+                <td class="p-3"><app-status-pill [value]="activity.status || '–'" [tone]="statusTone(activity.status)" /></td>
+                <td class="p-3 text-zinc-600">{{ activity.dueDate }}</td>
+                <td class="p-3 font-mono text-xs text-zinc-500" [title]="activity.activityId">{{ shortId(activity.activityId) }}</td>
+                <td class="p-3">
+                    <div class="float-right flex gap-1.5 whitespace-nowrap">
+                        <a [routerLink]="['/activities/edit', activity.activityId]" class="inline-block rounded-full border border-zinc-300 px-3 py-1.5 text-xs font-medium hover:bg-zinc-100" i18n="@@activity.list.edit">Edit</a>
+                        <button type="button" (click)="requestDelete(activity.activityId!)" class="inline-block cursor-pointer rounded-full bg-rose-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-rose-500" i18n="@@activity.list.delete">Delete</button>
                     </div>
                 </td>
             </tr>
@@ -40,4 +50,10 @@
         </tbody>
     </table>
 </div>
+<app-pagination [page]="page" [totalPages]="totalPages" [totalElements]="totalElements ?? 0" [pageSize]="pageSize"
+                (pageChange)="onPage($event)" (pageSizeChange)="onPageSize($event)">activities</app-pagination>
 }
+
+<app-confirm-dialog i18n-title="@@delete.title" title="Delete this record?"
+                    i18n-message="@@delete.confirm" message="Do you really want to delete this element? This cannot be undone."
+                    (confirmed)="deleteConfirmed()" />

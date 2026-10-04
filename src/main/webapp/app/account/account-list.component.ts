@@ -9,11 +9,12 @@ import { PageHeaderComponent } from 'app/common/page-header/page-header.componen
 import { PaginationComponent } from 'app/common/pagination/pagination.component';
 import { ConfirmDialogComponent } from 'app/common/confirm-dialog/confirm-dialog.component';
 import { EmptyStateComponent } from 'app/common/empty-state/empty-state.component';
+import { SearchInputComponent } from 'app/common/search-input/search-input.component';
 
 
 @Component({
   selector: 'app-account-list',
-  imports: [CommonModule, RouterLink, PageHeaderComponent, PaginationComponent, ConfirmDialogComponent, EmptyStateComponent],
+  imports: [CommonModule, RouterLink, PageHeaderComponent, PaginationComponent, ConfirmDialogComponent, EmptyStateComponent, SearchInputComponent],
   templateUrl: './account-list.component.html'})
 export class AccountListComponent implements OnInit, OnDestroy {
 
@@ -26,6 +27,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
   totalPages = 0;
   totalElements: number | null = null;
   loading = true;
+  q = '';
   pendingDelete?: string;
   navigationSubscription?: Subscription;
 
@@ -57,7 +59,7 @@ export class AccountListComponent implements OnInit, OnDestroy {
 
   loadData() {
     this.loading = true;
-    this.accountService.getAccountsPaged(this.page, this.pageSize)
+    this.accountService.getAccountsPaged(this.page, this.pageSize, this.q || undefined)
         .subscribe({
           next: (data) => {
             this.accounts = data.content;
@@ -70,6 +72,12 @@ export class AccountListComponent implements OnInit, OnDestroy {
             this.errorHandler.handleServerError(error.error);
           }
         });
+  }
+
+  onSearch(query: string) {
+    this.q = query;
+    this.page = 0;
+    this.loadData();
   }
 
   onPage(next: number) {

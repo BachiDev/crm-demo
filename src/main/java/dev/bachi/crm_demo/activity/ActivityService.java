@@ -38,9 +38,12 @@ public class ActivityService {
                 .toList();
     }
 
-    public Page<ActivityDTO> findAllPaged(final Pageable pageable) {
-        return activityRepository.findAll(pageable)
-                .map(activity -> mapToDTO(activity, new ActivityDTO()));
+    public Page<ActivityDTO> findAllPaged(final Pageable pageable, final String query) {
+        final String q = query == null ? null : query.strip();
+        final Page<Activity> page = (q == null || q.isEmpty())
+                ? activityRepository.findAll(pageable)
+                : activityRepository.findBySubjectContainingIgnoreCaseOrActivityTypeContainingIgnoreCaseOrStatusContainingIgnoreCase(q, q, q, pageable);
+        return page.map(activity -> mapToDTO(activity, new ActivityDTO()));
     }
 
     public long count() {

@@ -16,8 +16,8 @@ export class CampaignService {
     return this.api.get<CampaignDTO[]>(this.resourcePath);
   }
 
-  getCampaignsPaged(page: number, size: number) {
-    return this.api.get<Page<CampaignDTO>>(this.resourcePath + '/paged', { page, size });
+  getCampaignsPaged(page: number, size: number, q?: string) {
+    return this.api.get<Page<CampaignDTO>>(this.resourcePath + '/paged', q ? { page, size, q } : { page, size });
   }
 
   countCampaigns() {

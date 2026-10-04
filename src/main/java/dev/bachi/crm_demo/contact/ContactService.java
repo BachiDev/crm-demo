@@ -47,9 +47,12 @@ public class ContactService {
                 .toList();
     }
 
-    public Page<ContactDTO> findAllPaged(final Pageable pageable) {
-        return contactRepository.findAll(pageable)
-                .map(contact -> mapToDTO(contact, new ContactDTO()));
+    public Page<ContactDTO> findAllPaged(final Pageable pageable, final String query) {
+        final String q = query == null ? null : query.strip();
+        final Page<Contact> page = (q == null || q.isEmpty())
+                ? contactRepository.findAll(pageable)
+                : contactRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrEmailContainingIgnoreCaseOrJobTitleContainingIgnoreCase(q, q, q, q, pageable);
+        return page.map(contact -> mapToDTO(contact, new ContactDTO()));
     }
 
     public long count() {

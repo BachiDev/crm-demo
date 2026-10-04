@@ -69,7 +69,7 @@ export class InputRowComponent implements AfterViewInit, OnChanges, OnInit {
   }
 
   getInputClasses() {
-    return (this.hasErrors() ? 'border-red-600 ' : '') + (this.control?.disabled ? 'bg-gray-100 ' : '') + this.inputClass;
+    return (this.hasErrors() ? 'border-rose-500 ' : '') + (this.control?.disabled ? 'bg-zinc-100 ' : '') + this.inputClass;
   }
 
   hasErrors() {
