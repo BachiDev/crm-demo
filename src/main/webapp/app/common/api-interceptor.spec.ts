@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
@@ -22,17 +22,19 @@ describe('apiInterceptor', () => {
     httpMock.verify();
   });
 
-  it('retries a failed GET once when the backend looks asleep, then succeeds', () => {
+  it('retries a failed GET once when the backend looks asleep, then succeeds', fakeAsync(() => {
     let seen: HttpErrorResponse | null = null;
     http.get(environment.apiPath + '/api/users').subscribe({ error: (error) => (seen = error) });
 
     const first = httpMock.expectOne(environment.apiPath + '/api/users');
     first.flush('sleeping', { status: 503, statusText: 'Service Unavailable' });
 
+    tick(3000);
     const retry = httpMock.expectOne(environment.apiPath + '/api/users');
     retry.flush([]);
+    tick();
     expect(seen).toBeNull();
-  });
+  }));
 
   it('does not retry mutations (no double-create risk)', () => {
     let failures = 0;

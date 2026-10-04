@@ -4,12 +4,16 @@
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine'],
+    // NOTE: '@angular-devkit/build-angular' framework/plugin is what injects
+    // the compiled test bundle (with discovered specs) into Karma. Omitting
+    // it yields a green run with zero tests.
+    frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
-      require('karma-coverage')
+      require('karma-coverage'),
+      require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
       jasmine: {},
