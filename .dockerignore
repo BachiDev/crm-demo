@@ -1,7 +1,10 @@
 .git
-.github
+.gradle
 build/
-.gradle/
-.idea/
-.vscode/
+node_modules/
+dist/
+.angular/
+.gitignore
+.env
+*.log
 .DS_Store

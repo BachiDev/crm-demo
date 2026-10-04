@@ -1,5 +1,6 @@
 package dev.bachi.crm_demo.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.util.UUID;
@@ -23,6 +24,7 @@ public class UserDTO {
 
     @NotNull
     @Size(max = 255)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String passwordHash;
 
     @Size(max = 50)

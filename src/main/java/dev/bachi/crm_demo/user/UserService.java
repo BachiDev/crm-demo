@@ -90,7 +90,14 @@ public class UserService {
     private User mapToEntity(final UserDTO userDTO, final User user) {
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
-        user.setPasswordHash(userDTO.getPasswordHash());
+        // passwordHash is WRITE_ONLY: GET responses omit it, so an edit form may
+        // submit null/blank to mean "keep existing". Only overwrite when provided.
+        if (userDTO.getPasswordHash() != null && !userDTO.getPasswordHash().isBlank()) {
+            user.setPasswordHash(userDTO.getPasswordHash());
+        } else if (user.getUserId() == null) {
+            // New entity with no password provided: let Bean Validation reject it.
+            user.setPasswordHash(userDTO.getPasswordHash());
+        }
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         return user;

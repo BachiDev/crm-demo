@@ -3,7 +3,10 @@ package dev.bachi.crm_demo;
 import java.math.BigDecimal;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import dev.bachi.crm_demo.account.Account;
 import dev.bachi.crm_demo.account.AccountRepository;
@@ -25,7 +28,10 @@ import dev.bachi.crm_demo.user.User;
 import dev.bachi.crm_demo.user.UserRepository;
 
 @Component
+@Profile("local")
 public class CrmDataLoader implements CommandLineRunner {
+
+    private static final Logger log = LoggerFactory.getLogger(CrmDataLoader.class);
 
     private final UserRepository userRepository;
     private final AccountRepository accountRepository;
@@ -57,7 +63,7 @@ public class CrmDataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // Only load data if the repository is empty to prevent duplicates on restart
         if (userRepository.count() == 0) {
-            System.out.println("Loading all sample data...");
+            log.info("Loading all sample data...");
 
             User jdoe = new User();
             jdoe.setUsername("jdoe");
@@ -199,7 +205,7 @@ public class CrmDataLoader implements CommandLineRunner {
             relation2.setOpportunity(null);
             activityRelationRepository.save(relation2);
 
-            System.out.println("All sample data loaded successfully!");
+            log.info("All sample data loaded successfully!");
         }
     }
 }

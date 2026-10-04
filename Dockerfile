@@ -1,35 +1,40 @@
-# Stage 1: Build the application
+# Stage 1: Build the application (layer-cached: deps first, sources last)
 FROM gradle:8.5-jdk21 AS build
-
-# Set the working directory
 WORKDIR /app
 
-# Copy the Gradle wrapper files and the build files
 COPY gradlew .
 COPY gradle ./gradle
 COPY build.gradle .
 COPY settings.gradle .
+
+# Resolve dependencies in a cached layer; re-runs only when build files change.
+RUN ./gradlew dependencies --no-daemon || true
+
 COPY src ./src
 
-# Build the application using the bootJar task and explicitly skip tests.
-RUN ./gradlew bootJar -x test
+# Unit tests run in CI (./gradlew check). bootJar itself never runs tests,
+# so no -x flag is needed here (the old `-x test` was cargo-cult).
+RUN ./gradlew bootJar --no-daemon
 
 # ---
 
-# Stage 2: Create the final, lightweight image
-# Wechsel zu Eclipse Temurin, da das alte openjdk-Image nicht mehr existiert.
+# Stage 2: Minimal runtime
 FROM eclipse-temurin:21-jre-jammy
-
-# Set the working directory for the final image
 WORKDIR /app
 
-# Copy the JAR from the 'build' stage.
-# Hinweis: Falls dein Jar-Name in build/libs/ anders lautet (z.B. crm-0.0.1-SNAPSHOT.jar), 
-# stelle sicher, dass der Pfad stimmt.
-COPY --from=build /app/build/libs/*.jar app.jar
+RUN useradd --create-home --shell /bin/false appuser \
+    && apt-get update && apt-get install -y --no-install-recommends wget \
+    && rm -rf /var/lib/apt/lists/*
 
-# Expose the port
+COPY --from=build /app/build/libs/*.jar app.jar
+RUN chown appuser:appuser app.jar
+USER appuser
+
 EXPOSE 8080
 
-# Define the command to run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Render injects $PORT; default 8080 keeps local `docker run` working.
+# SerialGC + MaxRAMPercentage fit the 512 MB Render Free instance.
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
+  CMD wget -qO- http://localhost:${PORT:-8080}/actuator/health/liveness || exit 1
+
+ENTRYPOINT ["sh", "-c", "java -XX:+UseSerialGC -XX:MaxRAMPercentage=75.0 -Dserver.port=${PORT:-8080} -jar app.jar"]

@@ -27,7 +27,8 @@ export class UserEditComponent implements OnInit {
     userId: new FormControl({ value: null, disabled: true }),
     username: new FormControl(null, [Validators.required, Validators.maxLength(50)]),
     email: new FormControl(null, [Validators.required, Validators.maxLength(100)]),
-    passwordHash: new FormControl(null, [Validators.required, Validators.maxLength(255)]),
+    // passwordHash is WRITE_ONLY on the API (never returned by GET): empty means "keep existing".
+    passwordHash: new FormControl(null, [Validators.maxLength(255)]),
     firstName: new FormControl(null, [Validators.maxLength(50)]),
     lastName: new FormControl(null, [Validators.maxLength(50)])
   }, { updateOn: 'submit' });
