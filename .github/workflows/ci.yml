@@ -37,10 +37,10 @@ jobs:
         run: npm run test:ci
       - name: Build production
         run: npm run build
-      # Phase 3 adds: lint, test:ci (Karma headless + coverage), Playwright smoke.
 
   deploy-frontend:
-    name: Frontend (deploy to Pages)    if: github.ref == 'refs/heads/master'
+    name: Frontend (deploy to Pages)
+    if: github.ref == 'refs/heads/master'
     needs: [backend, frontend]
     runs-on: ubuntu-latest
     permissions:
