@@ -1,0 +1,15 @@
+import{a as v}from"./chunk-TXH6JIJC.js";import{a as U}from"./chunk-2WPLWLHR.js";import{a as _,b as $,c as b,d as m,e as D,f as O,g as I,h as w}from"./chunk-CPY32CZD.js";import{a as h}from"./chunk-QHIQW3ZY.js";import"./chunk-WXSKCASI.js";import"./chunk-VAL26HVG.js";import{Da as e,P as i,U as R,Wa as f,ha as s,ia as d,ja as u,jb as C,ka as a,kb as T,qa as p,ta as c,z as E}from"./chunk-ZAB2ACMA.js";var q=(()=>{let l=class l{constructor(){this.userService=E(U),this.router=E(C),this.errorHandler=E(h),this.addForm=new b({username:new m(null,[_.required,_.maxLength(50)]),email:new m(null,[_.required,_.maxLength(100)]),passwordHash:new m(null,[_.required,_.maxLength(255)]),firstName:new m(null,[_.maxLength(50)]),lastName:new m(null,[_.maxLength(50)])},{updateOn:"submit"})}getMessage(n,t){return{created:$localize`:@@user.create.success:User was created successfully.`}[n]}handleSubmit(){if(window.scrollTo(0,0),this.addForm.markAllAsTouched(),!this.addForm.valid)return;let n=new v(this.addForm.value);this.userService.createUser(n).subscribe({next:()=>this.router.navigate(["/users"],{state:{msgSuccess:this.getMessage("created")}}),error:t=>this.errorHandler.handleServerError(t.error,this.addForm,this.getMessage)})}};l.\u0275fac=function(t){return new(t||l)},l.\u0275cmp=R({type:l,selectors:[["app-user-add"]],decls:27,vars:6,consts:()=>{let n;n=$localize`:@@user.username.label:Username`;let t;t=$localize`:@@user.email.label:Email`;let r;r=$localize`:@@user.passwordHash.label:Password Hash`;let g;g=$localize`:@@user.firstName.label:First Name`;let A;A=$localize`:@@user.lastName.label:Last Name`;let P;P=$localize`:@@user.add.headline:Add User`;let N;N=$localize`:@@user.add.headline:Add User`;let M;return M=$localize`:@@user.add.back:Back to list`,[N,M,[1,"flex","flex-wrap","mb-6"],[1,"grow","text-3xl","md:text-4xl","font-medium","mb-2"],["routerLink","/users",1,"inline-block","text-white","bg-gray-500","hover:bg-gray-600","focus:ring-gray-200","focus:ring-4","rounded","px-5","py-2"],[3,"ngSubmit","formGroup"],["field","username","label",n,3,"group"],["field","email","label",t,3,"group"],["field","passwordHash","label",r,3,"group"],["field","firstName","label",g,3,"group"],["field","lastName","label",A,3,"group"],["type","submit","value",P,1,"inline-block","text-white","bg-violet-600","hover:bg-violet-500","rounded-full","px-5","py-2","cursor-pointer","mt-6","font-medium"]]},template:function(t,r){t&1&&(d(0,"div",2),e(1,`
+    `),d(2,"h1",3),p(3,0),u(),e(4,`
+    `),d(5,"div"),e(6,`
+        `),d(7,"a",4),p(8,1),u(),e(9,`
+    `),u(),e(10,`
+`),u(),e(11,`
+`),d(12,"form",5),c("ngSubmit",function(){return r.handleSubmit()}),e(13,`
+    `),a(14,"app-input-row",6),e(15,`
+    `),a(16,"app-input-row",7),e(17,`
+    `),a(18,"app-input-row",8),e(19,`
+    `),a(20,"app-input-row",9),e(21,`
+    `),a(22,"app-input-row",10),e(23,`
+    `),a(24,"input",11),e(25,`
+`),u(),e(26,`
+`)),t&2&&(i(12),s("formGroup",r.addForm),i(2),s("group",r.addForm),i(2),s("group",r.addForm),i(2),s("group",r.addForm),i(2),s("group",r.addForm),i(2),s("group",r.addForm))},dependencies:[f,T,I,D,$,O,w],encapsulation:2});let S=l;return S})();export{q as UserAddComponent};
