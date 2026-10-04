@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'environments/environment';
+import { ApiClient } from 'app/common/api-client.injectable';
+import { Page } from 'app/common/page.model';
 import { ActivityRelationDTO } from 'app/activity-relation/activity-relation.model';
 
 
@@ -9,43 +9,51 @@ import { ActivityRelationDTO } from 'app/activity-relation/activity-relation.mod
 })
 export class ActivityRelationService {
 
-  http = inject(HttpClient);
-  resourcePath = environment.apiPath + '/api/activityRelations';
+  api = inject(ApiClient);
+  resourcePath = '/api/activityRelations';
 
   getAllActivityRelations() {
-    return this.http.get<ActivityRelationDTO[]>(this.resourcePath);
+    return this.api.get<ActivityRelationDTO[]>(this.resourcePath);
+  }
+
+  getActivityRelationsPaged(page: number, size: number) {
+    return this.api.get<Page<ActivityRelationDTO>>(this.resourcePath + '/paged', { page, size });
+  }
+
+  countActivityRelations() {
+    return this.api.get<number>(this.resourcePath + '/count');
   }
 
   getActivityRelation(id: number) {
-    return this.http.get<ActivityRelationDTO>(this.resourcePath + '/' + id);
+    return this.api.get<ActivityRelationDTO>(this.resourcePath + '/' + id);
   }
 
   createActivityRelation(activityRelationDTO: ActivityRelationDTO) {
-    return this.http.post<number>(this.resourcePath, activityRelationDTO);
+    return this.api.post<number>(this.resourcePath, activityRelationDTO);
   }
 
   updateActivityRelation(id: number, activityRelationDTO: ActivityRelationDTO) {
-    return this.http.put<number>(this.resourcePath + '/' + id, activityRelationDTO);
+    return this.api.put<number>(this.resourcePath + '/' + id, activityRelationDTO);
   }
 
   deleteActivityRelation(id: number) {
-    return this.http.delete(this.resourcePath + '/' + id);
+    return this.api.delete(this.resourcePath + '/' + id);
   }
 
   getActivityValues() {
-    return this.http.get<Record<string, string>>(this.resourcePath + '/activityValues');
+    return this.api.get<Record<string, string>>(this.resourcePath + '/activityValues');
   }
 
   getAccountValues() {
-    return this.http.get<Record<string, string>>(this.resourcePath + '/accountValues');
+    return this.api.get<Record<string, string>>(this.resourcePath + '/accountValues');
   }
 
   getContactValues() {
-    return this.http.get<Record<string, string>>(this.resourcePath + '/contactValues');
+    return this.api.get<Record<string, string>>(this.resourcePath + '/contactValues');
   }
 
   getOpportunityValues() {
-    return this.http.get<Record<string, string>>(this.resourcePath + '/opportunityValues');
+    return this.api.get<Record<string, string>>(this.resourcePath + '/opportunityValues');
   }
 
 }

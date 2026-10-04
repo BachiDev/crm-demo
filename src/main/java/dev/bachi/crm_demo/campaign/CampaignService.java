@@ -5,6 +5,8 @@ import dev.bachi.crm_demo.user.UserRepository;
 import dev.bachi.crm_demo.util.NotFoundException;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,15 @@ public class CampaignService {
         return campaigns.stream()
                 .map(campaign -> mapToDTO(campaign, new CampaignDTO()))
                 .toList();
+    }
+
+    public Page<CampaignDTO> findAllPaged(final Pageable pageable) {
+        return campaignRepository.findAll(pageable)
+                .map(campaign -> mapToDTO(campaign, new CampaignDTO()));
+    }
+
+    public long count() {
+        return campaignRepository.count();
     }
 
     public CampaignDTO get(final UUID campaignId) {

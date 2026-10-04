@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'environments/environment';
+import { ApiClient } from 'app/common/api-client.injectable';
+import { Page } from 'app/common/page.model';
 import { ContactDTO } from 'app/contact/contact.model';
 
 
@@ -9,35 +9,43 @@ import { ContactDTO } from 'app/contact/contact.model';
 })
 export class ContactService {
 
-  http = inject(HttpClient);
-  resourcePath = environment.apiPath + '/api/contacts';
+  api = inject(ApiClient);
+  resourcePath = '/api/contacts';
 
   getAllContacts() {
-    return this.http.get<ContactDTO[]>(this.resourcePath);
+    return this.api.get<ContactDTO[]>(this.resourcePath);
+  }
+
+  getContactsPaged(page: number, size: number) {
+    return this.api.get<Page<ContactDTO>>(this.resourcePath + '/paged', { page, size });
+  }
+
+  countContacts() {
+    return this.api.get<number>(this.resourcePath + '/count');
   }
 
   getContact(contactId: string) {
-    return this.http.get<ContactDTO>(this.resourcePath + '/' + contactId);
+    return this.api.get<ContactDTO>(this.resourcePath + '/' + contactId);
   }
 
   createContact(contactDTO: ContactDTO) {
-    return this.http.post<string>(this.resourcePath, contactDTO);
+    return this.api.post<string>(this.resourcePath, contactDTO);
   }
 
   updateContact(contactId: string, contactDTO: ContactDTO) {
-    return this.http.put<string>(this.resourcePath + '/' + contactId, contactDTO);
+    return this.api.put<string>(this.resourcePath + '/' + contactId, contactDTO);
   }
 
   deleteContact(contactId: string) {
-    return this.http.delete(this.resourcePath + '/' + contactId);
+    return this.api.delete(this.resourcePath + '/' + contactId);
   }
 
   getAccountValues() {
-    return this.http.get<Record<string, string>>(this.resourcePath + '/accountValues');
+    return this.api.get<Record<string, string>>(this.resourcePath + '/accountValues');
   }
 
   getOwnerValues() {
-    return this.http.get<Record<string, string>>(this.resourcePath + '/ownerValues');
+    return this.api.get<Record<string, string>>(this.resourcePath + '/ownerValues');
   }
 
 }

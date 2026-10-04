@@ -14,6 +14,8 @@ import dev.bachi.crm_demo.util.ReferencedWarning;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +45,15 @@ public class ContactService {
         return contacts.stream()
                 .map(contact -> mapToDTO(contact, new ContactDTO()))
                 .toList();
+    }
+
+    public Page<ContactDTO> findAllPaged(final Pageable pageable) {
+        return contactRepository.findAll(pageable)
+                .map(contact -> mapToDTO(contact, new ContactDTO()));
+    }
+
+    public long count() {
+        return contactRepository.count();
     }
 
     public ContactDTO get(final UUID contactId) {

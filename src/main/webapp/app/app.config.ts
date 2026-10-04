@@ -1,9 +1,11 @@
-import { HttpClientModule } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { RouterModule, ExtraOptions, TitleStrategy } from '@angular/router';
+import { importProvidersFrom } from '@angular/core';
 import { routes } from 'app/app.routes';
 import { CustomTitleStrategy } from 'app/common/title-strategy.injectable';
+import { apiInterceptor } from 'app/common/api-interceptor';
 
 
 const routeConfig: ExtraOptions = {
@@ -13,7 +15,9 @@ const routeConfig: ExtraOptions = {
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    importProvidersFrom(RouterModule.forRoot(routes, routeConfig), BrowserAnimationsModule, HttpClientModule),
+    importProvidersFrom(RouterModule.forRoot(routes, routeConfig)),
+    provideAnimations(),
+    provideHttpClient(withFetch(), withInterceptors([apiInterceptor])),
     provideZoneChangeDetection({ eventCoalescing: true }),
     {
       provide: TitleStrategy,

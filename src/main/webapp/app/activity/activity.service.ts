@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'environments/environment';
+import { ApiClient } from 'app/common/api-client.injectable';
+import { Page } from 'app/common/page.model';
 import { ActivityDTO } from 'app/activity/activity.model';
 
 
@@ -9,31 +9,39 @@ import { ActivityDTO } from 'app/activity/activity.model';
 })
 export class ActivityService {
 
-  http = inject(HttpClient);
-  resourcePath = environment.apiPath + '/api/activities';
+  api = inject(ApiClient);
+  resourcePath = '/api/activities';
 
   getAllActivities() {
-    return this.http.get<ActivityDTO[]>(this.resourcePath);
+    return this.api.get<ActivityDTO[]>(this.resourcePath);
+  }
+
+  getActivitiesPaged(page: number, size: number) {
+    return this.api.get<Page<ActivityDTO>>(this.resourcePath + '/paged', { page, size });
+  }
+
+  countActivities() {
+    return this.api.get<number>(this.resourcePath + '/count');
   }
 
   getActivity(activityId: string) {
-    return this.http.get<ActivityDTO>(this.resourcePath + '/' + activityId);
+    return this.api.get<ActivityDTO>(this.resourcePath + '/' + activityId);
   }
 
   createActivity(activityDTO: ActivityDTO) {
-    return this.http.post<string>(this.resourcePath, activityDTO);
+    return this.api.post<string>(this.resourcePath, activityDTO);
   }
 
   updateActivity(activityId: string, activityDTO: ActivityDTO) {
-    return this.http.put<string>(this.resourcePath + '/' + activityId, activityDTO);
+    return this.api.put<string>(this.resourcePath + '/' + activityId, activityDTO);
   }
 
   deleteActivity(activityId: string) {
-    return this.http.delete(this.resourcePath + '/' + activityId);
+    return this.api.delete(this.resourcePath + '/' + activityId);
   }
 
   getOwnerValues() {
-    return this.http.get<Record<string, string>>(this.resourcePath + '/ownerValues');
+    return this.api.get<Record<string, string>>(this.resourcePath + '/ownerValues');
   }
 
 }

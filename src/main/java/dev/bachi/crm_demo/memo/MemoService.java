@@ -5,6 +5,8 @@ import dev.bachi.crm_demo.user.UserRepository;
 import dev.bachi.crm_demo.util.NotFoundException;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,15 @@ public class MemoService {
         return memoes.stream()
                 .map(memo -> mapToDTO(memo, new MemoDTO()))
                 .toList();
+    }
+
+    public Page<MemoDTO> findAllPaged(final Pageable pageable) {
+        return memoRepository.findAll(pageable)
+                .map(memo -> mapToDTO(memo, new MemoDTO()));
+    }
+
+    public long count() {
+        return memoRepository.count();
     }
 
     public MemoDTO get(final UUID memoId) {

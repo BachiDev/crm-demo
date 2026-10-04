@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'environments/environment';
+import { ApiClient } from 'app/common/api-client.injectable';
+import { Page } from 'app/common/page.model';
 import { MemoDTO } from 'app/memo/memo.model';
 
 
@@ -9,31 +9,39 @@ import { MemoDTO } from 'app/memo/memo.model';
 })
 export class MemoService {
 
-  http = inject(HttpClient);
-  resourcePath = environment.apiPath + '/api/memos';
+  api = inject(ApiClient);
+  resourcePath = '/api/memos';
 
   getAllMemoes() {
-    return this.http.get<MemoDTO[]>(this.resourcePath);
+    return this.api.get<MemoDTO[]>(this.resourcePath);
+  }
+
+  getMemoesPaged(page: number, size: number) {
+    return this.api.get<Page<MemoDTO>>(this.resourcePath + '/paged', { page, size });
+  }
+
+  countMemoes() {
+    return this.api.get<number>(this.resourcePath + '/count');
   }
 
   getMemo(memoId: string) {
-    return this.http.get<MemoDTO>(this.resourcePath + '/' + memoId);
+    return this.api.get<MemoDTO>(this.resourcePath + '/' + memoId);
   }
 
   createMemo(memoDTO: MemoDTO) {
-    return this.http.post<string>(this.resourcePath, memoDTO);
+    return this.api.post<string>(this.resourcePath, memoDTO);
   }
 
   updateMemo(memoId: string, memoDTO: MemoDTO) {
-    return this.http.put<string>(this.resourcePath + '/' + memoId, memoDTO);
+    return this.api.put<string>(this.resourcePath + '/' + memoId, memoDTO);
   }
 
   deleteMemo(memoId: string) {
-    return this.http.delete(this.resourcePath + '/' + memoId);
+    return this.api.delete(this.resourcePath + '/' + memoId);
   }
 
   getUserValues() {
-    return this.http.get<Record<string, string>>(this.resourcePath + '/userValues');
+    return this.api.get<Record<string, string>>(this.resourcePath + '/userValues');
   }
 
 }

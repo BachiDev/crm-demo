@@ -66,7 +66,9 @@ export class ContactListComponent implements OnInit, OnDestroy {
               const messageParts = error.error.message.split(',');
               this.router.navigate(['/contacts'], {
                 state: {
-                  msgError: this.getMessage(messageParts[0], { id: messageParts[1] })
+                  // New API sends a human-readable message directly; old key-based
+                  // lookup kept as fallback.
+                  msgError: this.getMessage(messageParts[0], { id: messageParts[1] }) ?? error.error.message
                 }
               });
               return;

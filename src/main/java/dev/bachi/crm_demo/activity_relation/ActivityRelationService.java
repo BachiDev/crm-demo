@@ -10,6 +10,8 @@ import dev.bachi.crm_demo.opportunity.Opportunity;
 import dev.bachi.crm_demo.opportunity.OpportunityRepository;
 import dev.bachi.crm_demo.util.NotFoundException;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,15 @@ public class ActivityRelationService {
         return activityRelations.stream()
                 .map(activityRelation -> mapToDTO(activityRelation, new ActivityRelationDTO()))
                 .toList();
+    }
+
+    public Page<ActivityRelationDTO> findAllPaged(final Pageable pageable) {
+        return activityRelationRepository.findAll(pageable)
+                .map(activityRelation -> mapToDTO(activityRelation, new ActivityRelationDTO()));
+    }
+
+    public long count() {
+        return activityRelationRepository.count();
     }
 
     public ActivityRelationDTO get(final Long id) {

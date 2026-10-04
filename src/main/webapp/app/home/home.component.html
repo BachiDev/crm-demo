@@ -1,38 +1,77 @@
-<div class="flex items-center gap-2 mb-8">
-    <h1 class="grow text-3xl md:text-2xl font-medium" i18n="@@home.index.headline">Services:</h1>
-    <span title="Services may be sleeping to save resources and need a moment to wake up.">
-        <svg class="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-        </svg>
-    </span>
-</div>
-<div class="flex flex-col border border-gray-300 rounded mb-12">
-    <a [href]="environment.apiPath" target="_blank" class="flex justify-between w-full border-gray-300 hover:bg-gray-100 border-b rounded-t px-4 py-2">
-        <span i18n="@@home.index.swagger.text">Backend API (Spring Boot)</span>
-        <span [ngClass]="{
-            'text-yellow': serverState === 'wakingUp',
-            'text-green': serverState === 'running'
-        }">
-            <ng-container *ngIf="serverState === 'wakingUp'">Server is waking up</ng-container>
-            <ng-container *ngIf="serverState === 'running'">Running</ng-container>
+<section class="overflow-hidden rounded-2xl bg-zinc-950 px-6 py-10 text-zinc-100 md:px-10 md:py-14 mb-12">
+    <p class="font-mono text-xs uppercase tracking-widest text-violet-400 mb-3" i18n="@@home.hero.kicker">Full-stack demo · Spring Boot + Angular + Postgres</p>
+    <h1 class="text-3xl md:text-5xl font-bold tracking-tight mb-4" i18n="@@home.index.headline">CRM Demo</h1>
+    <p class="max-w-2xl text-lg leading-relaxed text-zinc-400 mb-6" i18n="@@home.hero.lede">Manage accounts, contacts, opportunities and campaigns end to end — a typed REST API with validated Angular forms, running on free-tier cloud infrastructure.</p>
+    <div class="flex flex-wrap items-center gap-3">
+        <a href="#entities" class="inline-block rounded-full bg-violet-600 px-5 py-2.5 font-medium text-white hover:bg-violet-500" i18n="@@home.hero.explore">Explore entities</a>
+        <a [href]="environment.apiPath + '/swagger-ui.html'" target="_blank" rel="noreferrer" class="inline-block rounded-full border border-white/20 px-5 py-2.5 font-medium text-zinc-100 hover:border-violet-400 hover:text-white" i18n="@@home.hero.swagger">API Docs</a>
+        <span class="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2">
+            <app-backend-status [compact]="false" />
         </span>
-    </a>
-    <a [href]="environment.apiPath + '/swagger-ui.html'" target="_blank" class="flex justify-between w-full border-gray-300 hover:bg-gray-100 border-b px-4 py-2">
-        <span i18n="@@home.index.swagger.text">Swagger Documentation</span>
-        <span [ngClass]="{
-            'text-yellow': serverState === 'wakingUp',
-            'text-green': serverState === 'running'
-        }">
-            <ng-container *ngIf="serverState === 'wakingUp'">Server is waking up</ng-container>
-            <ng-container *ngIf="serverState === 'running'">Ready to view</ng-container>
-        </span>
-    </a>
-</div>
-<div class="mb-12">
-    <h4 class="text-2xl font-medium mb-4" i18n="@@home.index.exploreEntities">Test operations on the entities:</h4>
+    </div>
+    <p class="mt-4 text-sm text-zinc-500" i18n="@@home.hero.sleepNote">The free-tier backend sleeps after ~15 min idle — the first request can take up to a minute to wake it.</p>
+</section>
+
+@if (stats(); as entityStats) {
+<section class="mb-12" aria-label="Record counts">
+    <div class="grid grid-cols-3 gap-3 sm:grid-cols-3 lg:grid-cols-9">
+        @for (stat of entityStats; track stat.link) {
+            <a [routerLink]="stat.link" class="rounded-xl border border-zinc-200 bg-white px-3 py-3 text-center hover:border-brand-500 hover:shadow-sm">
+                <span class="block font-mono text-xl font-medium text-zinc-900">{{ stat.count ?? '–' }}</span>
+                <span class="block truncate text-xs text-zinc-500">{{ stat.title }}</span>
+            </a>
+        }
+    </div>
+</section>
+}
+
+<section class="mb-12 rounded-2xl border border-zinc-200 bg-white p-6 md:p-8">
+    <h2 class="text-2xl font-semibold tracking-tight mb-2" i18n="@@home.demo.title">Try it in 60 seconds</h2>
+    <p class="text-zinc-500 mb-5" i18n="@@home.demo.lede">A guided path through the demo with realistic sample data.</p>
+    <ol class="grid gap-4 md:grid-cols-4">
+        <li class="rounded-xl bg-zinc-50 p-4">
+            <span class="font-mono text-sm text-brand-600">01</span>
+            <p class="mt-1 font-medium" i18n="@@home.demo.step1">Open Accounts and pick TechCorp Solutions.</p>
+        </li>
+        <li class="rounded-xl bg-zinc-50 p-4">
+            <span class="font-mono text-sm text-brand-600">02</span>
+            <p class="mt-1 font-medium" i18n="@@home.demo.step2">Check its contacts, like CTO Sarah Johnson.</p>
+        </li>
+        <li class="rounded-xl bg-zinc-50 p-4">
+            <span class="font-mono text-sm text-brand-600">03</span>
+            <p class="mt-1 font-medium" i18n="@@home.demo.step3">Follow the open opportunity in negotiation stage.</p>
+        </li>
+        <li class="rounded-xl bg-zinc-50 p-4">
+            <span class="font-mono text-sm text-brand-600">04</span>
+            <p class="mt-1 font-medium" i18n="@@home.demo.step4">Create a memo — deletes of referenced rows are blocked with a clear reason.</p>
+        </li>
+    </ol>
+</section>
+
+<section id="entities" class="mb-12 scroll-mt-24">
+    <h2 class="text-2xl font-semibold tracking-tight mb-2" i18n="@@home.index.exploreEntities">Test operations on the entities:</h2>
+    <p class="text-zinc-500 mb-5" i18n="@@home.entities.lede">Full create, read, update and delete on all nine domain objects.</p>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <app-nav-card *ngFor="let navLink of navLinks" [link]="navLink.link" [icon]="navLink.icon" [title]="navLink.title"></app-nav-card>
     </div>
-</div>
+</section>
+
+<section class="mb-12 rounded-2xl border border-zinc-200 bg-white p-6 md:p-8">
+    <h2 class="text-2xl font-semibold tracking-tight mb-2" i18n="@@home.stack.title">How it runs</h2>
+    <p class="text-zinc-500 mb-5" i18n="@@home.stack.lede">One repository, three free-tier hosts, migrations included.</p>
+    <div class="flex flex-wrap items-center gap-2 font-mono text-sm">
+        <span class="rounded-full bg-zinc-950 px-3 py-1 text-zinc-100">Angular 20</span>
+        <span class="text-zinc-400" aria-hidden="true">→</span>
+        <span class="rounded-full bg-zinc-950 px-3 py-1 text-zinc-100">Spring Boot 3.5</span>
+        <span class="text-zinc-400" aria-hidden="true">→</span>
+        <span class="rounded-full bg-zinc-950 px-3 py-1 text-zinc-100">Neon Postgres</span>
+    </div>
+    <div class="mt-3 flex flex-wrap items-center gap-2 text-sm">
+        <span class="rounded-full bg-zinc-100 px-3 py-1 text-zinc-600">GitHub Pages</span>
+        <span class="rounded-full bg-zinc-100 px-3 py-1 text-zinc-600">Render</span>
+        <span class="rounded-full bg-zinc-100 px-3 py-1 text-zinc-600">Flyway migrations</span>
+        <a href="https://github.com/BachiDev/crm-demo" target="_blank" rel="noreferrer" class="rounded-full bg-brand-50 px-3 py-1 font-medium text-brand-700 hover:bg-brand-100" i18n="@@home.stack.source">Source on GitHub</a>
+    </div>
+</section>
 
 <app-floating-action-button href="https://github.com/BachiDev/crm-demo"></app-floating-action-button>

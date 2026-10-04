@@ -1,184 +1,155 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { UserListComponent } from './user/user-list.component';
-import { UserAddComponent } from './user/user-add.component';
-import { UserEditComponent } from './user/user-edit.component';
-import { AccountListComponent } from './account/account-list.component';
-import { AccountAddComponent } from './account/account-add.component';
-import { AccountEditComponent } from './account/account-edit.component';
-import { ContactListComponent } from './contact/contact-list.component';
-import { ContactAddComponent } from './contact/contact-add.component';
-import { ContactEditComponent } from './contact/contact-edit.component';
-import { OpportunityListComponent } from './opportunity/opportunity-list.component';
-import { OpportunityAddComponent } from './opportunity/opportunity-add.component';
-import { OpportunityEditComponent } from './opportunity/opportunity-edit.component';
-import { ActivityListComponent } from './activity/activity-list.component';
-import { ActivityAddComponent } from './activity/activity-add.component';
-import { ActivityEditComponent } from './activity/activity-edit.component';
-import { ActivityRelationListComponent } from './activity-relation/activity-relation-list.component';
-import { ActivityRelationAddComponent } from './activity-relation/activity-relation-add.component';
-import { ActivityRelationEditComponent } from './activity-relation/activity-relation-edit.component';
-import { MemoListComponent } from './memo/memo-list.component';
-import { MemoAddComponent } from './memo/memo-add.component';
-import { MemoEditComponent } from './memo/memo-edit.component';
-import { CampaignListComponent } from './campaign/campaign-list.component';
-import { CampaignAddComponent } from './campaign/campaign-add.component';
-import { CampaignEditComponent } from './campaign/campaign-edit.component';
-import { ProductListComponent } from './product/product-list.component';
-import { ProductAddComponent } from './product/product-add.component';
-import { ProductEditComponent } from './product/product-edit.component';
-import { ErrorComponent } from './error/error.component';
 
 
 export const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    loadComponent: () => import('./home/home.component').then(m => m.HomeComponent),
     title: $localize`:@@home.index.headline:CRM Demo`
   },
   {
     path: 'users',
-    component: UserListComponent,
+    loadComponent: () => import('./user/user-list.component').then(m => m.UserListComponent),
     title: $localize`:@@user.list.headline:Users`
   },
   {
     path: 'users/add',
-    component: UserAddComponent,
+    loadComponent: () => import('./user/user-add.component').then(m => m.UserAddComponent),
     title: $localize`:@@user.add.headline:Add User`
   },
   {
     path: 'users/edit/:userId',
-    component: UserEditComponent,
+    loadComponent: () => import('./user/user-edit.component').then(m => m.UserEditComponent),
     title: $localize`:@@user.edit.headline:Edit User`
   },
   {
     path: 'accounts',
-    component: AccountListComponent,
+    loadComponent: () => import('./account/account-list.component').then(m => m.AccountListComponent),
     title: $localize`:@@account.list.headline:Accounts`
   },
   {
     path: 'accounts/add',
-    component: AccountAddComponent,
+    loadComponent: () => import('./account/account-add.component').then(m => m.AccountAddComponent),
     title: $localize`:@@account.add.headline:Add Account`
   },
   {
     path: 'accounts/edit/:accountId',
-    component: AccountEditComponent,
+    loadComponent: () => import('./account/account-edit.component').then(m => m.AccountEditComponent),
     title: $localize`:@@account.edit.headline:Edit Account`
   },
   {
     path: 'contacts',
-    component: ContactListComponent,
+    loadComponent: () => import('./contact/contact-list.component').then(m => m.ContactListComponent),
     title: $localize`:@@contact.list.headline:Contacts`
   },
   {
     path: 'contacts/add',
-    component: ContactAddComponent,
+    loadComponent: () => import('./contact/contact-add.component').then(m => m.ContactAddComponent),
     title: $localize`:@@contact.add.headline:Add Contact`
   },
   {
     path: 'contacts/edit/:contactId',
-    component: ContactEditComponent,
+    loadComponent: () => import('./contact/contact-edit.component').then(m => m.ContactEditComponent),
     title: $localize`:@@contact.edit.headline:Edit Contact`
   },
   {
     path: 'opportunities',
-    component: OpportunityListComponent,
+    loadComponent: () => import('./opportunity/opportunity-list.component').then(m => m.OpportunityListComponent),
     title: $localize`:@@opportunity.list.headline:Opportunities`
   },
   {
     path: 'opportunities/add',
-    component: OpportunityAddComponent,
+    loadComponent: () => import('./opportunity/opportunity-add.component').then(m => m.OpportunityAddComponent),
     title: $localize`:@@opportunity.add.headline:Add Opportunity`
   },
   {
     path: 'opportunities/edit/:opportunityId',
-    component: OpportunityEditComponent,
+    loadComponent: () => import('./opportunity/opportunity-edit.component').then(m => m.OpportunityEditComponent),
     title: $localize`:@@opportunity.edit.headline:Edit Opportunity`
   },
   {
     path: 'activities',
-    component: ActivityListComponent,
+    loadComponent: () => import('./activity/activity-list.component').then(m => m.ActivityListComponent),
     title: $localize`:@@activity.list.headline:Activities`
   },
   {
     path: 'activities/add',
-    component: ActivityAddComponent,
+    loadComponent: () => import('./activity/activity-add.component').then(m => m.ActivityAddComponent),
     title: $localize`:@@activity.add.headline:Add Activity`
   },
   {
     path: 'activities/edit/:activityId',
-    component: ActivityEditComponent,
+    loadComponent: () => import('./activity/activity-edit.component').then(m => m.ActivityEditComponent),
     title: $localize`:@@activity.edit.headline:Edit Activity`
   },
   {
     path: 'activityRelations',
-    component: ActivityRelationListComponent,
+    loadComponent: () => import('./activity-relation/activity-relation-list.component').then(m => m.ActivityRelationListComponent),
     title: $localize`:@@activityRelation.list.headline:Activity Relations`
   },
   {
     path: 'activityRelations/add',
-    component: ActivityRelationAddComponent,
+    loadComponent: () => import('./activity-relation/activity-relation-add.component').then(m => m.ActivityRelationAddComponent),
     title: $localize`:@@activityRelation.add.headline:Add Activity Relation`
   },
   {
     path: 'activityRelations/edit/:id',
-    component: ActivityRelationEditComponent,
+    loadComponent: () => import('./activity-relation/activity-relation-edit.component').then(m => m.ActivityRelationEditComponent),
     title: $localize`:@@activityRelation.edit.headline:Edit Activity Relation`
   },
   {
     path: 'memos',
-    component: MemoListComponent,
+    loadComponent: () => import('./memo/memo-list.component').then(m => m.MemoListComponent),
     title: $localize`:@@memo.list.headline:Memoes`
   },
   {
     path: 'memos/add',
-    component: MemoAddComponent,
+    loadComponent: () => import('./memo/memo-add.component').then(m => m.MemoAddComponent),
     title: $localize`:@@memo.add.headline:Add Memo`
   },
   {
     path: 'memos/edit/:memoId',
-    component: MemoEditComponent,
+    loadComponent: () => import('./memo/memo-edit.component').then(m => m.MemoEditComponent),
     title: $localize`:@@memo.edit.headline:Edit Memo`
   },
   {
     path: 'campaigns',
-    component: CampaignListComponent,
+    loadComponent: () => import('./campaign/campaign-list.component').then(m => m.CampaignListComponent),
     title: $localize`:@@campaign.list.headline:Campaigns`
   },
   {
     path: 'campaigns/add',
-    component: CampaignAddComponent,
+    loadComponent: () => import('./campaign/campaign-add.component').then(m => m.CampaignAddComponent),
     title: $localize`:@@campaign.add.headline:Add Campaign`
   },
   {
     path: 'campaigns/edit/:campaignId',
-    component: CampaignEditComponent,
+    loadComponent: () => import('./campaign/campaign-edit.component').then(m => m.CampaignEditComponent),
     title: $localize`:@@campaign.edit.headline:Edit Campaign`
   },
   {
     path: 'products',
-    component: ProductListComponent,
+    loadComponent: () => import('./product/product-list.component').then(m => m.ProductListComponent),
     title: $localize`:@@product.list.headline:Products`
   },
   {
     path: 'products/add',
-    component: ProductAddComponent,
+    loadComponent: () => import('./product/product-add.component').then(m => m.ProductAddComponent),
     title: $localize`:@@product.add.headline:Add Product`
   },
   {
     path: 'products/edit/:productId',
-    component: ProductEditComponent,
+    loadComponent: () => import('./product/product-edit.component').then(m => m.ProductEditComponent),
     title: $localize`:@@product.edit.headline:Edit Product`
   },
   {
     path: 'error',
-    component: ErrorComponent,
+    loadComponent: () => import('./error/error.component').then(m => m.ErrorComponent),
     title: $localize`:@@error.page.headline:Error`
   },
   {
     path: '**',
-    component: ErrorComponent,
+    loadComponent: () => import('./error/error.component').then(m => m.ErrorComponent),
     title: $localize`:@@notFound.headline:Page not found`
   }
 ];

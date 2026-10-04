@@ -8,7 +8,11 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +36,17 @@ public class UserResource {
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.findAll());
+    }
+
+    @GetMapping("/paged")
+    public ResponseEntity<Page<UserDTO>> getAllUsersPaged(
+            @ParameterObject @PageableDefault(size = 50) final Pageable pageable) {
+        return ResponseEntity.ok(userService.findAllPaged(pageable));
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> countUsers() {
+        return ResponseEntity.ok(userService.count());
     }
 
     @GetMapping("/{userId}")

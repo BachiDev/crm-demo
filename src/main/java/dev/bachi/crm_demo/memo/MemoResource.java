@@ -8,7 +8,11 @@ import java.util.Map;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +38,17 @@ public class MemoResource {
     @GetMapping
     public ResponseEntity<List<MemoDTO>> getAllMemos() {
         return ResponseEntity.ok(memoService.findAll());
+    }
+
+    @GetMapping("/paged")
+    public ResponseEntity<Page<MemoDTO>> getAllMemosPaged(
+            @ParameterObject @PageableDefault(size = 50) final Pageable pageable) {
+        return ResponseEntity.ok(memoService.findAllPaged(pageable));
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> countMemos() {
+        return ResponseEntity.ok(memoService.count());
     }
 
     @GetMapping("/{memoId}")

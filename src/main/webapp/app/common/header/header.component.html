@@ -1,43 +1,85 @@
-<header class="bg-gray-50">
-    <div class="container mx-auto px-4 md:px-6">
-        <nav class="flex flex-wrap items-center justify-between py-2">
-            <a routerLink="/" class="flex py-1.5 mr-4">
+<header class="sticky top-0 z-40 border-b border-zinc-200 bg-white/85 backdrop-blur">
+    <div class="mx-auto max-w-6xl px-4 md:px-6">
+        <nav class="flex items-center justify-between py-2" aria-label="Main">
+            <a routerLink="/" class="flex items-center py-1.5 mr-4 rounded" aria-label="CRM Demo home">
                 <img ngSrc="assets/logo.png" i18n-alt="@@app.title" alt="Crm Demo" width="30" height="30" class="inline-block" />
-                <span class="text-xl pl-3" i18n="@@app.title">CRM Demo</span>
+                <span class="text-xl pl-3 font-semibold tracking-tight" i18n="@@app.title">CRM Demo</span>
+                <span class="ml-2 hidden rounded-full bg-brand-50 px-2 py-0.5 font-mono text-[11px] uppercase tracking-wide text-brand-700 sm:inline" i18n="@@app.byline">by Fabian Bachmayer</span>
             </a>
-            <button type="button" class="js-dropdown md:hidden border rounded cursor-pointer" data-dropdown-keepopen="true"
-                    i18n-aria-label="@@navigation.toggle" aria-label="Toggle navigation" aria-controls="navbarToggle" aria-expanded="false">
-                <div class="space-y-1.5 my-2.5 mx-4">
-                    <div class="w-6 h-0.5 bg-gray-500"></div>
-                    <div class="w-6 h-0.5 bg-gray-500"></div>
-                    <div class="w-6 h-0.5 bg-gray-500"></div>
-                </div>
+            <button type="button" (click)="toggleMobile()" [attr.aria-expanded]="mobileOpen()" aria-controls="navbarToggle"
+                    class="rounded border border-zinc-300 p-2 md:hidden" i18n-aria-label="@@navigation.toggle" aria-label="Toggle navigation">
+                @if (mobileOpen()) {
+                    <svg class="h-5 w-5 text-zinc-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                    </svg>
+                } @else {
+                    <svg class="h-5 w-5 text-zinc-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10zm0 5.25a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75z" clip-rule="evenodd" />
+                    </svg>
+                }
             </button>
-            <div class="hidden md:block flex grow md:grow-0 justify-end basis-full md:basis-auto pt-3 md:pt-1 pb-1" id="navbarToggle">
-                <ul class="flex">
-                    <li>
-                        <a routerLink="/" class="block text-gray-500 p-2" i18n="@@navigation.home">Home</a>
-                    </li>
-                    <li class="relative">
-                        <button type="button" class="js-dropdown block text-gray-500 p-2 cursor-pointer" id="navbarEntitiesLink"
-                                aria-expanded="false">
-                            <span i18n="@@navigation.entities">Entities</span>
-                            <span class="text-[9px] align-[3px] pl-0.5">&#9660;</span>
-                        </button>
-                        <ul class="hidden block absolute right-0 bg-white border border-gray-300 rounded min-w-[10rem] py-2" aria-labelledby="navbarEntitiesLink">
-                            <li><a routerLink="/users" class="inline-block w-full hover:bg-gray-200 px-4 py-1" i18n="@@user.list.headline">Users</a></li>
-                            <li><a routerLink="/accounts" class="inline-block w-full hover:bg-gray-200 px-4 py-1" i18n="@@account.list.headline">Accounts</a></li>
-                            <li><a routerLink="/contacts" class="inline-block w-full hover:bg-gray-200 px-4 py-1" i18n="@@contact.list.headline">Contacts</a></li>
-                            <li><a routerLink="/opportunities" class="inline-block w-full hover:bg-gray-200 px-4 py-1" i18n="@@opportunity.list.headline">Opportunities</a></li>
-                            <li><a routerLink="/activities" class="inline-block w-full hover:bg-gray-200 px-4 py-1" i18n="@@activity.list.headline">Activities</a></li>
-                            <li><a routerLink="/activityRelations" class="inline-block w-full hover:bg-gray-200 px-4 py-1" i18n="@@activityRelation.list.headline">Activity Relations</a></li>
-                            <li><a routerLink="/memos" class="inline-block w-full hover:bg-gray-200 px-4 py-1" i18n="@@memo.list.headline">Memoes</a></li>
-                            <li><a routerLink="/campaigns" class="inline-block w-full hover:bg-gray-200 px-4 py-1" i18n="@@campaign.list.headline">Campaigns</a></li>
-                            <li><a routerLink="/products" class="inline-block w-full hover:bg-gray-200 px-4 py-1" i18n="@@product.list.headline">Products</a></li>
+            <div class="hidden items-center gap-1 md:flex" id="navbarToggle">
+                <a routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="text-brand-700 font-medium"
+                   class="rounded px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900" i18n="@@navigation.home">Home</a>
+                <div class="relative">
+                    <button type="button" (click)="toggleEntities()" [attr.aria-expanded]="entitiesOpen()" aria-haspopup="true"
+                            class="flex cursor-pointer items-center rounded px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900">
+                        <span i18n="@@navigation.entities">Entities</span>
+                        <svg class="ml-1 h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    @if (entitiesOpen()) {
+                        <ul class="absolute right-0 z-50 min-w-52 rounded-xl border border-zinc-200 bg-white py-2 shadow-lg">
+                            @for (entry of entities; track entry.link) {
+                                <li>
+                                    <a [routerLink]="entry.link" routerLinkActive="bg-brand-50 text-brand-700 font-medium"
+                                       class="block w-full px-4 py-1.5 text-zinc-700 hover:bg-zinc-100">{{ entry.title }}</a>
+                                </li>
+                            }
                         </ul>
-                    </li>
-                </ul>
+                    }
+                </div>
+                <a [href]="apiPath + '/swagger-ui.html'" target="_blank" rel="noreferrer"
+                   class="rounded px-3 py-2 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900" i18n="@@navigation.api">API Docs</a>
+                <a href="https://github.com/BachiDev/crm-demo" target="_blank" rel="noreferrer" aria-label="Source code on GitHub"
+                   class="rounded p-2 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900">
+                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.7 5.39-5.26 5.68.41.35.77 1.05.77 2.12 0 1.53-.01 2.76-.01 3.14 0 .3.2.67.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/>
+                    </svg>
+                </a>
+                <span class="ml-1 border-l border-zinc-200 pl-3">
+                    <app-backend-status [compact]="true" />
+                </span>
             </div>
         </nav>
+        @if (mobileOpen()) {
+            <div class="border-t border-zinc-200 py-2 md:hidden" id="mobileNav">
+                <a routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="bg-brand-50 text-brand-700 font-medium"
+                   class="block rounded px-3 py-2 text-zinc-700 hover:bg-zinc-100" i18n="@@navigation.home">Home</a>
+                <button type="button" (click)="toggleEntities()" [attr.aria-expanded]="entitiesOpen()"
+                        class="flex w-full items-center justify-between rounded px-3 py-2 text-zinc-700 hover:bg-zinc-100">
+                    <span i18n="@@navigation.entities">Entities</span>
+                    <svg class="h-3 w-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+                @if (entitiesOpen()) {
+                    <ul class="pb-1 pl-2">
+                        @for (entry of entities; track entry.link) {
+                            <li>
+                                <a [routerLink]="entry.link" routerLinkActive="bg-brand-50 text-brand-700 font-medium"
+                                   class="block rounded px-3 py-1.5 text-zinc-700 hover:bg-zinc-100">{{ entry.title }}</a>
+                            </li>
+                        }
+                    </ul>
+                }
+                <a [href]="apiPath + '/swagger-ui.html'" target="_blank" rel="noreferrer"
+                   class="block rounded px-3 py-2 text-zinc-700 hover:bg-zinc-100" i18n="@@navigation.api">API Docs</a>
+                <div class="flex items-center gap-3 px-3 py-2">
+                    <app-backend-status [compact]="false" />
+                </div>
+            </div>
+        }
     </div>
 </header>

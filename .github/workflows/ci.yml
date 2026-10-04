@@ -34,3 +34,24 @@ jobs:
       - name: Build production
         run: npm run build
       # Phase 3 adds: lint, test:ci (Karma headless + coverage), Playwright smoke.
+
+  deploy-frontend:
+    name: Frontend (deploy to Pages)
+    if: github.ref == 'refs/heads/master'
+    needs: [backend, frontend]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          # Must match local dev (Node 24 / npm 11) — see frontend job.
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      # Builds (production, base-href /crm-demo/) and force-pushes the output
+      # to the gh-pages branch, which GitHub Pages serves at
+      # https://bachi.dev/crm-demo/ (Pages source: gh-pages branch).
+      - name: Deploy to gh-pages
+        run: npx ng deploy

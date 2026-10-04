@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'environments/environment';
+import { ApiClient } from 'app/common/api-client.injectable';
+import { Page } from 'app/common/page.model';
 import { ProductDTO } from 'app/product/product.model';
 
 
@@ -9,27 +9,35 @@ import { ProductDTO } from 'app/product/product.model';
 })
 export class ProductService {
 
-  http = inject(HttpClient);
-  resourcePath = environment.apiPath + '/api/products';
+  api = inject(ApiClient);
+  resourcePath = '/api/products';
 
   getAllProducts() {
-    return this.http.get<ProductDTO[]>(this.resourcePath);
+    return this.api.get<ProductDTO[]>(this.resourcePath);
+  }
+
+  getProductsPaged(page: number, size: number) {
+    return this.api.get<Page<ProductDTO>>(this.resourcePath + '/paged', { page, size });
+  }
+
+  countProducts() {
+    return this.api.get<number>(this.resourcePath + '/count');
   }
 
   getProduct(productId: string) {
-    return this.http.get<ProductDTO>(this.resourcePath + '/' + productId);
+    return this.api.get<ProductDTO>(this.resourcePath + '/' + productId);
   }
 
   createProduct(productDTO: ProductDTO) {
-    return this.http.post<string>(this.resourcePath, productDTO);
+    return this.api.post<string>(this.resourcePath, productDTO);
   }
 
   updateProduct(productId: string, productDTO: ProductDTO) {
-    return this.http.put<string>(this.resourcePath + '/' + productId, productDTO);
+    return this.api.put<string>(this.resourcePath + '/' + productId, productDTO);
   }
 
   deleteProduct(productId: string) {
-    return this.http.delete(this.resourcePath + '/' + productId);
+    return this.api.delete(this.resourcePath + '/' + productId);
   }
 
 }

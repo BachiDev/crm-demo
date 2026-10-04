@@ -27,4 +27,28 @@ public class ReferencedWarning {
         return message;
     }
 
+    /**
+     * Human-readable variant of the warning for API consumers, e.g.
+     * key {@code user.account.owner.referenced} becomes
+     * "Cannot delete User: still referenced by Account (as owner)".
+     * Falls back to {@link #toMessage()} for unknown key shapes.
+     */
+    public String toUserMessage() {
+        if (key != null) {
+            final String[] parts = key.split("\\.");
+            if (parts.length == 4 && parts[3].equals("referenced")) {
+                return "Cannot delete " + capitalize(parts[0]) + ": still referenced by "
+                        + capitalize(parts[1]) + " (as " + parts[2] + ")";
+            }
+        }
+        return toMessage();
+    }
+
+    private static String capitalize(final String word) {
+        if (word == null || word.isEmpty()) {
+            return word;
+        }
+        return Character.toUpperCase(word.charAt(0)) + word.substring(1);
+    }
+
 }

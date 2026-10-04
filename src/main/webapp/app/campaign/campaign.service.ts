@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'environments/environment';
+import { ApiClient } from 'app/common/api-client.injectable';
+import { Page } from 'app/common/page.model';
 import { CampaignDTO } from 'app/campaign/campaign.model';
 
 
@@ -9,31 +9,39 @@ import { CampaignDTO } from 'app/campaign/campaign.model';
 })
 export class CampaignService {
 
-  http = inject(HttpClient);
-  resourcePath = environment.apiPath + '/api/campaigns';
+  api = inject(ApiClient);
+  resourcePath = '/api/campaigns';
 
   getAllCampaigns() {
-    return this.http.get<CampaignDTO[]>(this.resourcePath);
+    return this.api.get<CampaignDTO[]>(this.resourcePath);
+  }
+
+  getCampaignsPaged(page: number, size: number) {
+    return this.api.get<Page<CampaignDTO>>(this.resourcePath + '/paged', { page, size });
+  }
+
+  countCampaigns() {
+    return this.api.get<number>(this.resourcePath + '/count');
   }
 
   getCampaign(campaignId: string) {
-    return this.http.get<CampaignDTO>(this.resourcePath + '/' + campaignId);
+    return this.api.get<CampaignDTO>(this.resourcePath + '/' + campaignId);
   }
 
   createCampaign(campaignDTO: CampaignDTO) {
-    return this.http.post<string>(this.resourcePath, campaignDTO);
+    return this.api.post<string>(this.resourcePath, campaignDTO);
   }
 
   updateCampaign(campaignId: string, campaignDTO: CampaignDTO) {
-    return this.http.put<string>(this.resourcePath + '/' + campaignId, campaignDTO);
+    return this.api.put<string>(this.resourcePath + '/' + campaignId, campaignDTO);
   }
 
   deleteCampaign(campaignId: string) {
-    return this.http.delete(this.resourcePath + '/' + campaignId);
+    return this.api.delete(this.resourcePath + '/' + campaignId);
   }
 
   getOwnerValues() {
-    return this.http.get<Record<string, string>>(this.resourcePath + '/ownerValues');
+    return this.api.get<Record<string, string>>(this.resourcePath + '/ownerValues');
   }
 
 }

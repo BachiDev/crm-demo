@@ -1,42 +1,46 @@
-<div class="flex flex-wrap mb-6">
-    <h1 class="grow text-3xl md:text-4xl font-medium mb-2" i18n="@@account.list.headline">Accounts</h1>
-    <div>
-        <a routerLink="/accounts/add" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2" i18n="@@account.list.createNew">Create new Account</a>
+<app-page-header i18n-title="@@account.list.headline" title="Accounts" [count]="totalElements" i18n-countLabel="@@account.list.count" countLabel="accounts total"
+                createLink="/accounts/add" i18n-createLabel="@@account.list.createNew" createLabel="Create new Account" />
+
+@if (loading) {
+<div class="overflow-x-auto rounded-2xl border border-zinc-200 bg-white" aria-busy="true" aria-label="Loading accounts">
+    <div class="space-y-2 p-4">
+        <div class="h-10 animate-pulse rounded-lg bg-zinc-100"></div>
+        <div class="h-10 animate-pulse rounded-lg bg-zinc-100"></div>
+        <div class="h-10 animate-pulse rounded-lg bg-zinc-100"></div>
     </div>
 </div>
-@if (!accounts || accounts.length === 0) {
-<div i18n="@@account.list.empty">No Accounts could be found.</div>
+} @else if (accounts.length === 0) {
+<app-empty-state i18n-title="@@account.list.empty" title="No accounts found"
+                 i18n-hint="@@account.list.emptyHint" hint="Create the first account to get started."
+                 actionLink="/accounts/add" i18n-actionLabel="@@account.list.createNew" actionLabel="Create new Account" />
 } @else {
-<div class="overflow-x-auto">
-    <table class="w-full">
+<div class="overflow-x-auto rounded-2xl border border-zinc-200 bg-white">
+    <table class="w-full text-sm">
+        <caption class="sr-only" i18n="@@account.list.caption">Accounts with name, industry and contact details</caption>
         <thead>
-            <tr>
-                <th scope="col" class="text-left p-2" i18n="@@account.accountId.label">Account Id</th>
-                <th scope="col" class="text-left p-2" i18n="@@account.accountName.label">Account Name</th>
-                <th scope="col" class="text-left p-2" i18n="@@account.industry.label">Industry</th>
-                <th scope="col" class="text-left p-2" i18n="@@account.website.label">Website</th>
-                <th scope="col" class="text-left p-2" i18n="@@account.phone.label">Phone</th>
-                <th scope="col" class="text-left p-2" i18n="@@account.addressLine1.label">Address Line1</th>
-                <th scope="col" class="text-left p-2" i18n="@@account.city.label">City</th>
-                <th scope="col" class="text-left p-2" i18n="@@account.state.label">State</th>
-                <th><!-- --></th>
+            <tr class="text-left text-xs uppercase tracking-wide text-zinc-500">
+                <th scope="col" class="p-3 font-medium" i18n="@@account.accountName.label">Account Name</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@account.industry.label">Industry</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@account.website.label">Website</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@account.phone.label">Phone</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@account.city.label">City</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@account.accountId.label">Id</th>
+                <th><span class="sr-only" i18n="@@list.actions">Actions</span></th>
             </tr>
         </thead>
-        <tbody class="border-t-2 border-black">
+        <tbody>
             @for (account of accounts; track account.accountId) {
-            <tr class="odd:bg-gray-100">
-                <td class="p-2">{{ account.accountId }}</td>
-                <td class="p-2">{{ account.accountName }}</td>
-                <td class="p-2">{{ account.industry }}</td>
-                <td class="p-2">{{ account.website }}</td>
-                <td class="p-2">{{ account.phone }}</td>
-                <td class="p-2">{{ account.addressLine1 }}</td>
-                <td class="p-2">{{ account.city }}</td>
-                <td class="p-2">{{ account.state }}</td>
-                <td class="p-2">
-                    <div class="float-right whitespace-nowrap">
-                        <a [routerLink]="['/accounts/edit', account.accountId]" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm" i18n="@@account.list.edit">Edit</a>
-                        <button type="button" (click)="confirmDelete(account.accountId!)" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm cursor-pointer" i18n="@@account.list.delete">Delete</button>
+            <tr class="border-t border-zinc-100 hover:bg-brand-50/50">
+                <td class="p-3 font-medium">{{ account.accountName }}</td>
+                <td class="p-3 text-zinc-600">{{ account.industry }}</td>
+                <td class="p-3 text-zinc-600">{{ account.website }}</td>
+                <td class="p-3">{{ account.phone }}</td>
+                <td class="p-3">{{ account.city }}</td>
+                <td class="p-3 font-mono text-xs text-zinc-500" [title]="account.accountId">{{ shortId(account.accountId) }}</td>
+                <td class="p-3">
+                    <div class="float-right flex gap-1.5 whitespace-nowrap">
+                        <a [routerLink]="['/accounts/edit', account.accountId]" class="inline-block rounded-full border border-zinc-300 px-3 py-1.5 text-xs font-medium hover:bg-zinc-100" i18n="@@account.list.edit">Edit</a>
+                        <button type="button" (click)="requestDelete(account.accountId!)" class="inline-block cursor-pointer rounded-full bg-rose-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-rose-500" i18n="@@account.list.delete">Delete</button>
                     </div>
                 </td>
             </tr>
@@ -44,4 +48,10 @@
         </tbody>
     </table>
 </div>
+<app-pagination [page]="page" [totalPages]="totalPages" [totalElements]="totalElements ?? 0" [pageSize]="pageSize"
+                (pageChange)="onPage($event)" (pageSizeChange)="onPageSize($event)">accounts</app-pagination>
 }
+
+<app-confirm-dialog i18n-title="@@delete.title" title="Delete this record?"
+                    i18n-message="@@delete.confirm" message="Do you really want to delete this element? This cannot be undone."
+                    (confirmed)="deleteConfirmed()" />

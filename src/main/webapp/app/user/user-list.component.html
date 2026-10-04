@@ -1,38 +1,44 @@
-<div class="flex flex-wrap mb-6">
-    <h1 class="grow text-3xl md:text-4xl font-medium mb-2" i18n="@@user.list.headline">Users</h1>
-    <div>
-        <a routerLink="/users/add" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2" i18n="@@user.list.createNew">Create new User</a>
+<app-page-header i18n-title="@@user.list.headline" title="Users" [count]="totalElements" i18n-countLabel="@@user.list.count" countLabel="users total"
+                createLink="/users/add" i18n-createLabel="@@user.list.createNew" createLabel="Create new User" />
+
+@if (loading) {
+<div class="overflow-x-auto rounded-2xl border border-zinc-200 bg-white" aria-busy="true" aria-label="Loading users">
+    <div class="space-y-2 p-4">
+        <div class="h-10 animate-pulse rounded-lg bg-zinc-100"></div>
+        <div class="h-10 animate-pulse rounded-lg bg-zinc-100"></div>
+        <div class="h-10 animate-pulse rounded-lg bg-zinc-100"></div>
     </div>
 </div>
-@if (!users || users.length === 0) {
-<div i18n="@@user.list.empty">No Users could be found.</div>
+} @else if (users.length === 0) {
+<app-empty-state i18n-title="@@user.list.empty" title="No users found"
+                 i18n-hint="@@user.list.emptyHint" hint="Create the first user to get started."
+                 actionLink="/users/add" i18n-actionLabel="@@user.list.createNew" actionLabel="Create new User" />
 } @else {
-<div class="overflow-x-auto">
-    <table class="w-full">
+<div class="overflow-x-auto rounded-2xl border border-zinc-200 bg-white">
+    <table class="w-full text-sm">
+        <caption class="sr-only" i18n="@@user.list.caption">Users with username, email and name</caption>
         <thead>
-            <tr>
-                <th scope="col" class="text-left p-2" i18n="@@user.userId.label">User Id</th>
-                <th scope="col" class="text-left p-2" i18n="@@user.username.label">Username</th>
-                <th scope="col" class="text-left p-2" i18n="@@user.email.label">Email</th>
-                <th scope="col" class="text-left p-2" i18n="@@user.passwordHash.label">Password Hash</th>
-                <th scope="col" class="text-left p-2" i18n="@@user.firstName.label">First Name</th>
-                <th scope="col" class="text-left p-2" i18n="@@user.lastName.label">Last Name</th>
-                <th><!-- --></th>
+            <tr class="text-left text-xs uppercase tracking-wide text-zinc-500">
+                <th scope="col" class="p-3 font-medium" i18n="@@user.username.label">Username</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@user.email.label">Email</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@user.firstName.label">First Name</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@user.lastName.label">Last Name</th>
+                <th scope="col" class="p-3 font-medium" i18n="@@user.userId.label">Id</th>
+                <th><span class="sr-only" i18n="@@list.actions">Actions</span></th>
             </tr>
         </thead>
-        <tbody class="border-t-2 border-black">
+        <tbody>
             @for (user of users; track user.userId) {
-            <tr class="odd:bg-gray-100">
-                <td class="p-2">{{ user.userId }}</td>
-                <td class="p-2">{{ user.username }}</td>
-                <td class="p-2">{{ user.email }}</td>
-                <td class="p-2">{{ user.passwordHash }}</td>
-                <td class="p-2">{{ user.firstName }}</td>
-                <td class="p-2">{{ user.lastName }}</td>
-                <td class="p-2">
-                    <div class="float-right whitespace-nowrap">
-                        <a [routerLink]="['/users/edit', user.userId]" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm" i18n="@@user.list.edit">Edit</a>
-                        <button type="button" (click)="confirmDelete(user.userId!)" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm cursor-pointer" i18n="@@user.list.delete">Delete</button>
+            <tr class="border-t border-zinc-100 hover:bg-brand-50/50">
+                <td class="p-3 font-medium">{{ user.username }}</td>
+                <td class="p-3 text-zinc-600">{{ user.email }}</td>
+                <td class="p-3">{{ user.firstName }}</td>
+                <td class="p-3">{{ user.lastName }}</td>
+                <td class="p-3 font-mono text-xs text-zinc-500" [title]="user.userId">{{ shortId(user.userId) }}</td>
+                <td class="p-3">
+                    <div class="float-right flex gap-1.5 whitespace-nowrap">
+                        <a [routerLink]="['/users/edit', user.userId]" class="inline-block rounded-full border border-zinc-300 px-3 py-1.5 text-xs font-medium hover:bg-zinc-100" i18n="@@user.list.edit">Edit</a>
+                        <button type="button" (click)="requestDelete(user.userId!)" class="inline-block cursor-pointer rounded-full bg-rose-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-rose-500" i18n="@@user.list.delete">Delete</button>
                     </div>
                 </td>
             </tr>
@@ -40,4 +46,10 @@
         </tbody>
     </table>
 </div>
+<app-pagination [page]="page" [totalPages]="totalPages" [totalElements]="totalElements ?? 0" [pageSize]="pageSize"
+                (pageChange)="onPage($event)" (pageSizeChange)="onPageSize($event)">users</app-pagination>
 }
+
+<app-confirm-dialog i18n-title="@@delete.title" title="Delete this record?"
+                    i18n-message="@@delete.confirm" message="Do you really want to delete this element? This cannot be undone."
+                    (confirmed)="deleteConfirmed()" />

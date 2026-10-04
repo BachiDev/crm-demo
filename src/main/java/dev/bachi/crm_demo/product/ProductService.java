@@ -3,6 +3,8 @@ package dev.bachi.crm_demo.product;
 import dev.bachi.crm_demo.util.NotFoundException;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,15 @@ public class ProductService {
         return products.stream()
                 .map(product -> mapToDTO(product, new ProductDTO()))
                 .toList();
+    }
+
+    public Page<ProductDTO> findAllPaged(final Pageable pageable) {
+        return productRepository.findAll(pageable)
+                .map(product -> mapToDTO(product, new ProductDTO()));
+    }
+
+    public long count() {
+        return productRepository.count();
     }
 
     public ProductDTO get(final UUID productId) {

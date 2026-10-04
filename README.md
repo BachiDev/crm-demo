@@ -29,7 +29,7 @@ A full-stack CRM application by **[Fabian Bachmayer](https://bachi.dev)** (fabia
 
 ## Hosting
 
-*   **Frontend:** Angular static build, deployed on GitHub Pages, served via https://bachi.dev/crm-demo/.
+*   **Frontend:** Angular static build, deployed on GitHub Pages (auto-deployed from `master` by CI to the `gh-pages` branch), served via https://bachi.dev/crm-demo/.
 *   **Backend:** Spring Boot Docker image on [Render](https://render.com/) (Free tier).
 *   **Database:** PostgreSQL on [Neon](https://neon.com/) (Free tier — no expiry, unlike Render's 30-day free DBs).
 

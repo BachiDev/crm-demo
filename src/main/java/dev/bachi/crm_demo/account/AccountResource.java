@@ -10,7 +10,11 @@ import java.util.Map;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +40,17 @@ public class AccountResource {
     @GetMapping
     public ResponseEntity<List<AccountDTO>> getAllAccounts() {
         return ResponseEntity.ok(accountService.findAll());
+    }
+
+    @GetMapping("/paged")
+    public ResponseEntity<Page<AccountDTO>> getAllAccountsPaged(
+            @ParameterObject @PageableDefault(size = 50) final Pageable pageable) {
+        return ResponseEntity.ok(accountService.findAllPaged(pageable));
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> countAccounts() {
+        return ResponseEntity.ok(accountService.count());
     }
 
     @GetMapping("/{accountId}")

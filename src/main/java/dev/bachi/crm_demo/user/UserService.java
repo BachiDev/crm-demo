@@ -18,6 +18,8 @@ import dev.bachi.crm_demo.util.ReferencedWarning;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +54,15 @@ public class UserService {
         return users.stream()
                 .map(user -> mapToDTO(user, new UserDTO()))
                 .toList();
+    }
+
+    public Page<UserDTO> findAllPaged(final Pageable pageable) {
+        return userRepository.findAll(pageable)
+                .map(user -> mapToDTO(user, new UserDTO()));
+    }
+
+    public long count() {
+        return userRepository.count();
     }
 
     public UserDTO get(final UUID userId) {

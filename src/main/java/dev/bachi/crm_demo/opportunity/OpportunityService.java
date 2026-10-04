@@ -14,6 +14,8 @@ import dev.bachi.crm_demo.util.ReferencedWarning;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +45,15 @@ public class OpportunityService {
         return opportunities.stream()
                 .map(opportunity -> mapToDTO(opportunity, new OpportunityDTO()))
                 .toList();
+    }
+
+    public Page<OpportunityDTO> findAllPaged(final Pageable pageable) {
+        return opportunityRepository.findAll(pageable)
+                .map(opportunity -> mapToDTO(opportunity, new OpportunityDTO()));
+    }
+
+    public long count() {
+        return opportunityRepository.count();
     }
 
     public OpportunityDTO get(final UUID opportunityId) {

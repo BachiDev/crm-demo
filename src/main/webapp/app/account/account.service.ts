@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'environments/environment';
+import { ApiClient } from 'app/common/api-client.injectable';
+import { Page } from 'app/common/page.model';
 import { AccountDTO } from 'app/account/account.model';
 
 
@@ -9,31 +9,39 @@ import { AccountDTO } from 'app/account/account.model';
 })
 export class AccountService {
 
-  http = inject(HttpClient);
-  resourcePath = environment.apiPath + '/api/accounts';
+  api = inject(ApiClient);
+  resourcePath = '/api/accounts';
 
   getAllAccounts() {
-    return this.http.get<AccountDTO[]>(this.resourcePath);
+    return this.api.get<AccountDTO[]>(this.resourcePath);
+  }
+
+  getAccountsPaged(page: number, size: number) {
+    return this.api.get<Page<AccountDTO>>(this.resourcePath + '/paged', { page, size });
+  }
+
+  countAccounts() {
+    return this.api.get<number>(this.resourcePath + '/count');
   }
 
   getAccount(accountId: string) {
-    return this.http.get<AccountDTO>(this.resourcePath + '/' + accountId);
+    return this.api.get<AccountDTO>(this.resourcePath + '/' + accountId);
   }
 
   createAccount(accountDTO: AccountDTO) {
-    return this.http.post<string>(this.resourcePath, accountDTO);
+    return this.api.post<string>(this.resourcePath, accountDTO);
   }
 
   updateAccount(accountId: string, accountDTO: AccountDTO) {
-    return this.http.put<string>(this.resourcePath + '/' + accountId, accountDTO);
+    return this.api.put<string>(this.resourcePath + '/' + accountId, accountDTO);
   }
 
   deleteAccount(accountId: string) {
-    return this.http.delete(this.resourcePath + '/' + accountId);
+    return this.api.delete(this.resourcePath + '/' + accountId);
   }
 
   getOwnerValues() {
-    return this.http.get<Record<string, string>>(this.resourcePath + '/ownerValues');
+    return this.api.get<Record<string, string>>(this.resourcePath + '/ownerValues');
   }
 
 }
