@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build --configuration=production --base-href=/crm-demo/",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test --watch false"
+    "test": "ng test --watch false",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadlessNoSandbox --code-coverage"
   },
   "dependencies": {
     "@angular/animations": "20.1.3",

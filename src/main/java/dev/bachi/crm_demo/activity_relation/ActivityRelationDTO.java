@@ -7,6 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@AtLeastOneLink
 public class ActivityRelationDTO {
 
     private Long id;
