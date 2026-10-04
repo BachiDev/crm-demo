@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
     <div class="mb-6 flex flex-wrap items-center gap-3">
       <h1 class="grow text-3xl font-semibold tracking-tight md:text-4xl">{{ title() }}</h1>
       @if (count() !== null) {
-        <span class="rounded-full bg-zinc-100 px-3 py-1 font-mono text-sm text-zinc-600" [attr.aria-label]="countLabel">
+        <span class="rounded-full bg-zinc-100 px-3 py-1 font-mono text-sm text-zinc-600" [attr.aria-label]="countLabel()">
           {{ count() }}
         </span>
       }

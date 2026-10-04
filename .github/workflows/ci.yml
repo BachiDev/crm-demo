@@ -54,4 +54,7 @@ jobs:
       # to the gh-pages branch, which GitHub Pages serves at
       # https://bachi.dev/crm-demo/ (Pages source: gh-pages branch).
       - name: Deploy to gh-pages
-        run: npx ng deploy
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          npx ng deploy
